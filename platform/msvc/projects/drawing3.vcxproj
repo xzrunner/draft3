@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\drawing3\BrushEdge.h" />
+    <ClInclude Include="..\..\..\include\drawing3\DrawEdgeShader.h" />
+    <ClInclude Include="..\..\..\include\drawing3\DrawFaceShader.h" />
+    <ClInclude Include="..\..\..\include\drawing3\EdgeSelectOP.h" />
+    <ClInclude Include="..\..\..\include\drawing3\EdgeTranslateOP.h" />
+    <ClInclude Include="..\..\..\include\drawing3\EditOpMgr.h" />
+    <ClInclude Include="..\..\..\include\drawing3\FacePushPullState.h" />
+    <ClInclude Include="..\..\..\include\drawing3\FaceSelectOP.h" />
+    <ClInclude Include="..\..\..\include\drawing3\FaceTranslateOP.h" />
+    <ClInclude Include="..\..\..\include\drawing3\MeshEditStyle.h" />
+    <ClInclude Include="..\..\..\include\drawing3\MeshPointQuery.h" />
+    <ClInclude Include="..\..\..\include\drawing3\MeshRayIntersect.h" />
+    <ClInclude Include="..\..\..\include\drawing3\MeshSelectBaseOP.h" />
+    <ClInclude Include="..\..\..\include\drawing3\MeshTranslateBaseOP.h" />
+    <ClInclude Include="..\..\..\include\drawing3\PolyArrangeOP.h" />
+    <ClInclude Include="..\..\..\include\drawing3\PolyBuildOP.h" />
+    <ClInclude Include="..\..\..\include\drawing3\PolyBuildState.h" />
+    <ClInclude Include="..\..\..\include\drawing3\PolySelectOP.h" />
+    <ClInclude Include="..\..\..\include\drawing3\PolyTranslateState.h" />
+    <ClInclude Include="..\..\..\include\drawing3\VertexSelectOP.h" />
+    <ClInclude Include="..\..\..\include\drawing3\VertexTranslateOP.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\drawing3\edge.glsl" />
+    <None Include="..\..\..\include\drawing3\face.glsl" />
+    <None Include="..\..\..\include\drawing3\MeshSelectBaseOP.inl" />
+    <None Include="..\..\..\include\drawing3\MeshTranslateBaseOP.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\BrushEdge.cpp" />
+    <ClCompile Include="..\..\..\source\DrawEdgeShader.cpp" />
+    <ClCompile Include="..\..\..\source\DrawFaceShader.cpp" />
+    <ClCompile Include="..\..\..\source\EdgeSelectOP.cpp" />
+    <ClCompile Include="..\..\..\source\EdgeTranslateOP.cpp" />
+    <ClCompile Include="..\..\..\source\EditOpMgr.cpp" />
+    <ClCompile Include="..\..\..\source\FacePushPullState.cpp" />
+    <ClCompile Include="..\..\..\source\FaceSelectOP.cpp" />
+    <ClCompile Include="..\..\..\source\FaceTranslateOP.cpp" />
+    <ClCompile Include="..\..\..\source\MeshPointQuery.cpp" />
+    <ClCompile Include="..\..\..\source\MeshRayIntersect.cpp" />
+    <ClCompile Include="..\..\..\source\PolyArrangeOP.cpp" />
+    <ClCompile Include="..\..\..\source\PolyBuildOP.cpp" />
+    <ClCompile Include="..\..\..\source\PolyBuildState.cpp" />
+    <ClCompile Include="..\..\..\source\PolySelectOP.cpp" />
+    <ClCompile Include="..\..\..\source\PolyTranslateState.cpp" />
+    <ClCompile Include="..\..\..\source\VertexSelectOP.cpp" />
+    <ClCompile Include="..\..\..\source\VertexTranslateOP.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>3.drawing3</ProjectName>
+    <ProjectGuid>{3032565A-882F-438D-B5A3-DA583B9E0682}</ProjectGuid>
+    <RootNamespace>drawing3</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.26730.12</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\drawing3\x86\Debug\</OutDir>
+    <IntDir>..\drawing3\x86\Debug\obj\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\drawing3\x86\Release\</OutDir>
+    <IntDir>..\drawing3\x86\Release\obj\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\gtxt\src\gtxt;..\..\..\..\guard\include;..\..\..\..\cpputil\include;..\..\..\..\geoshape\include;..\..\..\..\halfedge\include;..\..\..\..\quake\include;..\..\..\..\unirender\include;..\..\..\..\nserializer\include;..\..\..\..\node0\include;..\..\..\..\node3\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\painting3\include;..\..\..\..\model\include;..\..\..\..\tessellation\include;..\..\..\..\easyeditor0\include;..\..\..\..\easyeditor2\include;..\..\..\..\easyeditor3\include;..\..\..\..\moon\include;..\..\..\..\external\boost\include;..\..\..\..\external\rapidjson\include;..\..\..\..\external\lua\include;..\..\..\..\external\rttr\include;..\..\..\..\external-editor\wx\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\gtxt\src\gtxt;..\..\..\..\guard\include;..\..\..\..\cpputil\include;..\..\..\..\geoshape\include;..\..\..\..\halfedge\include;..\..\..\..\quake\include;..\..\..\..\unirender\include;..\..\..\..\nserializer\include;..\..\..\..\node0\include;..\..\..\..\node3\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\painting3\include;..\..\..\..\model\include;..\..\..\..\tessellation\include;..\..\..\..\easyeditor0\include;..\..\..\..\easyeditor2\include;..\..\..\..\easyeditor3\include;..\..\..\..\moon\include;..\..\..\..\external\boost\include;..\..\..\..\external\rapidjson\include;..\..\..\..\external\lua\include;..\..\..\..\external\rttr\include;..\..\..\..\external-editor\wx\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
