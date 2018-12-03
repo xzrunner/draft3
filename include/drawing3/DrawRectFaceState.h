@@ -13,14 +13,12 @@ namespace dw3
 namespace mesh
 {
 
-class PolyBuildState : public ee0::EditOpState
+class DrawRectFaceState : public ee0::EditOpState
 {
 public:
-	PolyBuildState(const std::shared_ptr<pt0::Camera>& camera,
+	DrawRectFaceState(const std::shared_ptr<pt0::Camera>& camera,
 		const pt3::Viewport& vp, const ee0::SubjectMgrPtr& sub_mgr);
 
-	virtual bool OnKeyPress(int key_code) override;
-	virtual bool OnKeyRelease(int key_code) override;
 	virtual bool OnMousePress(int x, int y) override;
 	virtual bool OnMouseRelease(int x, int y) override;
 	virtual bool OnMouseDrag(int x, int y) override;
@@ -42,7 +40,7 @@ private:
 
 	float m_y;
 
-}; // PolyBuildState
+}; // DrawRectFaceState
 
 }
 }

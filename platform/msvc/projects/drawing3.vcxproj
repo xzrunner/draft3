@@ -14,6 +14,7 @@
     <ClInclude Include="..\..\..\include\drawing3\BrushEdge.h" />
     <ClInclude Include="..\..\..\include\drawing3\DrawEdgeShader.h" />
     <ClInclude Include="..\..\..\include\drawing3\DrawFaceShader.h" />
+    <ClInclude Include="..\..\..\include\drawing3\DrawPolyFaceState.h" />
     <ClInclude Include="..\..\..\include\drawing3\EdgeSelectOP.h" />
     <ClInclude Include="..\..\..\include\drawing3\EdgeTranslateOP.h" />
     <ClInclude Include="..\..\..\include\drawing3\EditOpMgr.h" />
@@ -27,7 +28,7 @@
     <ClInclude Include="..\..\..\include\drawing3\MeshTranslateBaseOP.h" />
     <ClInclude Include="..\..\..\include\drawing3\PolyArrangeOP.h" />
     <ClInclude Include="..\..\..\include\drawing3\PolyBuildOP.h" />
-    <ClInclude Include="..\..\..\include\drawing3\PolyBuildState.h" />
+    <ClInclude Include="..\..\..\include\drawing3\DrawRectFaceState.h" />
     <ClInclude Include="..\..\..\include\drawing3\PolySelectOP.h" />
     <ClInclude Include="..\..\..\include\drawing3\PolyTranslateState.h" />
     <ClInclude Include="..\..\..\include\drawing3\VertexSelectOP.h" />
@@ -43,6 +44,7 @@
     <ClCompile Include="..\..\..\source\BrushEdge.cpp" />
     <ClCompile Include="..\..\..\source\DrawEdgeShader.cpp" />
     <ClCompile Include="..\..\..\source\DrawFaceShader.cpp" />
+    <ClCompile Include="..\..\..\source\DrawPolyFaceState.cpp" />
     <ClCompile Include="..\..\..\source\EdgeSelectOP.cpp" />
     <ClCompile Include="..\..\..\source\EdgeTranslateOP.cpp" />
     <ClCompile Include="..\..\..\source\EditOpMgr.cpp" />
@@ -53,7 +55,7 @@
     <ClCompile Include="..\..\..\source\MeshRayIntersect.cpp" />
     <ClCompile Include="..\..\..\source\PolyArrangeOP.cpp" />
     <ClCompile Include="..\..\..\source\PolyBuildOP.cpp" />
-    <ClCompile Include="..\..\..\source\PolyBuildState.cpp" />
+    <ClCompile Include="..\..\..\source\DrawRectFaceState.cpp" />
     <ClCompile Include="..\..\..\source\PolySelectOP.cpp" />
     <ClCompile Include="..\..\..\source\PolyTranslateState.cpp" />
     <ClCompile Include="..\..\..\source\VertexSelectOP.cpp" />

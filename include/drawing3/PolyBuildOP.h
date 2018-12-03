@@ -24,6 +24,7 @@ public:
 
 	virtual bool OnMouseLeftDown(int x, int y) override;
 	virtual bool OnMouseLeftUp(int x, int y) override;
+	virtual bool OnMouseMove(int x, int y) override;
 	virtual bool OnMouseDrag(int x, int y) override;
 
 	virtual bool OnDraw() const override;
@@ -36,8 +37,11 @@ private:
 
 	std::function<void()> m_update_cb;
 
-	ee0::EditOpStatePtr m_face_pp_state = nullptr;
-	ee0::EditOpStatePtr m_poly_build_state = nullptr;
+	ee0::EditOpStatePtr m_default_state   = nullptr;
+
+	ee0::EditOpStatePtr m_face_pp_state   = nullptr;
+	ee0::EditOpStatePtr m_draw_rect_state = nullptr;
+	ee0::EditOpStatePtr m_draw_poly_state = nullptr;
 
 	sm::ivec2 m_first_pos2;
 

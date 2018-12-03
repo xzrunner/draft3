@@ -93,9 +93,6 @@
     <ClInclude Include="..\..\..\include\drawing3\FacePushPullState.h">
       <Filter>editop\mesh\4.polyhedron\draw\state</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\PolyBuildState.h">
-      <Filter>editop\mesh\4.polyhedron\draw\state</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\drawing3\MeshRayIntersect.h">
       <Filter>editop\mesh\utility</Filter>
     </ClInclude>
@@ -104,6 +101,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\drawing3\MeshEditStyle.h">
       <Filter>editop\mesh\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\drawing3\DrawRectFaceState.h">
+      <Filter>editop\mesh\4.polyhedron\draw\state</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\drawing3\DrawPolyFaceState.h">
+      <Filter>editop\mesh\4.polyhedron\draw\state</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -166,14 +169,17 @@
     <ClCompile Include="..\..\..\source\FacePushPullState.cpp">
       <Filter>editop\mesh\4.polyhedron\draw\state</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\PolyBuildState.cpp">
-      <Filter>editop\mesh\4.polyhedron\draw\state</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\MeshRayIntersect.cpp">
       <Filter>editop\mesh\utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\MeshPointQuery.cpp">
       <Filter>editop\mesh\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\DrawRectFaceState.cpp">
+      <Filter>editop\mesh\4.polyhedron\draw\state</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\DrawPolyFaceState.cpp">
+      <Filter>editop\mesh\4.polyhedron\draw\state</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

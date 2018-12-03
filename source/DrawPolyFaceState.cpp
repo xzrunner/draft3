@@ -1,4 +1,4 @@
-#include "drawing3/PolyBuildState.h"
+#include "drawing3/DrawPolyFaceState.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/MessageID.h>
@@ -20,12 +20,14 @@
 #include <node3/CompTransform.h>
 #include <node3/CompAABB.h>
 
+#include <wx/defs.h>
+
 namespace dw3
 {
 namespace mesh
 {
 
-PolyBuildState::PolyBuildState(const std::shared_ptr<pt0::Camera>& camera,
+DrawPolyFaceState::DrawPolyFaceState(const std::shared_ptr<pt0::Camera>& camera,
 	                           const pt3::Viewport& vp,
 	                           const ee0::SubjectMgrPtr& sub_mgr)
 	: ee0::EditOpState(camera)
@@ -33,67 +35,72 @@ PolyBuildState::PolyBuildState(const std::shared_ptr<pt0::Camera>& camera,
 	, m_sub_mgr(sub_mgr)
 	, m_y(0)
 {
-	m_first_pos.MakeInvalid();
 }
 
-bool PolyBuildState::OnKeyPress(int key_code)
+bool DrawPolyFaceState::OnKeyPress(int key_code)
 {
-	return false;
-}
-
-bool PolyBuildState::OnKeyRelease(int key_code)
-{
-	return false;
-}
-
-bool PolyBuildState::OnMousePress(int x, int y)
-{
-	sm::vec3 cross;
-	if (RayPlaneIntersect(x, y, m_y, cross)) {
-		m_first_pos = cross;
+	switch (key_code)
+	{
+	case WXK_ESCAPE:
+	{
+		auto obj = CreateModelObj();
+		if (obj) {
+			ee0::MsgHelper::InsertNode(*m_sub_mgr, obj, true);
+		}
+		m_polygon.clear();
+	}
+		break;
 	}
 
 	return false;
 }
 
-bool PolyBuildState::OnMouseRelease(int x, int y)
+bool DrawPolyFaceState::OnMousePress(int x, int y)
 {
-	if (m_first_pos.IsValid() && m_last_pos.IsValid()) {
-		ee0::MsgHelper::InsertNode(*m_sub_mgr, CreateModelObj(), true);
+	sm::vec3 cross;
+	if (RayPlaneIntersect(x, y, m_y, cross))
+	{
+		if (m_polygon.empty()) {
+			m_polygon.push_back(cross);
+		}
+		m_polygon.push_back(cross);
 	}
-
-	m_first_pos.MakeInvalid();
-	m_last_pos.MakeInvalid();
 
 	return false;
 }
 
-bool PolyBuildState::OnMouseDrag(int x, int y)
+bool DrawPolyFaceState::OnMouseMove(int x, int y)
 {
+	if (m_polygon.empty()) {
+		return false;
+	}
+
 	sm::vec3 cross;
 	if (RayPlaneIntersect(x, y, m_y, cross)) {
-		m_last_pos = cross;
+		m_polygon.back() = cross;
 		m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
 	}
 
 	return false;
 }
 
-bool PolyBuildState::OnDraw() const
+bool DrawPolyFaceState::OnDraw() const
 {
-	if (m_first_pos.IsValid() && m_last_pos.IsValid())
-	{
-		tess::Painter pt;
-		auto cam_mat = m_camera->GetViewMat() * m_camera->GetProjectionMat();
-		pt.AddCube(sm::cube(m_first_pos, m_last_pos), [&](const sm::vec3& pos3)->sm::vec2 {
-			return m_vp.TransPosProj3ToProj2(pos3, cam_mat);
-		}, 0xffffffff);
-		pt2::RenderSystem::DrawPainter(pt);
+	if (m_polygon.empty()) {
+		return false;
 	}
+
+	tess::Painter pt;
+	auto cam_mat = m_camera->GetViewMat() * m_camera->GetProjectionMat();
+	pt.AddPolygon3D(m_polygon.data(), m_polygon.size(), [&](const sm::vec3& pos3)->sm::vec2 {
+		return m_vp.TransPosProj3ToProj2(pos3, cam_mat);
+	}, 0xffffffff);
+	pt2::RenderSystem::DrawPainter(pt);
+
 	return false;
 }
 
-bool PolyBuildState::RayPlaneIntersect(int x, int y, float plane_y, sm::vec3& cross) const
+bool DrawPolyFaceState::RayPlaneIntersect(int x, int y, float plane_y, sm::vec3& cross) const
 {
 	if (m_camera->TypeID() != pt0::GetCamTypeID<pt3::PerspCam>()) {
 		return false;
@@ -115,16 +122,16 @@ bool PolyBuildState::RayPlaneIntersect(int x, int y, float plane_y, sm::vec3& cr
 	return sm::ray_plane_intersect(ray, plane, &cross);
 }
 
-n0::SceneNodePtr PolyBuildState::CreateModelObj()
+n0::SceneNodePtr DrawPolyFaceState::CreateModelObj()
 {
-	std::vector<sm::vec3> face;
-	face.reserve(4);
-	face.push_back(m_first_pos);
-	face.push_back({ m_last_pos.x, m_y, m_first_pos.z });
-	face.push_back(m_last_pos);
-	face.push_back({ m_first_pos.x, m_y, m_last_pos.z });
+	if (m_polygon.size() < 4) {
+		return nullptr;
+	}
 
-	auto model = model::MapBuilder::Create(face);
+	auto polygon = m_polygon;
+	polygon.pop_back();
+
+	auto model = model::MapBuilder::Create(polygon);
 
 	auto node = std::make_shared<n0::SceneNode>();
 

@@ -1,5 +1,6 @@
 #include "drawing3/PolyBuildOP.h"
-#include "drawing3/PolyBuildState.h"
+#include "drawing3/DrawRectFaceState.h"
+#include "drawing3/DrawPolyFaceState.h"
 #include "drawing3/FacePushPullState.h"
 
 #include <painting3/PerspCam.h>
@@ -20,8 +21,11 @@ PolyBuildOP::PolyBuildOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::
 	, m_selected(selected)
 	, m_update_cb(update_cb)
 {
-	m_poly_build_state = std::make_shared<PolyBuildState>(camera, vp, sub_mgr);
-	ChangeEditOpState(m_poly_build_state);
+	m_draw_rect_state = std::make_shared<DrawRectFaceState>(camera, vp, sub_mgr);
+	m_draw_poly_state = std::make_shared<DrawPolyFaceState>(camera, vp, sub_mgr);
+	m_default_state = m_draw_poly_state;
+//	m_default_state = m_draw_rect_state;
+	ChangeEditOpState(m_default_state);
 }
 
 bool PolyBuildOP::OnKeyDown(int key_code)
@@ -30,7 +34,7 @@ bool PolyBuildOP::OnKeyDown(int key_code)
 		return true;
 	}
 
-	if (m_poly_build_state->OnKeyPress(key_code)) {
+	if (m_op_state->OnKeyPress(key_code)) {
 		return true;
 	}
 
@@ -54,7 +58,7 @@ bool PolyBuildOP::OnKeyUp(int key_code)
 		return true;
 	}
 
-	if (m_poly_build_state->OnKeyRelease(key_code)) {
+	if (m_op_state->OnKeyRelease(key_code)) {
 		return true;
 	}
 
@@ -64,7 +68,7 @@ bool PolyBuildOP::OnKeyUp(int key_code)
 		//	m_poly_trans_state->OnKeyRelease(key_code);
 		//} else {
 			m_face_pp_state.reset();
-			ChangeEditOpState(m_poly_build_state);
+			ChangeEditOpState(m_default_state);
 		//}
 	}
 
@@ -101,6 +105,19 @@ bool PolyBuildOP::OnMouseLeftUp(int x, int y)
 	return false;
 }
 
+bool PolyBuildOP::OnMouseMove(int x, int y)
+{
+	if (ee0::EditOP::OnMouseMove(x, y)) {
+		return true;
+	}
+
+	if (m_op_state->OnMouseMove(x, y)) {
+		return true;
+	}
+
+	return false;
+}
+
 bool PolyBuildOP::OnMouseDrag(int x, int y)
 {
 	if (ee0::EditOP::OnMouseDrag(x, y)) {
@@ -110,10 +127,10 @@ bool PolyBuildOP::OnMouseDrag(int x, int y)
 		return true;
 	}
 
-	if (m_op_state != m_poly_build_state &&
+	if (m_op_state != m_default_state &&
 		!m_selected.poly)
 	{
-		ChangeEditOpState(m_poly_build_state);
+		ChangeEditOpState(m_default_state);
 		m_op_state->OnMousePress(m_first_pos2.x, m_first_pos2.y);
 		m_op_state->OnMouseDrag(x, y);
 	}
