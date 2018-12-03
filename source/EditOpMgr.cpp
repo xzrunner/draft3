@@ -135,10 +135,10 @@ void EditOpMgr::Init(const ee3::CameraMgr& cam_mgr,
 			sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
 			break;
 
-		case WXK_ESCAPE:
-			select_op->SetCanSelectNull(true);
-			SetCurrOp(Operator::ARRANGE);
-			sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
+		//case WXK_ESCAPE:
+		//	select_op->SetCanSelectNull(true);
+		//	SetCurrOp(Operator::ARRANGE);
+		//	sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
 			break;
 		case WXK_SPACE:
 			sub_mgr->NotifyObservers(ee3::MSG_SWITCH_TO_NEXT_VIEWPORT);
