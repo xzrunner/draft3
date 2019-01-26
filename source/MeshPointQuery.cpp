@@ -130,7 +130,7 @@ const quake::MapBrush* MeshPointQuery::Selected::GetBrush() const
 	assert(model->ext && model->ext->Type() == model::EXT_QUAKE_MAP);
 	auto map_entity = static_cast<model::QuakeMapEntity*>(model->ext.get());
 	auto& brushes = map_entity->GetMapEntity()->brushes;
-	assert(brush_idx >= 0 && brush_idx < brushes.size());
+	assert(brush_idx >= 0 && brush_idx < static_cast<int>(brushes.size()));
 	return &brushes[brush_idx];
 }
 
