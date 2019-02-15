@@ -1,7 +1,5 @@
 #include "drawing3/DrawFaceShader.h"
 
-#include <painting3/EffectsManager.h>
-
 namespace dw3
 {
 
