@@ -88,7 +88,7 @@ bool MeshPointQuery::Query(const he::PolyhedronPtr& poly, const n3::CompTransfor
 		sm::vec3 cross_face;
 
 		if (!sm::ray_polygon_intersect(
-			ret.mat, border, ray, &cross_face)) {
+			ret.mat, border.data(), border.size(), ray, &cross_face)) {
 			continue;
 		}
 		float dist = sm::dis_pos3_to_pos3(cross_face, cam_pos);
