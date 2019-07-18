@@ -64,7 +64,7 @@ BrushEdge EdgeSelectOP::QueryByPos(int x, int y) const
 	auto pos = m_cam2d->TransPosScreenToProject(x, y,
 		static_cast<int>(m_vp.Width()), static_cast<int>(m_vp.Height()));
 
-	auto cam_mat = m_camera->GetViewMat() * m_camera->GetProjectionMat();
+	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
 	for (auto& face : brush->faces)
 	{
 		auto& vs = face->vertices;
@@ -99,7 +99,7 @@ void EdgeSelectOP::QueryByRect(const sm::irect& rect, std::vector<BrushEdge>& se
 		static_cast<int>(m_vp.Width()), static_cast<int>(m_vp.Height()));
 	sm::rect s_rect(r_min, r_max);
 
-	auto cam_mat = m_camera->GetViewMat() * m_camera->GetProjectionMat();
+	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
 	for (auto& face : brush->faces)
 	{
 		auto& vs = face->vertices;

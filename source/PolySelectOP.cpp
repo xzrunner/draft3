@@ -188,7 +188,7 @@ bool PolySelectOP::OnDraw() const
 
 	tess::Painter pt;
 
-	auto cam_mat = m_camera->GetViewMat() * m_camera->GetProjectionMat();
+	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
 	auto trans3d = [&](std::vector<sm::vec2>& dst, const std::vector<sm::vec3>& src) {
 		dst.clear();
 		dst.reserve(src.size());

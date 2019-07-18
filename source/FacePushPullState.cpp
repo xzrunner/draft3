@@ -63,7 +63,7 @@ bool FacePushPullState::OnMousePress(int x, int y)
 		assert(crossed);
 		m_move_path3d.dir = plane.normal;
 
-		m_cam_mat = m_camera->GetViewMat() * m_camera->GetProjectionMat();
+		m_cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
 		auto next_pos2 = m_vp.TransPosProj3ToProj2(m_move_path3d.origin + m_move_path3d.dir, m_cam_mat);
 		m_first_dir2 = (next_pos2 - m_first_pos2).Normalized();
 	}
@@ -118,7 +118,7 @@ bool FacePushPullState::OnDraw() const
 	// debug draw
 	if (m_last_pos3d.IsValid())
 	{
-		auto cam_mat = m_camera->GetViewMat() * m_camera->GetProjectionMat();
+		auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
 		tess::Painter pt;
 		pt.AddLine3D(m_move_path3d.origin, m_last_pos3d, [&](const sm::vec3& pos3)->sm::vec2 {
 			return m_vp.TransPosProj3ToProj2(pos3, cam_mat);

@@ -53,7 +53,7 @@ pm3::BrushVertexPtr VertexSelectOP::QueryByPos(int x, int y) const
 	auto pos = m_cam2d->TransPosScreenToProject(x, y,
 		static_cast<int>(m_vp.Width()), static_cast<int>(m_vp.Height()));
 
-	auto cam_mat = m_camera->GetViewMat() * m_camera->GetProjectionMat();
+	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
 
 	for (auto& v : brush->vertices) {
 		auto p = m_vp.TransPosProj3ToProj2(v->pos * model::MapBuilder::VERTEX_SCALE, cam_mat);
@@ -78,7 +78,7 @@ void VertexSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushVe
 		static_cast<int>(m_vp.Width()), static_cast<int>(m_vp.Height()));
 	sm::rect s_rect(r_min, r_max);
 
-	auto cam_mat = m_camera->GetViewMat() * m_camera->GetProjectionMat();
+	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
 	for (auto& v : brush->vertices) {
 		auto p = m_vp.TransPosProj3ToProj2(v->pos * model::MapBuilder::VERTEX_SCALE, cam_mat);
 		if (sm::is_point_in_rect(p, s_rect)) {

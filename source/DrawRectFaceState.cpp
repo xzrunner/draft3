@@ -74,7 +74,7 @@ bool DrawRectFaceState::OnDraw() const
 	if (m_first_pos.IsValid() && m_last_pos.IsValid())
 	{
 		tess::Painter pt;
-		auto cam_mat = m_camera->GetViewMat() * m_camera->GetProjectionMat();
+		auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
 		pt.AddCube(sm::cube(m_first_pos, m_last_pos), [&](const sm::vec3& pos3)->sm::vec2 {
 			return m_vp.TransPosProj3ToProj2(pos3, cam_mat);
 		}, 0xffffffff);
