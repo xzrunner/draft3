@@ -9,6 +9,7 @@
 #include <node3/CompModel.h>
 #include <node3/CompModelInst.h>
 #include <node3/CompTransform.h>
+#include <quake/MapEntity.h>
 
 namespace dw3
 {
@@ -121,7 +122,7 @@ bool MeshPointQuery::Query(const he::PolyhedronPtr& poly, const n3::CompTransfor
 // class MeshPointQuery::Selected
 //////////////////////////////////////////////////////////////////////////
 
-const quake::MapBrush* MeshPointQuery::Selected::GetBrush() const
+const pm3::Brush* MeshPointQuery::Selected::GetBrush() const
 {
 	if (!poly || brush_idx < 0) {
 		return nullptr;

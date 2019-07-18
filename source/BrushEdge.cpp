@@ -1,6 +1,5 @@
 #include "drawing3/BrushEdge.h"
 
-#include <quake/MapModel.h>
 #include <model/MapBuilder.h>
 #include <painting3/Viewport.h>
 

@@ -18,6 +18,7 @@
 #include <painting3/PerspCam.h>
 #include <painting3/OrthoCam.h>
 #include <painting3/Viewport.h>
+#include <quake/MapEntity.h>
 
 namespace
 {

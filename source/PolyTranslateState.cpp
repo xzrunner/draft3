@@ -13,6 +13,7 @@
 #include <model/MapBuilder.h>
 #include <model/QuakeMapEntity.h>
 #include <model/Model.h>
+#include <quake/MapEntity.h>
 
 #include <wx/utils.h>
 
@@ -558,7 +559,7 @@ void PolyTranslateState::TranslateSelected(const sm::vec3& offset)
 		return;
 	}
 
-	// update quake map brush
+	// update polymesh3 brush
 	assert(m_selected.model->ext && m_selected.model->ext->Type() == model::EXT_QUAKE_MAP);
 	auto map_entity = static_cast<model::QuakeMapEntity*>(m_selected.model->ext.get());
 	auto& brushes = map_entity->GetMapEntity()->brushes;

@@ -15,7 +15,7 @@ public:
 		const ee0::SubjectMgrPtr& sub_mgr, const MeshPointQuery::Selected& selected);
 
 protected:
-	virtual void DrawImpl(const quake::MapBrush& brush, const sm::mat4& cam_mat) const override;
+	virtual void DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) const override;
 
 	virtual BrushEdge QueryByPos(int x, int y) const override;
 	virtual void QueryByRect(const sm::irect& rect, std::vector<BrushEdge>& selection) const override;

@@ -62,7 +62,7 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
 			} while (curr != start);
 		}
 
-		// update quake map brush
+		// update polymesh3 brush
 		edge.begin->pos += _offset;
 		edge.end->pos += _offset;
 

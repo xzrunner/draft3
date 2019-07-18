@@ -6,8 +6,6 @@
 #include <ee0/typedef.h>
 #include <ee0/SelectionSet.h>
 
-#include <quake/MapModel.h>
-
 namespace pt2 { class OrthoCamera; }
 namespace pt3 { class Viewport; }
 

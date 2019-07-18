@@ -10,7 +10,7 @@
 
 namespace n3 { class CompTransform; }
 namespace model { struct Model; }
-namespace quake { struct MapBrush; }
+namespace pm3 { struct Brush; }
 
 namespace dw3
 {
@@ -37,7 +37,7 @@ public:
 			node      = nullptr;
 		}
 
-		const quake::MapBrush* GetBrush() const;
+		const pm3::Brush* GetBrush() const;
 
 		sm::mat4          mat;
 		sm::vec3          normal;

@@ -16,7 +16,7 @@ EdgeSelectOP::EdgeSelectOP(const std::shared_ptr<pt0::Camera>& camera,
 {
 }
 
-void EdgeSelectOP::DrawImpl(const quake::MapBrush& brush, const sm::mat4& cam_mat) const
+void EdgeSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) const
 {
 	tess::Painter pt;
 

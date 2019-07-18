@@ -12,12 +12,12 @@ namespace mesh
 FaceSelectOP::FaceSelectOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
 	                       const ee0::SubjectMgrPtr& sub_mgr,
 	                       const MeshPointQuery::Selected& selected)
-	: MeshSelectBaseOP<quake::BrushFacePtr>(camera, vp, sub_mgr, selected)
+	: MeshSelectBaseOP<pm3::BrushFacePtr>(camera, vp, sub_mgr, selected)
 {
 	m_selecting = nullptr;
 }
 
-void FaceSelectOP::DrawImpl(const quake::MapBrush& brush, const sm::mat4& cam_mat) const
+void FaceSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) const
 {
 	tess::Painter pt;
 	// all nodes
@@ -34,7 +34,7 @@ void FaceSelectOP::DrawImpl(const quake::MapBrush& brush, const sm::mat4& cam_ma
 		pt.AddCircle(center, NODE_QUERY_RADIUS, SELECT_COLOR);
 	}
 	// selected
-	m_selected.Traverse([&](const quake::BrushFacePtr& face)->bool
+	m_selected.Traverse([&](const pm3::BrushFacePtr& face)->bool
 	{
 		DrawFace(pt, *face, LIGHT_SELECT_COLOR, cam_mat);
 		auto center = CalcFaceCenter(*face, cam_mat);
@@ -44,7 +44,7 @@ void FaceSelectOP::DrawImpl(const quake::MapBrush& brush, const sm::mat4& cam_ma
 	pt2::RenderSystem::DrawPainter(pt);
 }
 
-quake::BrushFacePtr FaceSelectOP::QueryByPos(int x, int y) const
+pm3::BrushFacePtr FaceSelectOP::QueryByPos(int x, int y) const
 {
 	auto brush = m_base_selected.GetBrush();
 	if (!brush) {
@@ -65,7 +65,7 @@ quake::BrushFacePtr FaceSelectOP::QueryByPos(int x, int y) const
 	return nullptr;
 }
 
-void FaceSelectOP::QueryByRect(const sm::irect& rect, std::vector<quake::BrushFacePtr>& selection) const
+void FaceSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushFacePtr>& selection) const
 {
 	auto brush = m_base_selected.GetBrush();
 	if (!brush) {
@@ -87,7 +87,7 @@ void FaceSelectOP::QueryByRect(const sm::irect& rect, std::vector<quake::BrushFa
 	}
 }
 
-sm::vec2 FaceSelectOP::CalcFaceCenter(const quake::BrushFace& face, const sm::mat4& cam_mat) const
+sm::vec2 FaceSelectOP::CalcFaceCenter(const pm3::BrushFace& face, const sm::mat4& cam_mat) const
 {
 	if (face.vertices.empty()) {
 		return sm::vec2(0, 0);
@@ -102,7 +102,7 @@ sm::vec2 FaceSelectOP::CalcFaceCenter(const quake::BrushFace& face, const sm::ma
 	return m_vp.TransPosProj3ToProj2(center * model::MapBuilder::VERTEX_SCALE, cam_mat);
 }
 
-void FaceSelectOP::DrawFace(tess::Painter& pt, const quake::BrushFace& face, uint32_t color, const sm::mat4& cam_mat) const
+void FaceSelectOP::DrawFace(tess::Painter& pt, const pm3::BrushFace& face, uint32_t color, const sm::mat4& cam_mat) const
 {
 	std::vector<sm::vec2> polygon;
 	polygon.reserve(face.vertices.size());

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <quake/MapModel.h>
 #include <SM_Matrix.h>
+#include <polymesh3/Brush.h>
 
 #include <functional>
 
@@ -15,7 +15,7 @@ namespace mesh
 struct BrushEdge
 {
 	BrushEdge() : begin(nullptr), end(nullptr) {}
-	BrushEdge(const quake::BrushVertexPtr& begin, const quake::BrushVertexPtr& end)
+	BrushEdge(const pm3::BrushVertexPtr& begin, const pm3::BrushVertexPtr& end)
 		: begin(begin), end(end) {}
 
 	bool operator == (const BrushEdge& e) const {
@@ -28,8 +28,8 @@ struct BrushEdge
 	void Project(const pt3::Viewport& vp, const sm::mat4& cam_mat,
 		std::function<void(const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid)> func) const;
 
-	quake::BrushVertexPtr begin;
-	quake::BrushVertexPtr end;
+	pm3::BrushVertexPtr begin;
+	pm3::BrushVertexPtr end;
 
 }; // BrushEdge
 

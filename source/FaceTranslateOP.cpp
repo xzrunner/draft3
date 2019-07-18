@@ -11,13 +11,13 @@ FaceTranslateOP::FaceTranslateOP(const std::shared_ptr<pt0::Camera>& camera,
 	                             const pt3::Viewport& vp,
 	                             const ee0::SubjectMgrPtr& sub_mgr,
 	                             const MeshPointQuery::Selected& selected,
-	                             const ee0::SelectionSet<quake::BrushFacePtr>& selection,
+	                             const ee0::SelectionSet<pm3::BrushFacePtr>& selection,
 	                             std::function<void()> update_cb)
-	: MeshTranslateBaseOP<quake::BrushFacePtr>(camera, vp, sub_mgr, selected, selection, update_cb)
+	: MeshTranslateBaseOP<pm3::BrushFacePtr>(camera, vp, sub_mgr, selected, selection, update_cb)
 {
 }
 
-bool FaceTranslateOP::QueryByPos(const sm::vec2& pos, const quake::BrushFacePtr& face,
+bool FaceTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::BrushFacePtr& face,
 	                             const sm::mat4& cam_mat) const
 {
 	assert(!face->vertices.empty());
@@ -40,7 +40,7 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
 {
 	auto& faces = m_selected.poly->GetFaces();
 	auto _offset = offset / model::MapBuilder::VERTEX_SCALE;
-	m_selection.Traverse([&](const quake::BrushFacePtr& face)->bool
+	m_selection.Traverse([&](const pm3::BrushFacePtr& face)->bool
 	{
 		// update helfedge geo
 		sm::vec3 c0;
@@ -73,7 +73,7 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
 			}
 		}
 
-		// update quake map brush
+		// update polymesh3 brush
 		for (auto& v : face->vertices) {
 			v->pos += _offset;
 		}

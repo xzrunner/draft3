@@ -13,6 +13,7 @@
 #include <model/QuakeMapEntity.h>
 #include <model/Model.h>
 #include <model/MapBuilder.h>
+#include <quake/MapEntity.h>
 
 namespace dw3
 {
@@ -134,7 +135,7 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 		return;
 	}
 
-	// quake map brush data
+	// polymesh3 brush data
 	assert(m_selected.model->ext && m_selected.model->ext->Type() == model::EXT_QUAKE_MAP);
 	auto map_entity = static_cast<model::QuakeMapEntity*>(m_selected.model->ext.get());
 	auto& brushes = map_entity->GetMapEntity()->brushes;

@@ -12,12 +12,12 @@ namespace mesh
 VertexSelectOP::VertexSelectOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
 	                           const ee0::SubjectMgrPtr& sub_mgr,
 	                           const MeshPointQuery::Selected& selected)
-	: MeshSelectBaseOP<quake::BrushVertexPtr>(camera, vp, sub_mgr, selected)
+	: MeshSelectBaseOP<pm3::BrushVertexPtr>(camera, vp, sub_mgr, selected)
 {
 	m_selecting = nullptr;
 }
 
-void VertexSelectOP::DrawImpl(const quake::MapBrush& brush, const sm::mat4& cam_mat) const
+void VertexSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) const
 {
 	tess::Painter pt;
 
@@ -33,7 +33,7 @@ void VertexSelectOP::DrawImpl(const quake::MapBrush& brush, const sm::mat4& cam_
 		pt.AddCircle(pos, NODE_QUERY_RADIUS, SELECT_COLOR);
 	}
 	// selected
-	m_selected.Traverse([&](const quake::BrushVertexPtr& vert)->bool {
+	m_selected.Traverse([&](const pm3::BrushVertexPtr& vert)->bool {
 		auto pos = m_vp.TransPosProj3ToProj2(vert->pos * model::MapBuilder::VERTEX_SCALE, cam_mat);
 		pt.AddCircleFilled(pos, NODE_DRAW_RADIUS, SELECT_COLOR);
 		return true;
@@ -43,7 +43,7 @@ void VertexSelectOP::DrawImpl(const quake::MapBrush& brush, const sm::mat4& cam_
 	pt2::RenderSystem::DrawPainter(pt);
 }
 
-quake::BrushVertexPtr VertexSelectOP::QueryByPos(int x, int y) const
+pm3::BrushVertexPtr VertexSelectOP::QueryByPos(int x, int y) const
 {
 	auto brush = m_base_selected.GetBrush();
 	if (!brush) {
@@ -65,7 +65,7 @@ quake::BrushVertexPtr VertexSelectOP::QueryByPos(int x, int y) const
 	return nullptr;
 }
 
-void VertexSelectOP::QueryByRect(const sm::irect& rect, std::vector<quake::BrushVertexPtr>& selection) const
+void VertexSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushVertexPtr>& selection) const
 {
 	auto brush = m_base_selected.GetBrush();
 	if (!brush) {
