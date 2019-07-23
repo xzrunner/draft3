@@ -4,12 +4,11 @@
 #include <SM_Ray.h>
 #include <SM_RayIntersect.h>
 #include <model/Model.h>
-#include <model/QuakeMapEntity.h>
+#include <model/BrushModel.h>
 #include <node0/SceneNode.h>
 #include <node3/CompModel.h>
 #include <node3/CompModelInst.h>
 #include <node3/CompTransform.h>
-#include <quake/MapEntity.h>
 
 namespace dw3
 {
@@ -35,18 +34,18 @@ bool MeshPointQuery::Query(const ee0::GameObj& obj, const sm::Ray& ray,
 	}
 
 	auto& ext = model->GetModel()->ext;
-	if (!ext || ext->Type() != model::EXT_QUAKE_MAP) {
+	if (!ext || ext->Type() != model::EXT_BRUSH) {
 		return false;
 	}
 
 	bool find = false;
-	auto map_entity = static_cast<model::QuakeMapEntity*>(ext.get());
-	auto& brushes = map_entity->GetMapEntity()->brushes;
+	auto brush_model = static_cast<model::BrushModel*>(ext.get());
+	auto& brushes = brush_model->GetBrushes();
 	assert(brushes.size() == model->GetModel()->meshes.size());
 	for (int i = 0, n = brushes.size(); i < n; ++i)
 	{
 		auto& brush = brushes[i];
-		if (!Query(brush.geometry, ctrans, ray, cam_pos, ret)) {
+		if (!Query(brush.impl.geometry, ctrans, ray, cam_pos, ret)) {
 			continue;
 		}
 
@@ -122,15 +121,16 @@ bool MeshPointQuery::Query(const he::PolyhedronPtr& poly, const n3::CompTransfor
 // class MeshPointQuery::Selected
 //////////////////////////////////////////////////////////////////////////
 
-const pm3::Brush* MeshPointQuery::Selected::GetBrush() const
+const model::BrushModel::BrushData*
+MeshPointQuery::Selected::GetBrush() const
 {
 	if (!poly || brush_idx < 0) {
 		return nullptr;
 	}
 
-	assert(model->ext && model->ext->Type() == model::EXT_QUAKE_MAP);
-	auto map_entity = static_cast<model::QuakeMapEntity*>(model->ext.get());
-	auto& brushes = map_entity->GetMapEntity()->brushes;
+	assert(model->ext && model->ext->Type() == model::EXT_BRUSH);
+	auto brush_model = static_cast<model::BrushModel*>(model->ext.get());
+	auto& brushes = brush_model->GetBrushes();
 	assert(brush_idx >= 0 && brush_idx < static_cast<int>(brushes.size()));
 	return &brushes[brush_idx];
 }

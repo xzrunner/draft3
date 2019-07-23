@@ -10,7 +10,7 @@
 #include <painting3/PerspCam.h>
 #include <painting3/OrthoCam.h>
 #include <painting3/Viewport.h>
-#include <model/MapBuilder.h>
+#include <model/BrushBuilder.h>
 #include <SM_Calc.h>
 #include <SM_Ray.h>
 #include <SM_RayIntersect.h>

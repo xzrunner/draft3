@@ -11,7 +11,7 @@
 #include <painting3/Viewport.h>
 #include <SM_Calc.h>
 #include <model/Model.h>
-#include <model/MapBuilder.h>
+#include <model/BrushBuilder.h>
 
 #include <wx/utils.h>
 
@@ -141,7 +141,7 @@ bool MeshSelectBaseOP<T>::OnDraw() const
 	}
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	DrawImpl(*brush, cam_mat);
+	DrawImpl(brush->impl, cam_mat);
 
 	if (m_draw_state_enable) {
 		m_draw_state->OnDraw();

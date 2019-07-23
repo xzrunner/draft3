@@ -23,18 +23,18 @@ void VertexSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) 
 
 	// all nodes
 	for (auto& v : brush.vertices) {
-		auto pos = m_vp.TransPosProj3ToProj2(v->pos * model::MapBuilder::VERTEX_SCALE, cam_mat);
+		auto pos = m_vp.TransPosProj3ToProj2(v->pos * model::BrushBuilder::VERTEX_SCALE, cam_mat);
 		pt.AddCircleFilled(pos, NODE_DRAW_RADIUS, UNSELECT_COLOR);
 	}
 	// selecting
 	if (m_selecting)
 	{
-		auto pos = m_vp.TransPosProj3ToProj2(m_selecting->pos * model::MapBuilder::VERTEX_SCALE, cam_mat);
+		auto pos = m_vp.TransPosProj3ToProj2(m_selecting->pos * model::BrushBuilder::VERTEX_SCALE, cam_mat);
 		pt.AddCircle(pos, NODE_QUERY_RADIUS, SELECT_COLOR);
 	}
 	// selected
 	m_selected.Traverse([&](const pm3::BrushVertexPtr& vert)->bool {
-		auto pos = m_vp.TransPosProj3ToProj2(vert->pos * model::MapBuilder::VERTEX_SCALE, cam_mat);
+		auto pos = m_vp.TransPosProj3ToProj2(vert->pos * model::BrushBuilder::VERTEX_SCALE, cam_mat);
 		pt.AddCircleFilled(pos, NODE_DRAW_RADIUS, SELECT_COLOR);
 		return true;
 	});
@@ -55,8 +55,8 @@ pm3::BrushVertexPtr VertexSelectOP::QueryByPos(int x, int y) const
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
 
-	for (auto& v : brush->vertices) {
-		auto p = m_vp.TransPosProj3ToProj2(v->pos * model::MapBuilder::VERTEX_SCALE, cam_mat);
+	for (auto& v : brush->impl.vertices) {
+		auto p = m_vp.TransPosProj3ToProj2(v->pos * model::BrushBuilder::VERTEX_SCALE, cam_mat);
 		if (sm::dis_pos_to_pos(p, pos) < NODE_QUERY_RADIUS) {
 			return v;
 		}
@@ -79,9 +79,10 @@ void VertexSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushVe
 	sm::rect s_rect(r_min, r_max);
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	for (auto& v : brush->vertices) {
-		auto p = m_vp.TransPosProj3ToProj2(v->pos * model::MapBuilder::VERTEX_SCALE, cam_mat);
-		if (sm::is_point_in_rect(p, s_rect)) {
+	for (auto& v : brush->impl.vertices)
+    {
+		auto p = m_vp.TransPosProj3ToProj2(v->pos * model::BrushBuilder::VERTEX_SCALE, cam_mat);
+        if (sm::is_point_in_rect(p, s_rect)) {
 			selection.push_back(v);
 		}
 	}

@@ -8,7 +8,7 @@
 #include <ee0/MsgHelper.h>
 
 #include <model/Model.h>
-#include <model/QuakeMapEntity.h>
+#include <model/BrushModel.h>
 #include <node0/SceneNode.h>
 #include <node3/CompTransform.h>
 #include <node3/CompModelInst.h>
@@ -18,7 +18,6 @@
 #include <painting3/PerspCam.h>
 #include <painting3/OrthoCam.h>
 #include <painting3/Viewport.h>
-#include <quake/MapEntity.h>
 
 namespace
 {
@@ -227,20 +226,19 @@ void PolySelectOP::SetSelected(const n0::SceneNodePtr& node)
 	}
 
 	auto& ext = model->GetModel()->ext;
-	if (!ext || ext->Type() != model::EXT_QUAKE_MAP) {
+	if (!ext || ext->Type() != model::EXT_BRUSH) {
 		return;
 	}
 
 	bool find = false;
-	auto map_entity = static_cast<model::QuakeMapEntity*>(ext.get());
-	auto& brushes = map_entity->GetMapEntity()->brushes;
+	auto brush_model = static_cast<model::BrushModel*>(ext.get());
+	auto& brushes = brush_model->GetBrushes();
 	assert(brushes.size() == model->GetModel()->meshes.size());
 	if (brushes.empty()) {
 		return;
 	}
 
-	auto& brush = brushes[0];
-	m_selected.poly      = brush.geometry;
+	m_selected.poly      = brushes[0].impl.geometry;
 	m_selected.model     = model->GetModel();
 	m_selected.brush_idx = 0;
 	m_selected.node      = node;

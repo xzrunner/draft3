@@ -55,7 +55,7 @@ pm3::BrushFacePtr FaceSelectOP::QueryByPos(int x, int y) const
 		static_cast<int>(m_vp.Width()), static_cast<int>(m_vp.Height()));
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	for (auto& f : brush->faces) {
+	for (auto& f : brush->impl.faces) {
 		auto center = CalcFaceCenter(*f, cam_mat);
 		if (sm::dis_pos_to_pos(center, pos) < NODE_QUERY_RADIUS) {
 			return f;
@@ -79,7 +79,7 @@ void FaceSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushFace
 	sm::rect s_rect(r_min, r_max);
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	for (auto& f : brush->faces) {
+	for (auto& f : brush->impl.faces) {
 		auto center = CalcFaceCenter(*f, cam_mat);
 		if (sm::is_point_in_rect(center, s_rect)) {
 			selection.push_back(f);
@@ -99,7 +99,7 @@ sm::vec2 FaceSelectOP::CalcFaceCenter(const pm3::BrushFace& face, const sm::mat4
 	}
 	center /= face.vertices.size();
 
-	return m_vp.TransPosProj3ToProj2(center * model::MapBuilder::VERTEX_SCALE, cam_mat);
+	return m_vp.TransPosProj3ToProj2(center * model::BrushBuilder::VERTEX_SCALE, cam_mat);
 }
 
 void FaceSelectOP::DrawFace(tess::Painter& pt, const pm3::BrushFace& face, uint32_t color, const sm::mat4& cam_mat) const
@@ -107,7 +107,7 @@ void FaceSelectOP::DrawFace(tess::Painter& pt, const pm3::BrushFace& face, uint3
 	std::vector<sm::vec2> polygon;
 	polygon.reserve(face.vertices.size());
 	for (auto& v : face.vertices) {
-		auto p3 = v->pos * model::MapBuilder::VERTEX_SCALE;
+		auto p3 = v->pos * model::BrushBuilder::VERTEX_SCALE;
 		polygon.push_back(m_vp.TransPosProj3ToProj2(p3, cam_mat));
 	}
 	pt.AddPolygonFilled(polygon.data(), polygon.size(), color);

@@ -10,10 +10,9 @@
 #include <painting3/PerspCam.h>
 #include <painting3/OrthoCam.h>
 #include <painting3/Viewport.h>
-#include <model/MapBuilder.h>
-#include <model/QuakeMapEntity.h>
+#include <model/BrushBuilder.h>
+#include <model/BrushModel.h>
 #include <model/Model.h>
-#include <quake/MapEntity.h>
 
 #include <wx/utils.h>
 
@@ -560,13 +559,12 @@ void PolyTranslateState::TranslateSelected(const sm::vec3& offset)
 	}
 
 	// update polymesh3 brush
-	assert(m_selected.model->ext && m_selected.model->ext->Type() == model::EXT_QUAKE_MAP);
-	auto map_entity = static_cast<model::QuakeMapEntity*>(m_selected.model->ext.get());
-	auto& brushes = map_entity->GetMapEntity()->brushes;
+	assert(m_selected.model->ext && m_selected.model->ext->Type() == model::EXT_BRUSH);
+	auto brush_model = static_cast<model::BrushModel*>(m_selected.model->ext.get());
+	auto& brushes = brush_model->GetBrushes();
 	assert(m_selected.brush_idx >= 0 && m_selected.brush_idx < static_cast<int>(brushes.size()));
-	auto& brush = brushes[m_selected.brush_idx];
-	for (auto& vert : brush.vertices) {
-		vert->pos += offset / model::MapBuilder::VERTEX_SCALE;
+	for (auto& vert : brushes[m_selected.brush_idx].impl.vertices) {
+		vert->pos += offset / model::BrushBuilder::VERTEX_SCALE;
 	}
 
 	// update helfedge geo
@@ -579,12 +577,13 @@ void PolyTranslateState::TranslateSelected(const sm::vec3& offset)
 	// update model aabb
 	sm::cube model_aabb;
 	for (auto& brush : brushes) {
-		model_aabb.Combine(brush.geometry->GetAABB());
+		model_aabb.Combine(brush.impl.geometry->GetAABB());
 	}
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo
-	model::MapBuilder::UpdateVBO(*m_selected.model, m_selected.brush_idx);
+    auto& brush = brushes[m_selected.brush_idx];
+	model::BrushBuilder::UpdateVBO(*m_selected.model, brush.impl, brush.desc);
 
 	// update m_selected border
 	m_update_cb();

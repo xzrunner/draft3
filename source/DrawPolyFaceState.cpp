@@ -11,8 +11,8 @@
 #include <painting3/PerspCam.h>
 #include <painting3/Viewport.h>
 #include <model/Model.h>
-#include <model/QuakeMapEntity.h>
-#include <model/MapBuilder.h>
+#include <model/BrushModel.h>
+#include <model/BrushBuilder.h>
 #include <node0/SceneNode.h>
 #include <node0/CompIdentity.h>
 #include <node3/CompModel.h>
@@ -131,7 +131,8 @@ n0::SceneNodePtr DrawPolyFaceState::CreateModelObj()
 	auto polygon = m_polygon;
 	polygon.pop_back();
 
-	auto model = model::MapBuilder::Create(polygon);
+    std::shared_ptr<model::Model> model =
+        model::BrushBuilder::PolymeshFromPolygon(polygon);
 
 	auto node = std::make_shared<n0::SceneNode>();
 

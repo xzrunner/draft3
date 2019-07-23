@@ -20,8 +20,8 @@ EdgeTranslateOP::EdgeTranslateOP(const std::shared_ptr<pt0::Camera>& camera,
 bool EdgeTranslateOP::QueryByPos(const sm::vec2& pos, const BrushEdge& edge,
 	                             const sm::mat4& cam_mat) const
 {
-	auto b3 = edge.begin->pos * model::MapBuilder::VERTEX_SCALE;
-	auto e3 = edge.end->pos * model::MapBuilder::VERTEX_SCALE;
+	auto b3 = edge.begin->pos * model::BrushBuilder::VERTEX_SCALE;
+	auto e3 = edge.end->pos * model::BrushBuilder::VERTEX_SCALE;
 	auto mid3 = (b3 + e3) * 0.5f;
 	auto b2 = m_vp.TransPosProj3ToProj2(b3, cam_mat);
 	auto e2 = m_vp.TransPosProj3ToProj2(e3, cam_mat);
@@ -37,7 +37,7 @@ bool EdgeTranslateOP::QueryByPos(const sm::vec2& pos, const BrushEdge& edge,
 void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
 {
 	auto& faces = m_selected.poly->GetFaces();
-	auto _offset = offset / model::MapBuilder::VERTEX_SCALE;
+	auto _offset = offset / model::BrushBuilder::VERTEX_SCALE;
 	m_selection.Traverse([&](const BrushEdge& edge)->bool
 	{
 		// update helfedge geo
@@ -46,8 +46,8 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
 			auto start = f->start_edge;
 			auto curr = start;
 			do {
-				auto d0 = edge.begin->pos * model::MapBuilder::VERTEX_SCALE - curr->origin->position;
-				auto d1 = edge.end->pos * model::MapBuilder::VERTEX_SCALE - curr->next->origin->position;
+				auto d0 = edge.begin->pos * model::BrushBuilder::VERTEX_SCALE - curr->origin->position;
+				auto d1 = edge.end->pos * model::BrushBuilder::VERTEX_SCALE - curr->next->origin->position;
 				if (fabs(d0.x) < SM_LARGE_EPSILON &&
 					fabs(d0.y) < SM_LARGE_EPSILON &&
 					fabs(d0.z) < SM_LARGE_EPSILON &&
@@ -73,12 +73,14 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
 	m_selected.poly->UpdateAABB();
 
 	// update model aabb
+    auto brush = m_selected.GetBrush();
+    assert(brush);
 	sm::cube model_aabb;
-	model_aabb.Combine(m_selected.GetBrush()->geometry->GetAABB());
+	model_aabb.Combine(brush->impl.geometry->GetAABB());
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo
-	model::MapBuilder::UpdateVBO(*m_selected.model, m_selected.brush_idx);
+	model::BrushBuilder::UpdateVBO(*m_selected.model, brush->impl, brush->desc);
 }
 
 }

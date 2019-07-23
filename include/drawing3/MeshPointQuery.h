@@ -7,6 +7,7 @@
 #include <SM_Ray.h>
 #include <halfedge/HalfEdge.h>
 #include <halfedge/Polyhedron.h>
+#include <model/BrushModel.h>
 
 namespace n3 { class CompTransform; }
 namespace model { struct Model; }
@@ -37,7 +38,8 @@ public:
 			node      = nullptr;
 		}
 
-		const pm3::Brush* GetBrush() const;
+		const model::BrushModel::BrushData*
+            GetBrush() const;
 
 		sm::mat4          mat;
 		sm::vec3          normal;

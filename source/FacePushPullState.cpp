@@ -10,10 +10,9 @@
 #include <painting2/RenderSystem.h>
 #include <painting3/Viewport.h>
 #include <painting3/PerspCam.h>
-#include <model/QuakeMapEntity.h>
+#include <model/BrushModel.h>
 #include <model/Model.h>
-#include <model/MapBuilder.h>
-#include <quake/MapEntity.h>
+#include <model/BrushBuilder.h>
 
 namespace dw3
 {
@@ -136,15 +135,15 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	}
 
 	// polymesh3 brush data
-	assert(m_selected.model->ext && m_selected.model->ext->Type() == model::EXT_QUAKE_MAP);
-	auto map_entity = static_cast<model::QuakeMapEntity*>(m_selected.model->ext.get());
-	auto& brushes = map_entity->GetMapEntity()->brushes;
+	assert(m_selected.model->ext && m_selected.model->ext->Type() == model::EXT_BRUSH);
+	auto brush_model = static_cast<model::BrushModel*>(m_selected.model->ext.get());
+	auto& brushes = brush_model->GetBrushes();
 	assert(m_selected.brush_idx >= 0 && m_selected.brush_idx < static_cast<int>(brushes.size()));
-	auto& brush = brushes[m_selected.brush_idx];
-	assert(m_selected.face_idx < static_cast<int>(brush.faces.size()));
-	auto& face = brush.faces[m_selected.face_idx];
+	auto& faces = brushes[m_selected.brush_idx].impl.faces;
+	assert(m_selected.face_idx < static_cast<int>(faces.size()));
+	auto& face = faces[m_selected.face_idx];
 	for (auto& vert : face->vertices) {
-		vert->pos += offset / model::MapBuilder::VERTEX_SCALE;
+		vert->pos += offset / model::BrushBuilder::VERTEX_SCALE;
 	}
 
 	// halfedge geo
@@ -164,12 +163,13 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	// update model aabb
 	sm::cube model_aabb;
 	for (auto& brush : brushes) {
-		model_aabb.Combine(brush.geometry->GetAABB());
+		model_aabb.Combine(brush.impl.geometry->GetAABB());
 	}
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo
-	model::MapBuilder::UpdateVBO(*m_selected.model, m_selected.brush_idx);
+    auto brush = brushes[m_selected.brush_idx];
+	model::BrushBuilder::UpdateVBO(*m_selected.model, brush.impl, brush.desc);
 }
 
 }
