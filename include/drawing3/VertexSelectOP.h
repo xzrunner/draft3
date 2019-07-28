@@ -2,7 +2,7 @@
 
 #include "drawing3/MeshSelectBaseOP.h"
 
-#include <polymesh3/Brush.h>
+#include <polymesh3/typedef.h>
 
 namespace dw3
 {
