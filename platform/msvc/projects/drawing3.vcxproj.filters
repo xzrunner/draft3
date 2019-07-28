@@ -63,9 +63,6 @@
     <ClInclude Include="..\..\..\include\drawing3\VertexSelectOP.h">
       <Filter>editop\mesh\1.vertex</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\BrushEdge.h">
-      <Filter>editop\mesh\2.edge</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\drawing3\EdgeTranslateOP.h">
       <Filter>editop\mesh\2.edge</Filter>
     </ClInclude>
@@ -138,9 +135,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\VertexSelectOP.cpp">
       <Filter>editop\mesh\1.vertex</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\BrushEdge.cpp">
-      <Filter>editop\mesh\2.edge</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\EdgeTranslateOP.cpp">
       <Filter>editop\mesh\2.edge</Filter>

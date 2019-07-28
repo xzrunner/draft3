@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\drawing3\BrushEdge.h" />
     <ClInclude Include="..\..\..\include\drawing3\DrawEdgeShader.h" />
     <ClInclude Include="..\..\..\include\drawing3\DrawFaceShader.h" />
     <ClInclude Include="..\..\..\include\drawing3\DrawPolyFaceState.h" />
@@ -41,7 +40,6 @@
     <None Include="..\..\..\include\drawing3\MeshTranslateBaseOP.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\source\BrushEdge.cpp" />
     <ClCompile Include="..\..\..\source\DrawEdgeShader.cpp" />
     <ClCompile Include="..\..\..\source\DrawFaceShader.cpp" />
     <ClCompile Include="..\..\..\source\DrawPolyFaceState.cpp" />
