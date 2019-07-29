@@ -1,6 +1,7 @@
 #include "drawing3/FaceSelectOP.h"
 
 #include <tessellation/Painter.h>
+#include <polymesh3/Brush.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
 
@@ -55,7 +56,7 @@ pm3::BrushFacePtr FaceSelectOP::QueryByPos(int x, int y) const
 		static_cast<int>(m_vp.Width()), static_cast<int>(m_vp.Height()));
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	for (auto& f : brush->impl.faces) {
+	for (auto& f : brush->impl->faces) {
 		auto center = CalcFaceCenter(*f, cam_mat);
 		if (sm::dis_pos_to_pos(center, pos) < NODE_QUERY_RADIUS) {
 			return f;
@@ -79,7 +80,7 @@ void FaceSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushFace
 	sm::rect s_rect(r_min, r_max);
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	for (auto& f : brush->impl.faces) {
+	for (auto& f : brush->impl->faces) {
 		auto center = CalcFaceCenter(*f, cam_mat);
 		if (sm::is_point_in_rect(center, s_rect)) {
 			selection.push_back(f);

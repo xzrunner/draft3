@@ -1,5 +1,6 @@
 #include "drawing3/EdgeSelectOP.h"
 
+#include <polymesh3/Brush.h>
 #include <tessellation/Painter.h>
 #include <painting2/RenderSystem.h>
 
@@ -65,7 +66,7 @@ pm3::BrushEdge EdgeSelectOP::QueryByPos(int x, int y) const
 		static_cast<int>(m_vp.Width()), static_cast<int>(m_vp.Height()));
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	for (auto& face : brush->impl.faces)
+	for (auto& face : brush->impl->faces)
 	{
 		auto& vs = face->vertices;
 		for (int i = 0, n = vs.size(); i < n; ++i)
@@ -100,7 +101,7 @@ void EdgeSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushEdge
 	sm::rect s_rect(r_min, r_max);
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	for (auto& face : brush->impl.faces)
+	for (auto& face : brush->impl->faces)
 	{
 		auto& vs = face->vertices;
 		for (int i = 0, n = vs.size(); i < n; ++i)

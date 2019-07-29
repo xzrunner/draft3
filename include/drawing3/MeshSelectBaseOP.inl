@@ -141,7 +141,7 @@ bool MeshSelectBaseOP<T>::OnDraw() const
 	}
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	DrawImpl(brush->impl, cam_mat);
+	DrawImpl(*brush->impl, cam_mat);
 
 	if (m_draw_state_enable) {
 		m_draw_state->OnDraw();

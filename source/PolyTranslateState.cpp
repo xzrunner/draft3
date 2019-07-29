@@ -6,6 +6,7 @@
 
 #include <SM_RayIntersect.h>
 #include <tessellation/Painter.h>
+#include <polymesh3/Brush.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/PerspCam.h>
 #include <painting3/OrthoCam.h>
@@ -563,7 +564,7 @@ void PolyTranslateState::TranslateSelected(const sm::vec3& offset)
 	auto brush_model = static_cast<model::BrushModel*>(m_selected.model->ext.get());
 	auto& brushes = brush_model->GetBrushes();
 	assert(m_selected.brush_idx >= 0 && m_selected.brush_idx < static_cast<int>(brushes.size()));
-	for (auto& vert : brushes[m_selected.brush_idx].impl.vertices) {
+	for (auto& vert : brushes[m_selected.brush_idx].impl->vertices) {
 		vert->pos += offset / model::BrushBuilder::VERTEX_SCALE;
 	}
 
@@ -577,13 +578,13 @@ void PolyTranslateState::TranslateSelected(const sm::vec3& offset)
 	// update model aabb
 	sm::cube model_aabb;
 	for (auto& brush : brushes) {
-		model_aabb.Combine(brush.impl.geometry->GetAABB());
+		model_aabb.Combine(brush.impl->geometry->GetAABB());
 	}
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo
     auto& brush = brushes[m_selected.brush_idx];
-	model::BrushBuilder::UpdateVBO(*m_selected.model, brush.impl, brush.desc);
+	model::BrushBuilder::UpdateVBO(*m_selected.model, *brush.impl, brush.desc);
 
 	// update m_selected border
 	m_update_cb();

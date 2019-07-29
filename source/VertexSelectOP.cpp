@@ -1,6 +1,7 @@
 #include "drawing3/VertexSelectOP.h"
 
 #include <tessellation/Painter.h>
+#include <polymesh3/Brush.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
 
@@ -55,7 +56,7 @@ pm3::BrushVertexPtr VertexSelectOP::QueryByPos(int x, int y) const
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
 
-	for (auto& v : brush->impl.vertices) {
+	for (auto& v : brush->impl->vertices) {
 		auto p = m_vp.TransPosProj3ToProj2(v->pos * model::BrushBuilder::VERTEX_SCALE, cam_mat);
 		if (sm::dis_pos_to_pos(p, pos) < NODE_QUERY_RADIUS) {
 			return v;
@@ -79,7 +80,7 @@ void VertexSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushVe
 	sm::rect s_rect(r_min, r_max);
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	for (auto& v : brush->impl.vertices)
+	for (auto& v : brush->impl->vertices)
     {
 		auto p = m_vp.TransPosProj3ToProj2(v->pos * model::BrushBuilder::VERTEX_SCALE, cam_mat);
         if (sm::is_point_in_rect(p, s_rect)) {

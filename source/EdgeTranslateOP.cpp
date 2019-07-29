@@ -1,5 +1,6 @@
 #include "drawing3/EdgeTranslateOP.h"
 
+#include <polymesh3/Brush.h>
 #include <model/Model.h>
 
 namespace dw3
@@ -76,11 +77,11 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
     auto brush = m_selected.GetBrush();
     assert(brush);
 	sm::cube model_aabb;
-	model_aabb.Combine(brush->impl.geometry->GetAABB());
+	model_aabb.Combine(brush->impl->geometry->GetAABB());
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo
-	model::BrushBuilder::UpdateVBO(*m_selected.model, brush->impl, brush->desc);
+	model::BrushBuilder::UpdateVBO(*m_selected.model, *brush->impl, brush->desc);
 }
 
 }

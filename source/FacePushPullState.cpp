@@ -6,6 +6,7 @@
 
 #include <SM_RayIntersect.h>
 #include <tessellation/Painter.h>
+#include <polymesh3/Brush.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/Viewport.h>
@@ -139,7 +140,7 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	auto brush_model = static_cast<model::BrushModel*>(m_selected.model->ext.get());
 	auto& brushes = brush_model->GetBrushes();
 	assert(m_selected.brush_idx >= 0 && m_selected.brush_idx < static_cast<int>(brushes.size()));
-	auto& faces = brushes[m_selected.brush_idx].impl.faces;
+	auto& faces = brushes[m_selected.brush_idx].impl->faces;
 	assert(m_selected.face_idx < static_cast<int>(faces.size()));
 	auto& face = faces[m_selected.face_idx];
 	for (auto& vert : face->vertices) {
@@ -163,13 +164,13 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	// update model aabb
 	sm::cube model_aabb;
 	for (auto& brush : brushes) {
-		model_aabb.Combine(brush.impl.geometry->GetAABB());
+		model_aabb.Combine(brush.impl->geometry->GetAABB());
 	}
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo
     auto brush = brushes[m_selected.brush_idx];
-	model::BrushBuilder::UpdateVBO(*m_selected.model, brush.impl, brush.desc);
+	model::BrushBuilder::UpdateVBO(*m_selected.model, *brush.impl, brush.desc);
 }
 
 }
