@@ -122,7 +122,7 @@ bool MeshPointQuery::Query(const he::PolyhedronPtr& poly, const n3::CompTransfor
 // class MeshPointQuery::Selected
 //////////////////////////////////////////////////////////////////////////
 
-const model::BrushModel::BrushData*
+const model::BrushModel::BrushSingle*
 MeshPointQuery::Selected::GetBrush() const
 {
 	if (!poly || brush_idx < 0) {
