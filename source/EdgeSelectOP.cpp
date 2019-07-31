@@ -13,7 +13,7 @@ EdgeSelectOP::EdgeSelectOP(const std::shared_ptr<pt0::Camera>& camera,
 	                       const pt3::Viewport& vp,
 	                       const ee0::SubjectMgrPtr& sub_mgr,
 	                       const MeshPointQuery::Selected& selected)
-	: MeshSelectBaseOP<pm3::BrushEdge>(camera, vp, sub_mgr, selected)
+	: MeshSelectBaseOP<model::BrushModel::BrushEdgePtr>(camera, vp, sub_mgr, selected)
 {
 }
 
@@ -26,7 +26,7 @@ void EdgeSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) co
 	{
 		auto& vs = face->vertices;
 		for (int i = 0, n = vs.size(); i < n; ++i) {
-            ProjectBrushEdge(pm3::BrushEdge(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,
+            ProjectBrushEdge(brush, model::BrushModel::BrushEdge(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,
 				[&](const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid) {
 				pt.AddLine(b, e, UNSELECT_COLOR);
 				pt.AddCircleFilled(mid, NODE_DRAW_RADIUS, UNSELECT_COLOR);
@@ -36,15 +36,15 @@ void EdgeSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) co
 	// selecting
 	if (m_selecting)
 	{
-        ProjectBrushEdge(m_selecting, m_vp, cam_mat,
+        ProjectBrushEdge(brush, *m_selecting, m_vp, cam_mat,
 			[&](const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid) {
 			pt.AddLine(b, e, SELECT_COLOR);
 			pt.AddCircle(mid, NODE_QUERY_RADIUS, SELECT_COLOR);
 		});
 	}
 	// selected
-	m_selected.Traverse([&](const pm3::BrushEdge& edge)->bool {
-        ProjectBrushEdge(edge, m_vp, cam_mat,
+	m_selected.Traverse([&](const model::BrushModel::BrushEdgePtr& edge)->bool {
+        ProjectBrushEdge(brush, *edge, m_vp, cam_mat,
 			[&](const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid) {
 			pt.AddLine(b, e, SELECT_COLOR);
 			pt.AddCircleFilled(mid, NODE_DRAW_RADIUS, SELECT_COLOR);
@@ -55,11 +55,11 @@ void EdgeSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) co
 	pt2::RenderSystem::DrawPainter(pt);
 }
 
-pm3::BrushEdge EdgeSelectOP::QueryByPos(int x, int y) const
+model::BrushModel::BrushEdgePtr EdgeSelectOP::QueryByPos(int x, int y) const
 {
-	auto brush = m_base_selected.GetBrush();
-	if (!brush) {
-		return pm3::BrushEdge();
+    auto brush = m_base_selected.GetBrush();
+    if (!brush || !brush->impl) {
+		return nullptr;
 	}
 
 	auto pos = m_cam2d->TransPosScreenToProject(x, y,
@@ -71,11 +71,11 @@ pm3::BrushEdge EdgeSelectOP::QueryByPos(int x, int y) const
 		auto& vs = face->vertices;
 		for (int i = 0, n = vs.size(); i < n; ++i)
 		{
-			pm3::BrushEdge edge;
-            ProjectBrushEdge(pm3::BrushEdge(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,
+            model::BrushModel::BrushEdgePtr edge;
+            ProjectBrushEdge(*brush->impl, model::BrushModel::BrushEdge(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,
 				[&](const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid) {
 				if (sm::dis_pos_to_pos(mid, pos) < NODE_QUERY_RADIUS) {
-					edge = pm3::BrushEdge(vs[i], vs[(i + 1) % n]);
+					edge = std::make_shared<model::BrushModel::BrushEdge>(vs[i], vs[(i + 1) % n]);
 				}
 			});
 			if (edge) {
@@ -84,13 +84,13 @@ pm3::BrushEdge EdgeSelectOP::QueryByPos(int x, int y) const
 		}
 	}
 
-	return pm3::BrushEdge();
+	return nullptr;
 }
 
-void EdgeSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushEdge>& selection) const
+void EdgeSelectOP::QueryByRect(const sm::irect& rect, std::vector<model::BrushModel::BrushEdgePtr>& selection) const
 {
 	auto brush = m_base_selected.GetBrush();
-	if (!brush) {
+	if (!brush || !brush->impl) {
 		return;
 	}
 
@@ -106,21 +106,21 @@ void EdgeSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushEdge
 		auto& vs = face->vertices;
 		for (int i = 0, n = vs.size(); i < n; ++i)
 		{
-            ProjectBrushEdge(pm3::BrushEdge(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,
+            ProjectBrushEdge(*brush->impl, model::BrushModel::BrushEdge(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,
 				[&](const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid) {
 				if (sm::is_point_in_rect(mid, s_rect)) {
-					selection.push_back(pm3::BrushEdge(vs[i], vs[(i + 1) % n]));
+					selection.push_back(std::make_shared<model::BrushModel::BrushEdge>(vs[i], vs[(i + 1) % n]));
 				}
 			});
 		}
 	}
 }
 
-void EdgeSelectOP::ProjectBrushEdge(const pm3::BrushEdge& edge, const pt3::Viewport& vp, const sm::mat4& cam_mat,
+void EdgeSelectOP::ProjectBrushEdge(const pm3::Brush& brush, const model::BrushModel::BrushEdge& edge, const pt3::Viewport& vp, const sm::mat4& cam_mat,
                                     std::function<void(const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid)> func)
 {
-	auto b3 = edge.begin->pos * model::BrushBuilder::VERTEX_SCALE;
-	auto e3 = edge.end->pos * model::BrushBuilder::VERTEX_SCALE;
+	auto b3 = brush.vertices[edge.first]  * model::BrushBuilder::VERTEX_SCALE;
+	auto e3 = brush.vertices[edge.second] * model::BrushBuilder::VERTEX_SCALE;
 	auto b2 = vp.TransPosProj3ToProj2(b3, cam_mat);
 	auto e2 = vp.TransPosProj3ToProj2(e3, cam_mat);
 	auto mid2 = vp.TransPosProj3ToProj2((b3 + e3) * 0.5f, cam_mat);

@@ -48,7 +48,7 @@ void FaceSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) co
 pm3::BrushFacePtr FaceSelectOP::QueryByPos(int x, int y) const
 {
 	auto brush = m_base_selected.GetBrush();
-	if (!brush) {
+    if (!brush || !brush->impl) {
 		return nullptr;
 	}
 
@@ -69,7 +69,7 @@ pm3::BrushFacePtr FaceSelectOP::QueryByPos(int x, int y) const
 void FaceSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushFacePtr>& selection) const
 {
 	auto brush = m_base_selected.GetBrush();
-	if (!brush) {
+    if (!brush || !brush->impl) {
 		return;
 	}
 
@@ -90,13 +90,18 @@ void FaceSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushFace
 
 sm::vec2 FaceSelectOP::CalcFaceCenter(const pm3::BrushFace& face, const sm::mat4& cam_mat) const
 {
+    auto brush = m_base_selected.GetBrush();
+    if (!brush || !brush->impl) {
+        return sm::vec2(0, 0);
+    }
+
 	if (face.vertices.empty()) {
 		return sm::vec2(0, 0);
 	}
 
 	sm::vec3 center;
 	for (auto& v : face.vertices) {
-		center += v->pos;
+		center += brush->impl->vertices[v];
 	}
 	center /= face.vertices.size();
 
@@ -105,10 +110,15 @@ sm::vec2 FaceSelectOP::CalcFaceCenter(const pm3::BrushFace& face, const sm::mat4
 
 void FaceSelectOP::DrawFace(tess::Painter& pt, const pm3::BrushFace& face, uint32_t color, const sm::mat4& cam_mat) const
 {
+    auto brush = m_base_selected.GetBrush();
+    if (!brush || !brush->impl) {
+        return;
+    }
+
 	std::vector<sm::vec2> polygon;
 	polygon.reserve(face.vertices.size());
 	for (auto& v : face.vertices) {
-		auto p3 = v->pos * model::BrushBuilder::VERTEX_SCALE;
+		auto p3 = brush->impl->vertices[v] * model::BrushBuilder::VERTEX_SCALE;
 		polygon.push_back(m_vp.TransPosProj3ToProj2(p3, cam_mat));
 	}
 	pt.AddPolygonFilled(polygon.data(), polygon.size(), color);

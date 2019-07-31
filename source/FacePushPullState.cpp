@@ -140,11 +140,12 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	auto brush_model = static_cast<model::BrushModel*>(m_selected.model->ext.get());
 	auto& brushes = brush_model->GetBrushes();
 	assert(m_selected.brush_idx >= 0 && m_selected.brush_idx < static_cast<int>(brushes.size()));
-	auto& faces = brushes[m_selected.brush_idx].impl->faces;
+    auto& brush = brushes[m_selected.brush_idx];
+	auto& faces = brush.impl->faces;
 	assert(m_selected.face_idx < static_cast<int>(faces.size()));
 	auto& face = faces[m_selected.face_idx];
 	for (auto& vert : face->vertices) {
-		vert->pos += offset / model::BrushBuilder::VERTEX_SCALE;
+        brush.impl->vertices[vert] += offset / model::BrushBuilder::VERTEX_SCALE;
 	}
 
 	// halfedge geo
@@ -169,7 +170,6 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo
-    auto brush = brushes[m_selected.brush_idx];
 	model::BrushBuilder::UpdateVBO(*m_selected.model, *brush.impl, brush.desc);
 }
 

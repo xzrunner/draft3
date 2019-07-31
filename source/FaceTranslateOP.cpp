@@ -21,10 +21,15 @@ FaceTranslateOP::FaceTranslateOP(const std::shared_ptr<pt0::Camera>& camera,
 bool FaceTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::BrushFacePtr& face,
 	                             const sm::mat4& cam_mat) const
 {
+    auto brush = m_selected.GetBrush();
+    if (!brush || !brush->impl) {
+        return nullptr;
+    }
+
 	assert(!face->vertices.empty());
 	sm::vec3 c3;
 	for (auto& v : face->vertices) {
-		c3 += v->pos;
+        c3 += brush->impl->vertices[v];
 	}
 	c3 /= static_cast<float>(face->vertices.size());
 	c3 *= model::BrushBuilder::VERTEX_SCALE;
@@ -39,6 +44,11 @@ bool FaceTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::BrushFacePtr& f
 
 void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
 {
+    auto brush = m_selected.GetBrush();
+    if (!brush || !brush->impl) {
+        return;
+    }
+
 	auto& faces = m_selected.poly->GetFaces();
 	auto _offset = offset / model::BrushBuilder::VERTEX_SCALE;
 	m_selection.Traverse([&](const pm3::BrushFacePtr& face)->bool
@@ -46,7 +56,7 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
 		// update helfedge geo
 		sm::vec3 c0;
 		for (auto& v : face->vertices) {
-			c0 += v->pos;
+			c0 += brush->impl->vertices[v];
 		}
 		c0 /= static_cast<float>(face->vertices.size());
 		for (auto& f : faces)
@@ -76,7 +86,7 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
 
 		// update polymesh3 brush
 		for (auto& v : face->vertices) {
-			v->pos += _offset;
+            brush->impl->vertices[v] += _offset;
 		}
 
 		return true;
@@ -86,8 +96,6 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
 	m_selected.poly->UpdateAABB();
 
 	// update model aabb
-    auto brush = m_selected.GetBrush();
-    assert(brush);
 	sm::cube model_aabb;
 	model_aabb.Combine(brush->impl->geometry->GetAABB());
 	m_selected.model->aabb = model_aabb;
