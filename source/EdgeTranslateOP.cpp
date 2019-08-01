@@ -12,13 +12,13 @@ EdgeTranslateOP::EdgeTranslateOP(const std::shared_ptr<pt0::Camera>& camera,
 	                             const pt3::Viewport& vp,
 	                             const ee0::SubjectMgrPtr& sub_mgr,
 	                             const MeshPointQuery::Selected& selected,
-	                             const ee0::SelectionSet<model::BrushModel::BrushEdgePtr>& selection,
+	                             const ee0::SelectionSet<pm3::BrushEdgePtr>& selection,
 	                             std::function<void()> update_cb)
-	: MeshTranslateBaseOP<model::BrushModel::BrushEdgePtr>(camera, vp, sub_mgr, selected, selection, update_cb)
+	: MeshTranslateBaseOP<pm3::BrushEdgePtr>(camera, vp, sub_mgr, selected, selection, update_cb)
 {
 }
 
-bool EdgeTranslateOP::QueryByPos(const sm::vec2& pos, const model::BrushModel::BrushEdgePtr& edge,
+bool EdgeTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::BrushEdgePtr& edge,
 	                             const sm::mat4& cam_mat) const
 {
     auto brush = m_selected.GetBrush();
@@ -49,7 +49,7 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
 
 	auto& faces = m_selected.poly->GetFaces();
 	auto _offset = offset / model::BrushBuilder::VERTEX_SCALE;
-	m_selection.Traverse([&](const model::BrushModel::BrushEdgePtr& edge)->bool
+	m_selection.Traverse([&](const pm3::BrushEdgePtr& edge)->bool
 	{
 		// update helfedge geo
 		for (auto& f : faces)
@@ -89,7 +89,7 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo
-	model::BrushBuilder::UpdateVBO(*m_selected.model, *brush->impl, brush->desc);
+	model::BrushBuilder::UpdateVBO(*m_selected.model, *brush);
 }
 
 }

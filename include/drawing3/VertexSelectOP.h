@@ -2,14 +2,14 @@
 
 #include "drawing3/MeshSelectBaseOP.h"
 
-#include <model/BrushModel.h>
+#include <polymesh3/typedef.h>
 
 namespace dw3
 {
 namespace mesh
 {
 
-class VertexSelectOP : public MeshSelectBaseOP<model::BrushModel::BrushVertexPtr>
+class VertexSelectOP : public MeshSelectBaseOP<pm3::BrushVertexPtr>
 {
 public:
 	VertexSelectOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
@@ -18,8 +18,8 @@ public:
 protected:
 	virtual void DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) const override;
 
-	virtual model::BrushModel::BrushVertexPtr QueryByPos(int x, int y) const override;
-	virtual void QueryByRect(const sm::irect& rect, std::vector<model::BrushModel::BrushVertexPtr>& selection) const override;
+	virtual pm3::BrushVertexPtr QueryByPos(int x, int y) const override;
+	virtual void QueryByRect(const sm::irect& rect, std::vector<pm3::BrushVertexPtr>& selection) const override;
 
 }; // VertexSelectOP
 

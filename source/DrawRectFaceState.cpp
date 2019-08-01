@@ -11,7 +11,6 @@
 #include <painting3/PerspCam.h>
 #include <painting3/Viewport.h>
 #include <model/Model.h>
-#include <model/BrushModel.h>
 #include <model/BrushBuilder.h>
 #include <node0/SceneNode.h>
 #include <node0/CompIdentity.h>

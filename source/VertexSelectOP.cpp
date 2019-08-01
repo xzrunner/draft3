@@ -13,7 +13,7 @@ namespace mesh
 VertexSelectOP::VertexSelectOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
 	                           const ee0::SubjectMgrPtr& sub_mgr,
 	                           const MeshPointQuery::Selected& selected)
-	: MeshSelectBaseOP<model::BrushModel::BrushVertexPtr>(camera, vp, sub_mgr, selected)
+	: MeshSelectBaseOP<pm3::BrushVertexPtr>(camera, vp, sub_mgr, selected)
 {
 	m_selecting = nullptr;
 }
@@ -34,7 +34,7 @@ void VertexSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) 
 		pt.AddCircle(pos, NODE_QUERY_RADIUS, SELECT_COLOR);
 	}
 	// selected
-	m_selected.Traverse([&](const model::BrushModel::BrushVertexPtr& vert)->bool {
+	m_selected.Traverse([&](const pm3::BrushVertexPtr& vert)->bool {
 		auto pos = m_vp.TransPosProj3ToProj2(brush.vertices[*vert] * model::BrushBuilder::VERTEX_SCALE, cam_mat);
 		pt.AddCircleFilled(pos, NODE_DRAW_RADIUS, SELECT_COLOR);
 		return true;
@@ -44,7 +44,7 @@ void VertexSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) 
 	pt2::RenderSystem::DrawPainter(pt);
 }
 
-model::BrushModel::BrushVertexPtr VertexSelectOP::QueryByPos(int x, int y) const
+pm3::BrushVertexPtr VertexSelectOP::QueryByPos(int x, int y) const
 {
 	auto brush = m_base_selected.GetBrush();
 	if (!brush || !brush->impl) {
@@ -60,14 +60,14 @@ model::BrushModel::BrushVertexPtr VertexSelectOP::QueryByPos(int x, int y) const
     {
         auto p = m_vp.TransPosProj3ToProj2(brush->impl->vertices[i] * model::BrushBuilder::VERTEX_SCALE, cam_mat);
         if (sm::dis_pos_to_pos(p, pos) < NODE_QUERY_RADIUS) {
-            return std::make_shared<model::BrushModel::BrushVertex>(i);
+            return std::make_shared<pm3::BrushVertex>(i);
         }
     }
 
 	return nullptr;
 }
 
-void VertexSelectOP::QueryByRect(const sm::irect& rect, std::vector<model::BrushModel::BrushVertexPtr>& selection) const
+void VertexSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushVertexPtr>& selection) const
 {
 	auto brush = m_base_selected.GetBrush();
     if (!brush || !brush->impl) {
@@ -85,7 +85,7 @@ void VertexSelectOP::QueryByRect(const sm::irect& rect, std::vector<model::Brush
     {
 		auto p = m_vp.TransPosProj3ToProj2(brush->impl->vertices[i] * model::BrushBuilder::VERTEX_SCALE, cam_mat);
         if (sm::is_point_in_rect(p, s_rect)) {
-			selection.push_back(std::make_shared<model::BrushModel::BrushVertex>(i));
+			selection.push_back(std::make_shared<pm3::BrushVertex>(i));
 		}
 	}
 }

@@ -170,7 +170,7 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo
-	model::BrushBuilder::UpdateVBO(*m_selected.model, *brush.impl, brush.desc);
+	model::BrushBuilder::UpdateVBO(*m_selected.model, brush);
 }
 
 }

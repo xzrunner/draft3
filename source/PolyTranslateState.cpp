@@ -584,7 +584,7 @@ void PolyTranslateState::TranslateSelected(const sm::vec3& offset)
 
 	// update vbo
     auto& brush = brushes[m_selected.brush_idx];
-	model::BrushBuilder::UpdateVBO(*m_selected.model, *brush.impl, brush.desc);
+	model::BrushBuilder::UpdateVBO(*m_selected.model, brush);
 
 	// update m_selected border
 	m_update_cb();
