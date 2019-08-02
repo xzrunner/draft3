@@ -38,7 +38,7 @@ public:
 			node      = nullptr;
 		}
 
-		const model::BrushModel::BrushSingle*
+		const model::BrushModel::Brush*
             GetBrush() const;
 
 		sm::mat4          mat;
