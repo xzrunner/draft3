@@ -79,28 +79,31 @@ bool MeshPointQuery::Query(const he::PolyhedronPtr& poly, const n3::CompTransfor
 
 	bool find = false;
 	auto& faces = poly->GetFaces();
-	for (int i = 0, n = faces.size(); i < n; ++i)
-	{
-		auto& face = faces[i];
-
+    auto face = faces.Head();
+    int idx = 0;
+    do {
 		std::vector<sm::vec3> border;
-		face->GetBorder(border);
+        he::face_to_vertices(*face, border);
 		assert(border.size() > 2);
 		sm::vec3 cross_face;
 
 		if (!sm::ray_polygon_intersect(
 			ret.mat, border.data(), border.size(), ray, &cross_face)) {
+            ++idx;
+            face = face->linked_next;
 			continue;
 		}
 		float dist = sm::dis_pos3_to_pos3(cross_face, cam_pos);
 		if (dist >= ret.min_dist) {
+            ++idx;
+            face = face->linked_next;
 			continue;
 		}
 
 		ret.min_dist = dist;
 
 		ret.face = face;
-		ret.face_idx = i;
+		ret.face_idx = idx;
 
 		sm::vec3 intersect;
 		sm::Plane face_plane(
@@ -114,7 +117,11 @@ bool MeshPointQuery::Query(const he::PolyhedronPtr& poly, const n3::CompTransfor
 			ret.pos = intersect;
 			ret.normal = face_plane.normal;
 		}
-	}
+
+        ++idx;
+        face = face->linked_next;
+    } while (face != faces.Head());
+
 	return find;
 }
 

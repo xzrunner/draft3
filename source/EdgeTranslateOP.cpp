@@ -52,26 +52,30 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
 	m_selection.Traverse([&](const pm3::BrushEdgePtr& edge)->bool
 	{
 		// update helfedge geo
-		for (auto& f : faces)
-		{
-			auto start = f->start_edge;
+        auto f = faces.Head();
+        do {
+			auto start = f->edge;
 			auto curr = start;
 			do {
-				auto d0 = brush->impl->vertices[edge->first]  * model::BrushBuilder::VERTEX_SCALE - curr->origin->position;
-				auto d1 = brush->impl->vertices[edge->second] * model::BrushBuilder::VERTEX_SCALE - curr->next->origin->position;
+				auto d0 = brush->impl->vertices[edge->first] * model::BrushBuilder::VERTEX_SCALE - curr->vert->position;
 				if (fabs(d0.x) < SM_LARGE_EPSILON &&
 					fabs(d0.y) < SM_LARGE_EPSILON &&
-					fabs(d0.z) < SM_LARGE_EPSILON &&
-					fabs(d1.x) < SM_LARGE_EPSILON &&
-					fabs(d1.y) < SM_LARGE_EPSILON &&
-					fabs(d1.z) < SM_LARGE_EPSILON) {
-					curr->origin->position += offset;
-					curr->next->origin->position += offset;
+					fabs(d0.z) < SM_LARGE_EPSILON) {
+					curr->vert->position += offset;
 					break;
 				}
+                auto d1 = brush->impl->vertices[edge->second] * model::BrushBuilder::VERTEX_SCALE - curr->vert->position;
+                if (fabs(d1.x) < SM_LARGE_EPSILON &&
+                    fabs(d1.y) < SM_LARGE_EPSILON &&
+                    fabs(d1.z) < SM_LARGE_EPSILON) {
+                    curr->vert->position += offset;
+                    break;
+                }
 				curr = curr->next;
 			} while (curr != start);
-		}
+
+            f = f->linked_next;
+        } while (f != faces.Head());
 
 		// update polymesh3 brush
         brush->impl->vertices[edge->first]  += _offset;

@@ -54,7 +54,7 @@ bool FacePushPullState::OnMousePress(int x, int y)
 		sm::Ray ray(p_cam->GetPos(), ray_dir);
 		sm::vec3 intersect;
 		sm::Plane plane;
-		m_selected.face->GetPlane(plane);
+        he::face_to_plane(*m_selected.face, plane);
 		bool crossed = false;
 		if (crossed = sm::ray_plane_intersect(ray, plane, &intersect)) {
 			m_last_pos3d = intersect;
@@ -149,17 +149,11 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	}
 
 	// halfedge geo
-	auto start = m_selected.face->start_edge;
-	auto ptr = start;
-	while (ptr)
-	{
-		ptr->origin->position += offset;
-
-		ptr = ptr->next;
-		if (ptr == start) {
-			break;
-		}
-	}
+    auto edge = m_selected.face->edge;
+    do {
+        edge->vert->position += offset;
+        edge = edge->next;
+    } while (edge != m_selected.face->edge);
 	m_selected.poly->UpdateAABB();
 
 	// update model aabb

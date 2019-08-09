@@ -570,9 +570,11 @@ void PolyTranslateState::TranslateSelected(const sm::vec3& offset)
 
 	// update helfedge geo
 	auto& vertices = m_selected.poly->GetVertices();
-	for (auto& vert : vertices) {
-		vert->position += offset;
-	}
+    auto vert = vertices.Head();
+    do {
+        vert->position += offset;
+        vert = vert->linked_next;
+    } while (vert != vertices.Head());
 	m_selected.poly->UpdateAABB();
 
 	// update model aabb

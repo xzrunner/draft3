@@ -48,16 +48,18 @@ void VertexTranslateOP::TranslateSelected(const sm::vec3& offset)
 	m_selection.Traverse([&](const pm3::BrushVertexPtr& vert)->bool
 	{
 		// update helfedge geo
-		for (auto& v : vertices)
-		{
-			auto d = brush->impl->vertices[*vert] * model::BrushBuilder::VERTEX_SCALE - v->position;
-			if (fabs(d.x) < SM_LARGE_EPSILON &&
-				fabs(d.y) < SM_LARGE_EPSILON &&
-				fabs(d.z) < SM_LARGE_EPSILON) {
-				v->position += offset;
-				break;
-			}
-		}
+        auto v = vertices.Head();
+        do {
+            auto d = brush->impl->vertices[*vert] * model::BrushBuilder::VERTEX_SCALE - v->position;
+            if (fabs(d.x) < SM_LARGE_EPSILON &&
+                fabs(d.y) < SM_LARGE_EPSILON &&
+                fabs(d.z) < SM_LARGE_EPSILON) {
+                v->position += offset;
+                break;
+            }
+
+            v = v->linked_next;
+        } while (v != vertices.Head());
 
 		// update polymesh3 brush
         brush->impl->vertices[*vert] += _offset;

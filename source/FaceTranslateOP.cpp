@@ -59,30 +59,32 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
 			c0 += brush->impl->vertices[v];
 		}
 		c0 /= static_cast<float>(face->vertices.size());
-		for (auto& f : faces)
-		{
+        auto f = faces.Head();
+        do {
 			sm::vec3 c1;
-			auto curr = f->start_edge;
+			auto curr = f->edge;
 			int count = 0;
 			do {
-				c1 += curr->origin->position;
+				c1 += curr->vert->position;
 				curr = curr->next;
 				++count;
-			} while (curr != f->start_edge);
+			} while (curr != f->edge);
 			c1 /= static_cast<float>(count);
 			auto d = c0 * model::BrushBuilder::VERTEX_SCALE - c1;
 			if (fabs(d.x) < SM_LARGE_EPSILON &&
 				fabs(d.y) < SM_LARGE_EPSILON &&
 				fabs(d.z) < SM_LARGE_EPSILON)
 			{
-				auto curr = f->start_edge;
+				auto curr = f->edge;
 				do {
-					curr->origin->position += offset;
+					curr->vert->position += offset;
 					curr = curr->next;
-				} while (curr != f->start_edge);
+				} while (curr != f->edge);
 				break;
 			}
-		}
+
+            f = f->linked_next;
+        } while (f != faces.Head());
 
 		// update polymesh3 brush
 		for (auto& v : face->vertices) {
