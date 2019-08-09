@@ -105,7 +105,7 @@ sm::vec2 FaceSelectOP::CalcFaceCenter(const pm3::BrushFace& face, const sm::mat4
 	}
 	center /= face.vertices.size();
 
-	return m_vp.TransPosProj3ToProj2(center * model::BrushBuilder::VERTEX_SCALE, cam_mat);
+	return m_vp.TransPosProj3ToProj2(center, cam_mat);
 }
 
 void FaceSelectOP::DrawFace(tess::Painter& pt, const pm3::BrushFace& face, uint32_t color, const sm::mat4& cam_mat) const
@@ -118,7 +118,7 @@ void FaceSelectOP::DrawFace(tess::Painter& pt, const pm3::BrushFace& face, uint3
 	std::vector<sm::vec2> polygon;
 	polygon.reserve(face.vertices.size());
 	for (auto& v : face.vertices) {
-		auto p3 = brush->impl->vertices[v] * model::BrushBuilder::VERTEX_SCALE;
+		auto p3 = brush->impl->vertices[v];
 		polygon.push_back(m_vp.TransPosProj3ToProj2(p3, cam_mat));
 	}
 	pt.AddPolygonFilled(polygon.data(), polygon.size(), color);

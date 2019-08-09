@@ -119,8 +119,8 @@ void EdgeSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushEdge
 void EdgeSelectOP::ProjectBrushEdge(const pm3::Brush& brush, const pm3::BrushEdge& edge, const pt3::Viewport& vp, const sm::mat4& cam_mat,
                                     std::function<void(const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid)> func)
 {
-	auto b3 = brush.vertices[edge.first]  * model::BrushBuilder::VERTEX_SCALE;
-	auto e3 = brush.vertices[edge.second] * model::BrushBuilder::VERTEX_SCALE;
+	auto b3 = brush.vertices[edge.first] ;
+	auto e3 = brush.vertices[edge.second];
 	auto b2 = vp.TransPosProj3ToProj2(b3, cam_mat);
 	auto e2 = vp.TransPosProj3ToProj2(e3, cam_mat);
 	auto mid2 = vp.TransPosProj3ToProj2((b3 + e3) * 0.5f, cam_mat);

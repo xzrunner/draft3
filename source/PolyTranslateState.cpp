@@ -565,7 +565,7 @@ void PolyTranslateState::TranslateSelected(const sm::vec3& offset)
 	auto& brushes = brush_model->GetBrushes();
 	assert(m_selected.brush_idx >= 0 && m_selected.brush_idx < static_cast<int>(brushes.size()));
 	for (auto& vert : brushes[m_selected.brush_idx].impl->vertices) {
-		vert += offset / model::BrushBuilder::VERTEX_SCALE;
+		vert += offset;
 	}
 
 	// update helfedge geo

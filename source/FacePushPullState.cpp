@@ -145,7 +145,7 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	assert(m_selected.face_idx < static_cast<int>(faces.size()));
 	auto& face = faces[m_selected.face_idx];
 	for (auto& vert : face->vertices) {
-        brush.impl->vertices[vert] += offset / model::BrushBuilder::VERTEX_SCALE;
+        brush.impl->vertices[vert] += offset;
 	}
 
 	// halfedge geo

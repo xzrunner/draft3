@@ -26,7 +26,7 @@ bool VertexTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::BrushVertexPt
         return nullptr;
     }
 
-	auto p3 = brush->impl->vertices[*vert] * model::BrushBuilder::VERTEX_SCALE;
+	auto p3 = brush->impl->vertices[*vert];
 	auto p2 = m_vp.TransPosProj3ToProj2(p3, cam_mat);
 	if (sm::dis_pos_to_pos(p2, pos) < NODE_QUERY_RADIUS) {
 		m_last_pos3 = p3;
@@ -44,13 +44,12 @@ void VertexTranslateOP::TranslateSelected(const sm::vec3& offset)
     }
 
 	auto& vertices = m_selected.poly->GetVertices();
-	auto _offset = offset / model::BrushBuilder::VERTEX_SCALE;
 	m_selection.Traverse([&](const pm3::BrushVertexPtr& vert)->bool
 	{
 		// update helfedge geo
         auto v = vertices.Head();
         do {
-            auto d = brush->impl->vertices[*vert] * model::BrushBuilder::VERTEX_SCALE - v->position;
+            auto d = brush->impl->vertices[*vert] - v->position;
             if (fabs(d.x) < SM_LARGE_EPSILON &&
                 fabs(d.y) < SM_LARGE_EPSILON &&
                 fabs(d.z) < SM_LARGE_EPSILON) {
@@ -62,7 +61,7 @@ void VertexTranslateOP::TranslateSelected(const sm::vec3& offset)
         } while (v != vertices.Head());
 
 		// update polymesh3 brush
-        brush->impl->vertices[*vert] += _offset;
+        brush->impl->vertices[*vert] += offset;
 
 		return true;
 	});

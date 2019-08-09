@@ -24,18 +24,18 @@ void VertexSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) 
 
 	// all nodes
 	for (auto& v : brush.vertices) {
-		auto pos = m_vp.TransPosProj3ToProj2(v * model::BrushBuilder::VERTEX_SCALE, cam_mat);
+		auto pos = m_vp.TransPosProj3ToProj2(v, cam_mat);
 		pt.AddCircleFilled(pos, NODE_DRAW_RADIUS, UNSELECT_COLOR);
 	}
 	// selecting
 	if (m_selecting)
 	{
-		auto pos = m_vp.TransPosProj3ToProj2(brush.vertices[*m_selecting] * model::BrushBuilder::VERTEX_SCALE, cam_mat);
+		auto pos = m_vp.TransPosProj3ToProj2(brush.vertices[*m_selecting], cam_mat);
 		pt.AddCircle(pos, NODE_QUERY_RADIUS, SELECT_COLOR);
 	}
 	// selected
 	m_selected.Traverse([&](const pm3::BrushVertexPtr& vert)->bool {
-		auto pos = m_vp.TransPosProj3ToProj2(brush.vertices[*vert] * model::BrushBuilder::VERTEX_SCALE, cam_mat);
+		auto pos = m_vp.TransPosProj3ToProj2(brush.vertices[*vert], cam_mat);
 		pt.AddCircleFilled(pos, NODE_DRAW_RADIUS, SELECT_COLOR);
 		return true;
 	});
@@ -58,7 +58,7 @@ pm3::BrushVertexPtr VertexSelectOP::QueryByPos(int x, int y) const
 
     for (int i = 0, n = brush->impl->vertices.size(); i < n; ++i)
     {
-        auto p = m_vp.TransPosProj3ToProj2(brush->impl->vertices[i] * model::BrushBuilder::VERTEX_SCALE, cam_mat);
+        auto p = m_vp.TransPosProj3ToProj2(brush->impl->vertices[i], cam_mat);
         if (sm::dis_pos_to_pos(p, pos) < NODE_QUERY_RADIUS) {
             return std::make_shared<pm3::BrushVertex>(i);
         }
@@ -83,7 +83,7 @@ void VertexSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushVe
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
     for (int i = 0, n = brush->impl->vertices.size(); i < n; ++i)
     {
-		auto p = m_vp.TransPosProj3ToProj2(brush->impl->vertices[i] * model::BrushBuilder::VERTEX_SCALE, cam_mat);
+		auto p = m_vp.TransPosProj3ToProj2(brush->impl->vertices[i], cam_mat);
         if (sm::is_point_in_rect(p, s_rect)) {
 			selection.push_back(std::make_shared<pm3::BrushVertex>(i));
 		}
