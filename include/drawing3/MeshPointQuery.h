@@ -11,7 +11,7 @@
 
 namespace n3 { class CompTransform; }
 namespace model { struct Model; }
-namespace pm3 { struct Brush; }
+namespace pm3 { class Polytope; }
 
 namespace dw3
 {

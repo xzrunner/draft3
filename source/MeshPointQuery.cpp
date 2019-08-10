@@ -3,7 +3,7 @@
 #include <SM_Calc.h>
 #include <SM_Ray.h>
 #include <SM_RayIntersect.h>
-#include <polymesh3/Brush.h>
+#include <polymesh3/Geometry.h>
 #include <model/Model.h>
 #include <model/BrushModel.h>
 #include <node0/SceneNode.h>
@@ -46,7 +46,7 @@ bool MeshPointQuery::Query(const ee0::GameObj& obj, const sm::Ray& ray,
 	for (int i = 0, n = brushes.size(); i < n; ++i)
 	{
 		auto& brush = brushes[i];
-		if (!Query(brush.impl->geometry, ctrans, ray, cam_pos, ret)) {
+		if (!Query(brush.impl->GetHalfedge(), ctrans, ray, cam_pos, ret)) {
 			continue;
 		}
 

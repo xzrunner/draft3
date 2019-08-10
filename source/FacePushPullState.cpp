@@ -5,8 +5,8 @@
 #include <ee0/MessageID.h>
 
 #include <SM_RayIntersect.h>
+#include <polymesh3/Geometry.h>
 #include <tessellation/Painter.h>
-#include <polymesh3/Brush.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/Viewport.h>
@@ -141,11 +141,11 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	auto& brushes = brush_model->GetBrushes();
 	assert(m_selected.brush_idx >= 0 && m_selected.brush_idx < static_cast<int>(brushes.size()));
     auto& brush = brushes[m_selected.brush_idx];
-	auto& faces = brush.impl->faces;
+	auto& faces = brush.impl->Faces();
 	assert(m_selected.face_idx < static_cast<int>(faces.size()));
 	auto& face = faces[m_selected.face_idx];
-	for (auto& vert : face->vertices) {
-        brush.impl->vertices[vert] += offset;
+	for (auto& vert : face->points) {
+        brush.impl->Points()[vert] += offset;
 	}
 
 	// halfedge geo
@@ -159,7 +159,7 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	// update model aabb
 	sm::cube model_aabb;
 	for (auto& brush : brushes) {
-		model_aabb.Combine(brush.impl->geometry->GetAABB());
+		model_aabb.Combine(brush.impl->GetHalfedge()->GetAABB());
 	}
 	m_selected.model->aabb = model_aabb;
 

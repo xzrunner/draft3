@@ -11,7 +11,7 @@
 
 namespace pt2 { class OrthoCamera; }
 namespace pt3 { class Viewport; }
-namespace pm3 { struct Brush; }
+namespace pm3 { class Polytope; }
 
 namespace dw3
 {
@@ -39,7 +39,7 @@ public:
 	}
 
 protected:
-	virtual void DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) const = 0;
+	virtual void DrawImpl(const pm3::Polytope& poly, const sm::mat4& cam_mat) const = 0;
 
 	virtual T QueryByPos(int x, int y) const = 0;
 	virtual void QueryByRect(const sm::irect& rect, std::vector<T>& selection) const = 0;

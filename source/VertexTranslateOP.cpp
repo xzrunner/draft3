@@ -1,6 +1,6 @@
 #include "drawing3/VertexTranslateOP.h"
 
-#include <polymesh3/Brush.h>
+#include <polymesh3/Geometry.h>
 #include <model/Model.h>
 
 namespace dw3
@@ -12,13 +12,13 @@ VertexTranslateOP::VertexTranslateOP(const std::shared_ptr<pt0::Camera>& camera,
 	                                 const pt3::Viewport& vp,
 	                                 const ee0::SubjectMgrPtr& sub_mgr,
 	                                 const MeshPointQuery::Selected& selected,
-	                                 const ee0::SelectionSet<pm3::BrushVertexPtr>& selection,
+	                                 const ee0::SelectionSet<pm3::PointPtr>& selection,
 	                                 std::function<void()> update_cb)
-	: MeshTranslateBaseOP<pm3::BrushVertexPtr>(camera, vp, sub_mgr, selected, selection, update_cb)
+	: MeshTranslateBaseOP<pm3::PointPtr>(camera, vp, sub_mgr, selected, selection, update_cb)
 {
 }
 
-bool VertexTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::BrushVertexPtr& vert,
+bool VertexTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::PointPtr& vert,
 	                               const sm::mat4& cam_mat) const
 {
     auto brush = m_selected.GetBrush();
@@ -26,7 +26,7 @@ bool VertexTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::BrushVertexPt
         return nullptr;
     }
 
-	auto p3 = brush->impl->vertices[*vert];
+	auto p3 = brush->impl->Points()[*vert];
 	auto p2 = m_vp.TransPosProj3ToProj2(p3, cam_mat);
 	if (sm::dis_pos_to_pos(p2, pos) < NODE_QUERY_RADIUS) {
 		m_last_pos3 = p3;
@@ -44,12 +44,12 @@ void VertexTranslateOP::TranslateSelected(const sm::vec3& offset)
     }
 
 	auto& vertices = m_selected.poly->GetVertices();
-	m_selection.Traverse([&](const pm3::BrushVertexPtr& vert)->bool
+	m_selection.Traverse([&](const pm3::PointPtr& vert)->bool
 	{
 		// update helfedge geo
         auto v = vertices.Head();
         do {
-            auto d = brush->impl->vertices[*vert] - v->position;
+            auto d = brush->impl->Points()[*vert] - v->position;
             if (fabs(d.x) < SM_LARGE_EPSILON &&
                 fabs(d.y) < SM_LARGE_EPSILON &&
                 fabs(d.z) < SM_LARGE_EPSILON) {
@@ -61,7 +61,7 @@ void VertexTranslateOP::TranslateSelected(const sm::vec3& offset)
         } while (v != vertices.Head());
 
 		// update polymesh3 brush
-        brush->impl->vertices[*vert] += offset;
+        brush->impl->Points()[*vert] += offset;
 
 		return true;
 	});
@@ -71,7 +71,7 @@ void VertexTranslateOP::TranslateSelected(const sm::vec3& offset)
 
 	// update model aabb
 	sm::cube model_aabb;
-	model_aabb.Combine(brush->impl->geometry->GetAABB());
+	model_aabb.Combine(brush->impl->GetHalfedge()->GetAABB());
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo

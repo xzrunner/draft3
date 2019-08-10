@@ -1,7 +1,7 @@
 #include "drawing3/FaceSelectOP.h"
 
+#include <polymesh3/Geometry.h>
 #include <tessellation/Painter.h>
-#include <polymesh3/Brush.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
 
@@ -13,16 +13,16 @@ namespace mesh
 FaceSelectOP::FaceSelectOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
 	                       const ee0::SubjectMgrPtr& sub_mgr,
 	                       const MeshPointQuery::Selected& selected)
-	: MeshSelectBaseOP<pm3::BrushFacePtr>(camera, vp, sub_mgr, selected)
+	: MeshSelectBaseOP<pm3::FacePtr>(camera, vp, sub_mgr, selected)
 {
 	m_selecting = nullptr;
 }
 
-void FaceSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) const
+void FaceSelectOP::DrawImpl(const pm3::Polytope& poly, const sm::mat4& cam_mat) const
 {
 	tess::Painter pt;
 	// all nodes
-	for (auto& f : brush.faces)
+	for (auto& f : poly.Faces())
 	{
 		auto center = CalcFaceCenter(*f, cam_mat);
 		DrawFace(pt, *f, LIGHT_UNSELECT_COLOR, cam_mat);
@@ -35,7 +35,7 @@ void FaceSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) co
 		pt.AddCircle(center, NODE_QUERY_RADIUS, SELECT_COLOR);
 	}
 	// selected
-	m_selected.Traverse([&](const pm3::BrushFacePtr& face)->bool
+	m_selected.Traverse([&](const pm3::FacePtr& face)->bool
 	{
 		DrawFace(pt, *face, LIGHT_SELECT_COLOR, cam_mat);
 		auto center = CalcFaceCenter(*face, cam_mat);
@@ -45,7 +45,7 @@ void FaceSelectOP::DrawImpl(const pm3::Brush& brush, const sm::mat4& cam_mat) co
 	pt2::RenderSystem::DrawPainter(pt);
 }
 
-pm3::BrushFacePtr FaceSelectOP::QueryByPos(int x, int y) const
+pm3::FacePtr FaceSelectOP::QueryByPos(int x, int y) const
 {
 	auto brush = m_base_selected.GetBrush();
     if (!brush || !brush->impl) {
@@ -56,7 +56,7 @@ pm3::BrushFacePtr FaceSelectOP::QueryByPos(int x, int y) const
 		static_cast<int>(m_vp.Width()), static_cast<int>(m_vp.Height()));
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	for (auto& f : brush->impl->faces) {
+	for (auto& f : brush->impl->Faces()) {
 		auto center = CalcFaceCenter(*f, cam_mat);
 		if (sm::dis_pos_to_pos(center, pos) < NODE_QUERY_RADIUS) {
 			return f;
@@ -66,7 +66,7 @@ pm3::BrushFacePtr FaceSelectOP::QueryByPos(int x, int y) const
 	return nullptr;
 }
 
-void FaceSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushFacePtr>& selection) const
+void FaceSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::FacePtr>& selection) const
 {
 	auto brush = m_base_selected.GetBrush();
     if (!brush || !brush->impl) {
@@ -80,7 +80,7 @@ void FaceSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushFace
 	sm::rect s_rect(r_min, r_max);
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	for (auto& f : brush->impl->faces) {
+	for (auto& f : brush->impl->Faces()) {
 		auto center = CalcFaceCenter(*f, cam_mat);
 		if (sm::is_point_in_rect(center, s_rect)) {
 			selection.push_back(f);
@@ -88,27 +88,27 @@ void FaceSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::BrushFace
 	}
 }
 
-sm::vec2 FaceSelectOP::CalcFaceCenter(const pm3::BrushFace& face, const sm::mat4& cam_mat) const
+sm::vec2 FaceSelectOP::CalcFaceCenter(const pm3::Face& face, const sm::mat4& cam_mat) const
 {
     auto brush = m_base_selected.GetBrush();
     if (!brush || !brush->impl) {
         return sm::vec2(0, 0);
     }
 
-	if (face.vertices.empty()) {
+	if (face.points.empty()) {
 		return sm::vec2(0, 0);
 	}
 
 	sm::vec3 center;
-	for (auto& v : face.vertices) {
-		center += brush->impl->vertices[v];
+	for (auto& v : face.points) {
+		center += brush->impl->Points()[v];
 	}
-	center /= face.vertices.size();
+	center /= face.points.size();
 
 	return m_vp.TransPosProj3ToProj2(center, cam_mat);
 }
 
-void FaceSelectOP::DrawFace(tess::Painter& pt, const pm3::BrushFace& face, uint32_t color, const sm::mat4& cam_mat) const
+void FaceSelectOP::DrawFace(tess::Painter& pt, const pm3::Face& face, uint32_t color, const sm::mat4& cam_mat) const
 {
     auto brush = m_base_selected.GetBrush();
     if (!brush || !brush->impl) {
@@ -116,9 +116,9 @@ void FaceSelectOP::DrawFace(tess::Painter& pt, const pm3::BrushFace& face, uint3
     }
 
 	std::vector<sm::vec2> polygon;
-	polygon.reserve(face.vertices.size());
-	for (auto& v : face.vertices) {
-		auto p3 = brush->impl->vertices[v];
+	polygon.reserve(face.points.size());
+	for (auto& v : face.points) {
+		auto p3 = brush->impl->Points()[v];
 		polygon.push_back(m_vp.TransPosProj3ToProj2(p3, cam_mat));
 	}
 	pt.AddPolygonFilled(polygon.data(), polygon.size(), color);

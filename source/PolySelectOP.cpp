@@ -7,7 +7,7 @@
 #include <ee0/color_config.h>
 #include <ee0/MsgHelper.h>
 
-#include <polymesh3/Brush.h>
+#include <polymesh3/Geometry.h>
 #include <model/Model.h>
 #include <model/BrushModel.h>
 #include <node0/SceneNode.h>
@@ -239,7 +239,7 @@ void PolySelectOP::SetSelected(const n0::SceneNodePtr& node)
 		return;
 	}
 
-	m_selected.poly      = brushes[0].impl->geometry;
+	m_selected.poly      = brushes[0].impl->GetHalfedge();
 	m_selected.model     = model->GetModel();
 	m_selected.brush_idx = 0;
 	m_selected.node      = node;

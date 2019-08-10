@@ -1,6 +1,6 @@
 #include "drawing3/FaceTranslateOP.h"
 
-#include <polymesh3/Brush.h>
+#include <polymesh3/Geometry.h>
 #include <model/Model.h>
 
 namespace dw3
@@ -12,13 +12,13 @@ FaceTranslateOP::FaceTranslateOP(const std::shared_ptr<pt0::Camera>& camera,
 	                             const pt3::Viewport& vp,
 	                             const ee0::SubjectMgrPtr& sub_mgr,
 	                             const MeshPointQuery::Selected& selected,
-	                             const ee0::SelectionSet<pm3::BrushFacePtr>& selection,
+	                             const ee0::SelectionSet<pm3::FacePtr>& selection,
 	                             std::function<void()> update_cb)
-	: MeshTranslateBaseOP<pm3::BrushFacePtr>(camera, vp, sub_mgr, selected, selection, update_cb)
+	: MeshTranslateBaseOP<pm3::FacePtr>(camera, vp, sub_mgr, selected, selection, update_cb)
 {
 }
 
-bool FaceTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::BrushFacePtr& face,
+bool FaceTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::FacePtr& face,
 	                             const sm::mat4& cam_mat) const
 {
     auto brush = m_selected.GetBrush();
@@ -26,12 +26,12 @@ bool FaceTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::BrushFacePtr& f
         return nullptr;
     }
 
-	assert(!face->vertices.empty());
+	assert(!face->points.empty());
 	sm::vec3 c3;
-	for (auto& v : face->vertices) {
-        c3 += brush->impl->vertices[v];
+	for (auto& v : face->points) {
+        c3 += brush->impl->Points()[v];
 	}
-	c3 /= static_cast<float>(face->vertices.size());
+	c3 /= static_cast<float>(face->points.size());
 	auto c2 = m_vp.TransPosProj3ToProj2(c3, cam_mat);
 	if (sm::dis_pos_to_pos(c2, pos) < NODE_QUERY_RADIUS) {
 		m_last_pos3 = c3;
@@ -49,14 +49,14 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
     }
 
 	auto& faces = m_selected.poly->GetFaces();
-	m_selection.Traverse([&](const pm3::BrushFacePtr& face)->bool
+	m_selection.Traverse([&](const pm3::FacePtr& face)->bool
 	{
 		// update helfedge geo
 		sm::vec3 c0;
-		for (auto& v : face->vertices) {
-			c0 += brush->impl->vertices[v];
+		for (auto& v : face->points) {
+			c0 += brush->impl->Points()[v];
 		}
-		c0 /= static_cast<float>(face->vertices.size());
+		c0 /= static_cast<float>(face->points.size());
         auto f = faces.Head();
         do {
 			sm::vec3 c1;
@@ -85,8 +85,8 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
         } while (f != faces.Head());
 
 		// update polymesh3 brush
-		for (auto& v : face->vertices) {
-            brush->impl->vertices[v] += offset;
+		for (auto& v : face->points) {
+            brush->impl->Points()[v] += offset;
 		}
 
 		return true;
@@ -97,7 +97,7 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
 
 	// update model aabb
 	sm::cube model_aabb;
-	model_aabb.Combine(brush->impl->geometry->GetAABB());
+	model_aabb.Combine(brush->impl->GetHalfedge()->GetAABB());
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo

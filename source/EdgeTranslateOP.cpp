@@ -1,6 +1,6 @@
 #include "drawing3/EdgeTranslateOP.h"
 
-#include <polymesh3/Brush.h>
+#include <polymesh3/Geometry.h>
 #include <model/Model.h>
 
 namespace dw3
@@ -12,13 +12,13 @@ EdgeTranslateOP::EdgeTranslateOP(const std::shared_ptr<pt0::Camera>& camera,
 	                             const pt3::Viewport& vp,
 	                             const ee0::SubjectMgrPtr& sub_mgr,
 	                             const MeshPointQuery::Selected& selected,
-	                             const ee0::SelectionSet<pm3::BrushEdgePtr>& selection,
+	                             const ee0::SelectionSet<pm3::EdgePtr>& selection,
 	                             std::function<void()> update_cb)
-	: MeshTranslateBaseOP<pm3::BrushEdgePtr>(camera, vp, sub_mgr, selected, selection, update_cb)
+	: MeshTranslateBaseOP<pm3::EdgePtr>(camera, vp, sub_mgr, selected, selection, update_cb)
 {
 }
 
-bool EdgeTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::BrushEdgePtr& edge,
+bool EdgeTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::EdgePtr& edge,
 	                             const sm::mat4& cam_mat) const
 {
     auto brush = m_selected.GetBrush();
@@ -26,8 +26,8 @@ bool EdgeTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::BrushEdgePtr& e
         return nullptr;
     }
 
-	auto b3 = brush->impl->vertices[edge->first] ;
-	auto e3 = brush->impl->vertices[edge->second];
+	auto b3 = brush->impl->Points()[edge->first] ;
+	auto e3 = brush->impl->Points()[edge->second];
 	auto mid3 = (b3 + e3) * 0.5f;
 	auto b2 = m_vp.TransPosProj3ToProj2(b3, cam_mat);
 	auto e2 = m_vp.TransPosProj3ToProj2(e3, cam_mat);
@@ -48,7 +48,7 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
     }
 
 	auto& faces = m_selected.poly->GetFaces();
-	m_selection.Traverse([&](const pm3::BrushEdgePtr& edge)->bool
+	m_selection.Traverse([&](const pm3::EdgePtr& edge)->bool
 	{
 		// update helfedge geo
         auto f = faces.Head();
@@ -56,14 +56,14 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
 			auto start = f->edge;
 			auto curr = start;
 			do {
-				auto d0 = brush->impl->vertices[edge->first] - curr->vert->position;
+				auto d0 = brush->impl->Points()[edge->first] - curr->vert->position;
 				if (fabs(d0.x) < SM_LARGE_EPSILON &&
 					fabs(d0.y) < SM_LARGE_EPSILON &&
 					fabs(d0.z) < SM_LARGE_EPSILON) {
 					curr->vert->position += offset;
 					break;
 				}
-                auto d1 = brush->impl->vertices[edge->second] - curr->vert->position;
+                auto d1 = brush->impl->Points()[edge->second] - curr->vert->position;
                 if (fabs(d1.x) < SM_LARGE_EPSILON &&
                     fabs(d1.y) < SM_LARGE_EPSILON &&
                     fabs(d1.z) < SM_LARGE_EPSILON) {
@@ -77,8 +77,8 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
         } while (f != faces.Head());
 
 		// update polymesh3 brush
-        brush->impl->vertices[edge->first]  += offset;
-        brush->impl->vertices[edge->second] += offset;
+        brush->impl->Points()[edge->first]  += offset;
+        brush->impl->Points()[edge->second] += offset;
 
 		return true;
 	});
@@ -88,7 +88,7 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
 
 	// update model aabb
 	sm::cube model_aabb;
-	model_aabb.Combine(brush->impl->geometry->GetAABB());
+	model_aabb.Combine(brush->impl->GetHalfedge()->GetAABB());
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo
