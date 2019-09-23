@@ -29,7 +29,7 @@ bool FaceTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::FacePtr& face,
 	assert(!face->points.empty());
 	sm::vec3 c3;
 	for (auto& v : face->points) {
-        c3 += brush->impl->Points()[v];
+        c3 += brush->impl->Points()[v]->pos;
 	}
 	c3 /= static_cast<float>(face->points.size());
 	auto c2 = m_vp.TransPosProj3ToProj2(c3, cam_mat);
@@ -54,7 +54,7 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
 		// update helfedge geo
 		sm::vec3 c0;
 		for (auto& v : face->points) {
-			c0 += brush->impl->Points()[v];
+			c0 += brush->impl->Points()[v]->pos;
 		}
 		c0 /= static_cast<float>(face->points.size());
         auto f = faces.Head();
@@ -86,7 +86,7 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
 
 		// update polymesh3 brush
 		for (auto& v : face->points) {
-            brush->impl->Points()[v] += offset;
+            brush->impl->Points()[v]->pos += offset;
 		}
 
 		return true;

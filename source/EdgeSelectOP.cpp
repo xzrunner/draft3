@@ -119,8 +119,8 @@ void EdgeSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::EdgePtr>&
 void EdgeSelectOP::ProjectBrushEdge(const pm3::Polytope& poly, const pm3::EdgeIndex& edge, const pt3::Viewport& vp, const sm::mat4& cam_mat,
                                     std::function<void(const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid)> func)
 {
-	auto b3 = poly.Points()[edge.first] ;
-	auto e3 = poly.Points()[edge.second];
+	auto b3 = poly.Points()[edge.first]->pos;
+	auto e3 = poly.Points()[edge.second]->pos;
 	auto b2 = vp.TransPosProj3ToProj2(b3, cam_mat);
 	auto e2 = vp.TransPosProj3ToProj2(e3, cam_mat);
 	auto mid2 = vp.TransPosProj3ToProj2((b3 + e3) * 0.5f, cam_mat);

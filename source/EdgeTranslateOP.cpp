@@ -26,8 +26,8 @@ bool EdgeTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::EdgePtr& edge,
         return nullptr;
     }
 
-	auto b3 = brush->impl->Points()[edge->first] ;
-	auto e3 = brush->impl->Points()[edge->second];
+	auto b3 = brush->impl->Points()[edge->first]->pos;
+	auto e3 = brush->impl->Points()[edge->second]->pos;
 	auto mid3 = (b3 + e3) * 0.5f;
 	auto b2 = m_vp.TransPosProj3ToProj2(b3, cam_mat);
 	auto e2 = m_vp.TransPosProj3ToProj2(e3, cam_mat);
@@ -56,14 +56,14 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
 			auto start = f->edge;
 			auto curr = start;
 			do {
-				auto d0 = brush->impl->Points()[edge->first] - curr->vert->position;
+				auto d0 = brush->impl->Points()[edge->first]->pos - curr->vert->position;
 				if (fabs(d0.x) < SM_LARGE_EPSILON &&
 					fabs(d0.y) < SM_LARGE_EPSILON &&
 					fabs(d0.z) < SM_LARGE_EPSILON) {
 					curr->vert->position += offset;
 					break;
 				}
-                auto d1 = brush->impl->Points()[edge->second] - curr->vert->position;
+                auto d1 = brush->impl->Points()[edge->second]->pos - curr->vert->position;
                 if (fabs(d1.x) < SM_LARGE_EPSILON &&
                     fabs(d1.y) < SM_LARGE_EPSILON &&
                     fabs(d1.z) < SM_LARGE_EPSILON) {
@@ -77,8 +77,8 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
         } while (f != faces.Head());
 
 		// update polymesh3 brush
-        brush->impl->Points()[edge->first]  += offset;
-        brush->impl->Points()[edge->second] += offset;
+        brush->impl->Points()[edge->first]->pos  += offset;
+        brush->impl->Points()[edge->second]->pos += offset;
 
 		return true;
 	});

@@ -24,18 +24,18 @@ void VertexSelectOP::DrawImpl(const pm3::Polytope& poly, const sm::mat4& cam_mat
 
 	// all nodes
 	for (auto& p : poly.Points()) {
-		auto pos = m_vp.TransPosProj3ToProj2(p, cam_mat);
+		auto pos = m_vp.TransPosProj3ToProj2(p->pos, cam_mat);
 		pt.AddCircleFilled(pos, NODE_DRAW_RADIUS, UNSELECT_COLOR);
 	}
 	// selecting
 	if (m_selecting)
 	{
-		auto pos = m_vp.TransPosProj3ToProj2(poly.Points()[*m_selecting], cam_mat);
+		auto pos = m_vp.TransPosProj3ToProj2(m_selecting->pos, cam_mat);
 		pt.AddCircle(pos, NODE_QUERY_RADIUS, SELECT_COLOR);
 	}
 	// selected
 	m_selected.Traverse([&](const pm3::PointPtr& vert)->bool {
-		auto pos = m_vp.TransPosProj3ToProj2(poly.Points()[*vert], cam_mat);
+		auto pos = m_vp.TransPosProj3ToProj2(vert->pos, cam_mat);
 		pt.AddCircleFilled(pos, NODE_DRAW_RADIUS, SELECT_COLOR);
 		return true;
 	});
@@ -59,9 +59,9 @@ pm3::PointPtr VertexSelectOP::QueryByPos(int x, int y) const
     auto& points = brush->impl->Points();
     for (int i = 0, n = points.size(); i < n; ++i)
     {
-        auto p = m_vp.TransPosProj3ToProj2(points[i], cam_mat);
+        auto p = m_vp.TransPosProj3ToProj2(points[i]->pos, cam_mat);
         if (sm::dis_pos_to_pos(p, pos) < NODE_QUERY_RADIUS) {
-            return std::make_shared<pm3::PointIndex>(i);
+            return points[i];
         }
     }
 
@@ -85,9 +85,9 @@ void VertexSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::PointPt
     auto& points = brush->impl->Points();
     for (int i = 0, n = points.size(); i < n; ++i)
     {
-		auto p = m_vp.TransPosProj3ToProj2(points[i], cam_mat);
+		auto p = m_vp.TransPosProj3ToProj2(points[i]->pos, cam_mat);
         if (sm::is_point_in_rect(p, s_rect)) {
-			selection.push_back(std::make_shared<pm3::PointIndex>(i));
+			selection.push_back(points[i]);
 		}
 	}
 }
