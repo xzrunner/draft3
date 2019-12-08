@@ -1,6 +1,6 @@
 #include "drawing3/VertexTranslateOP.h"
 
-#include <polymesh3/Geometry.h>
+#include <polymesh3/Polytope.h>
 #include <model/Model.h>
 
 namespace dw3
@@ -12,13 +12,13 @@ VertexTranslateOP::VertexTranslateOP(const std::shared_ptr<pt0::Camera>& camera,
 	                                 const pt3::Viewport& vp,
 	                                 const ee0::SubjectMgrPtr& sub_mgr,
 	                                 const MeshPointQuery::Selected& selected,
-	                                 const ee0::SelectionSet<pm3::PointPtr>& selection,
+	                                 const ee0::SelectionSet<pm3::Polytope::PointPtr>& selection,
 	                                 std::function<void()> update_cb)
-	: MeshTranslateBaseOP<pm3::PointPtr>(camera, vp, sub_mgr, selected, selection, update_cb)
+	: MeshTranslateBaseOP<pm3::Polytope::PointPtr>(camera, vp, sub_mgr, selected, selection, update_cb)
 {
 }
 
-bool VertexTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::PointPtr& vert,
+bool VertexTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::Polytope::PointPtr& vert,
 	                               const sm::mat4& cam_mat) const
 {
     auto brush = m_selected.GetBrush();
@@ -44,7 +44,7 @@ void VertexTranslateOP::TranslateSelected(const sm::vec3& offset)
     }
 
 	auto& vertices = m_selected.poly->GetVertices();
-	m_selection.Traverse([&](const pm3::PointPtr& vert)->bool
+	m_selection.Traverse([&](const pm3::Polytope::PointPtr& vert)->bool
 	{
 		// update helfedge geo
         auto v = vertices.Head();
@@ -71,7 +71,7 @@ void VertexTranslateOP::TranslateSelected(const sm::vec3& offset)
 
 	// update model aabb
 	sm::cube model_aabb;
-	model_aabb.Combine(brush->impl->GetGeometry()->GetAABB());
+	model_aabb.Combine(brush->impl->GetHePoly()->GetAABB());
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo

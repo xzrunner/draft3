@@ -1,6 +1,6 @@
 #include "drawing3/EdgeTranslateOP.h"
 
-#include <polymesh3/Geometry.h>
+#include <polymesh3/Polytope.h>
 #include <model/Model.h>
 
 namespace dw3
@@ -12,13 +12,13 @@ EdgeTranslateOP::EdgeTranslateOP(const std::shared_ptr<pt0::Camera>& camera,
 	                             const pt3::Viewport& vp,
 	                             const ee0::SubjectMgrPtr& sub_mgr,
 	                             const MeshPointQuery::Selected& selected,
-	                             const ee0::SelectionSet<pm3::EdgePtr>& selection,
+	                             const ee0::SelectionSet<pm3::Polytope::EdgePtr>& selection,
 	                             std::function<void()> update_cb)
-	: MeshTranslateBaseOP<pm3::EdgePtr>(camera, vp, sub_mgr, selected, selection, update_cb)
+	: MeshTranslateBaseOP<pm3::Polytope::EdgePtr>(camera, vp, sub_mgr, selected, selection, update_cb)
 {
 }
 
-bool EdgeTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::EdgePtr& edge,
+bool EdgeTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::Polytope::EdgePtr& edge,
 	                             const sm::mat4& cam_mat) const
 {
     auto brush = m_selected.GetBrush();
@@ -48,7 +48,7 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
     }
 
 	auto& faces = m_selected.poly->GetFaces();
-	m_selection.Traverse([&](const pm3::EdgePtr& edge)->bool
+	m_selection.Traverse([&](const pm3::Polytope::EdgePtr& edge)->bool
 	{
 		// update helfedge geo
         auto f = faces.Head();
@@ -88,7 +88,7 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
 
 	// update model aabb
 	sm::cube model_aabb;
-	model_aabb.Combine(brush->impl->GetGeometry()->GetAABB());
+	model_aabb.Combine(brush->impl->GetHePoly()->GetAABB());
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo

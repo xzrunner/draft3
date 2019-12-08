@@ -10,7 +10,7 @@
 #include <painting3/PerspCam.h>
 #include <painting3/OrthoCam.h>
 #include <painting3/Viewport.h>
-#include <polymesh3/Geometry.h>
+#include <polymesh3/Polytope.h>
 #include <model/BrushBuilder.h>
 #include <model/BrushModel.h>
 #include <model/Model.h>
@@ -580,7 +580,7 @@ void PolyTranslateState::TranslateSelected(const sm::vec3& offset)
 	// update model aabb
 	sm::cube model_aabb;
 	for (auto& brush : brushes) {
-		model_aabb.Combine(brush.impl->GetGeometry()->GetAABB());
+		model_aabb.Combine(brush.impl->GetHePoly()->GetAABB());
 	}
 	m_selected.model->aabb = model_aabb;
 

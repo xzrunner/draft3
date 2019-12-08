@@ -5,7 +5,7 @@
 #include <ee0/MessageID.h>
 
 #include <SM_RayIntersect.h>
-#include <polymesh3/Geometry.h>
+#include <polymesh3/Polytope.h>
 #include <tessellation/Painter.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
@@ -159,7 +159,7 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	// update model aabb
 	sm::cube model_aabb;
 	for (auto& brush : brushes) {
-		model_aabb.Combine(brush.impl->GetGeometry()->GetAABB());
+		model_aabb.Combine(brush.impl->GetHePoly()->GetAABB());
 	}
 	m_selected.model->aabb = model_aabb;
 

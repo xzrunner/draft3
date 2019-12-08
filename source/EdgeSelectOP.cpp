@@ -1,6 +1,6 @@
 #include "drawing3/EdgeSelectOP.h"
 
-#include <polymesh3/Geometry.h>
+#include <polymesh3/Polytope.h>
 #include <tessellation/Painter.h>
 #include <painting2/RenderSystem.h>
 
@@ -13,7 +13,7 @@ EdgeSelectOP::EdgeSelectOP(const std::shared_ptr<pt0::Camera>& camera,
 	                       const pt3::Viewport& vp,
 	                       const ee0::SubjectMgrPtr& sub_mgr,
 	                       const MeshPointQuery::Selected& selected)
-	: MeshSelectBaseOP<pm3::EdgePtr>(camera, vp, sub_mgr, selected)
+	: MeshSelectBaseOP<pm3::Polytope::EdgePtr>(camera, vp, sub_mgr, selected)
 {
 }
 
@@ -26,7 +26,7 @@ void EdgeSelectOP::DrawImpl(const pm3::Polytope& poly, const sm::mat4& cam_mat) 
 	{
 		auto& vs = face->points;
 		for (int i = 0, n = vs.size(); i < n; ++i) {
-            ProjectBrushEdge(poly, pm3::EdgeIndex(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,
+            ProjectBrushEdge(poly, pm3::Polytope::EdgeIndex(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,
 				[&](const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid) {
 				pt.AddLine(b, e, UNSELECT_COLOR);
 				pt.AddCircleFilled(mid, NODE_DRAW_RADIUS, UNSELECT_COLOR);
@@ -43,7 +43,7 @@ void EdgeSelectOP::DrawImpl(const pm3::Polytope& poly, const sm::mat4& cam_mat) 
 		});
 	}
 	// selected
-	m_selected.Traverse([&](const pm3::EdgePtr& edge)->bool {
+	m_selected.Traverse([&](const pm3::Polytope::EdgePtr& edge)->bool {
         ProjectBrushEdge(poly, *edge, m_vp, cam_mat,
 			[&](const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid) {
 			pt.AddLine(b, e, SELECT_COLOR);
@@ -55,7 +55,7 @@ void EdgeSelectOP::DrawImpl(const pm3::Polytope& poly, const sm::mat4& cam_mat) 
 	pt2::RenderSystem::DrawPainter(pt);
 }
 
-pm3::EdgePtr EdgeSelectOP::QueryByPos(int x, int y) const
+pm3::Polytope::EdgePtr EdgeSelectOP::QueryByPos(int x, int y) const
 {
     auto brush = m_base_selected.GetBrush();
     if (!brush || !brush->impl) {
@@ -71,11 +71,11 @@ pm3::EdgePtr EdgeSelectOP::QueryByPos(int x, int y) const
 		auto& vs = face->points;
 		for (int i = 0, n = vs.size(); i < n; ++i)
 		{
-            pm3::EdgePtr edge;
-            ProjectBrushEdge(*brush->impl, pm3::EdgeIndex(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,
+            pm3::Polytope::EdgePtr edge;
+            ProjectBrushEdge(*brush->impl, pm3::Polytope::EdgeIndex(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,
 				[&](const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid) {
 				if (sm::dis_pos_to_pos(mid, pos) < NODE_QUERY_RADIUS) {
-					edge = std::make_shared<pm3::EdgeIndex>(vs[i], vs[(i + 1) % n]);
+					edge = std::make_shared<pm3::Polytope::EdgeIndex>(vs[i], vs[(i + 1) % n]);
 				}
 			});
 			if (edge) {
@@ -87,7 +87,7 @@ pm3::EdgePtr EdgeSelectOP::QueryByPos(int x, int y) const
 	return nullptr;
 }
 
-void EdgeSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::EdgePtr>& selection) const
+void EdgeSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::Polytope::EdgePtr>& selection) const
 {
 	auto brush = m_base_selected.GetBrush();
 	if (!brush || !brush->impl) {
@@ -106,17 +106,17 @@ void EdgeSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::EdgePtr>&
 		auto& vs = face->points;
 		for (int i = 0, n = vs.size(); i < n; ++i)
 		{
-            ProjectBrushEdge(*brush->impl, pm3::EdgeIndex(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,
+            ProjectBrushEdge(*brush->impl, pm3::Polytope::EdgeIndex(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,
 				[&](const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid) {
 				if (sm::is_point_in_rect(mid, s_rect)) {
-					selection.push_back(std::make_shared<pm3::EdgeIndex>(vs[i], vs[(i + 1) % n]));
+					selection.push_back(std::make_shared<pm3::Polytope::EdgeIndex>(vs[i], vs[(i + 1) % n]));
 				}
 			});
 		}
 	}
 }
 
-void EdgeSelectOP::ProjectBrushEdge(const pm3::Polytope& poly, const pm3::EdgeIndex& edge, const pt3::Viewport& vp, const sm::mat4& cam_mat,
+void EdgeSelectOP::ProjectBrushEdge(const pm3::Polytope& poly, const pm3::Polytope::EdgeIndex& edge, const pt3::Viewport& vp, const sm::mat4& cam_mat,
                                     std::function<void(const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid)> func)
 {
 	auto b3 = poly.Points()[edge.first]->pos;
