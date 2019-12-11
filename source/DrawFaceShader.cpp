@@ -1,6 +1,6 @@
-#include "drawing3/DrawFaceShader.h"
+#include "draft3/DrawFaceShader.h"
 
-namespace dw3
+namespace draft3
 {
 
 DrawFaceShader::DrawFaceShader(ur::RenderContext* rc, const char* vs, const char* fs,

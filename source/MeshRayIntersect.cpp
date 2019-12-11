@@ -1,4 +1,4 @@
-#include "drawing3/MeshRayIntersect.h"
+#include "draft3/MeshRayIntersect.h"
 
 #include <SM_Ray.h>
 #include <SM_Plane.h>
@@ -6,7 +6,7 @@
 #include <painting3/PerspCam.h>
 #include <painting3/Viewport.h>
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

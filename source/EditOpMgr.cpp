@@ -1,13 +1,13 @@
-#include "drawing3/EditOpMgr.h"
-#include "drawing3/VertexSelectOP.h"
-#include "drawing3/VertexTranslateOP.h"
-#include "drawing3/EdgeSelectOP.h"
-#include "drawing3/EdgeTranslateOP.h"
-#include "drawing3/FaceSelectOP.h"
-#include "drawing3/FaceTranslateOP.h"
-#include "drawing3/PolySelectOP.h"
-#include "drawing3/PolyArrangeOP.h"
-#include "drawing3/PolyBuildOP.h"
+#include "draft3/EditOpMgr.h"
+#include "draft3/VertexSelectOP.h"
+#include "draft3/VertexTranslateOP.h"
+#include "draft3/EdgeSelectOP.h"
+#include "draft3/EdgeTranslateOP.h"
+#include "draft3/FaceSelectOP.h"
+#include "draft3/FaceTranslateOP.h"
+#include "draft3/PolySelectOP.h"
+#include "draft3/PolyArrangeOP.h"
+#include "draft3/PolyBuildOP.h"
 
 #include <ee0/WxStagePage.h>
 
@@ -28,7 +28,7 @@
    #define SHOW_CURSOR ShowCursor(1)
 #endif
 
-namespace dw3
+namespace draft3
 {
 
 EditOpMgr::EditOpMgr(ee0::WxStagePage& m_stage)

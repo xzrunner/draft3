@@ -1,4 +1,4 @@
-#include "drawing3/MeshPointQuery.h"
+#include "draft3/MeshPointQuery.h"
 
 #include <SM_Calc.h>
 #include <SM_Ray.h>
@@ -12,7 +12,7 @@
 #include <node3/CompModelInst.h>
 #include <node3/CompTransform.h>
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

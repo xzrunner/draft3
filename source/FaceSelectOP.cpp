@@ -1,11 +1,11 @@
-#include "drawing3/FaceSelectOP.h"
+#include "draft3/FaceSelectOP.h"
 
 #include <polymesh3/Polytope.h>
 #include <tessellation/Painter.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

@@ -1,9 +1,9 @@
-#include "drawing3/EdgeTranslateOP.h"
+#include "draft3/EdgeTranslateOP.h"
 
 #include <polymesh3/Polytope.h>
 #include <model/Model.h>
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

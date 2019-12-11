@@ -1,6 +1,6 @@
-#include "drawing3/DrawEdgeShader.h"
+#include "draft3/DrawEdgeShader.h"
 
-namespace dw3
+namespace draft3
 {
 
 DrawEdgeShader::DrawEdgeShader(ur::RenderContext* rc, const char* vs, const char* fs,

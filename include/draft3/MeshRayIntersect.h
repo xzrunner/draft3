@@ -4,7 +4,7 @@
 
 namespace pt3 { class Viewport; class PerspCam; }
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

@@ -2,7 +2,7 @@
 
 #include <unirender/Shader.h>
 
-namespace dw3
+namespace draft3
 {
 
 class DrawEdgeShader : public ur::Shader

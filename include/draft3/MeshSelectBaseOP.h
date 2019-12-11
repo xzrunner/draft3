@@ -1,6 +1,6 @@
 #pragma once
 
-#include "drawing3/MeshPointQuery.h"
+#include "draft3/MeshPointQuery.h"
 
 #include <ee0/EditOP.h>
 #include <ee0/typedef.h>
@@ -13,7 +13,7 @@ namespace pt2 { class OrthoCamera; }
 namespace pt3 { class Viewport; }
 namespace pm3 { class Polytope; }
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {
@@ -69,4 +69,4 @@ protected:
 }
 }
 
-#include "drawing3/MeshSelectBaseOP.inl"
+#include "draft3/MeshSelectBaseOP.inl"

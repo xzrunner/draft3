@@ -1,4 +1,4 @@
-#include "drawing3/FacePushPullState.h"
+#include "draft3/FacePushPullState.h"
 
 #include <ee0/color_config.h>
 #include <ee0/SubjectMgr.h>
@@ -16,7 +16,7 @@
 #include <model/Model.h>
 #include <model/BrushBuilder.h>
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

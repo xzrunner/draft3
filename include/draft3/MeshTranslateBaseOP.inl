@@ -1,7 +1,7 @@
 #pragma once
 
-#include "drawing3/MeshTranslateBaseOP.h"
-#include "drawing3/MeshEditStyle.h"
+#include "draft3/MeshTranslateBaseOP.h"
+#include "draft3/MeshEditStyle.h"
 
 #include <ee0/MessageID.h>
 #include <ee0/SubjectMgr.h>
@@ -18,7 +18,7 @@
 #include <wx/defs.h>
 #include <wx/utils.h>
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

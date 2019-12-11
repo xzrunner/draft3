@@ -1,7 +1,7 @@
-#include "drawing3/PolyArrangeOP.h"
-#include "drawing3/PolyTranslateState.h"
+#include "draft3/PolyArrangeOP.h"
+#include "draft3/PolyTranslateState.h"
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

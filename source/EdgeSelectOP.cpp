@@ -1,10 +1,10 @@
-#include "drawing3/EdgeSelectOP.h"
+#include "draft3/EdgeSelectOP.h"
 
 #include <polymesh3/Polytope.h>
 #include <tessellation/Painter.h>
 #include <painting2/RenderSystem.h>
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

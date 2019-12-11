@@ -1,11 +1,11 @@
-#include "drawing3/VertexSelectOP.h"
+#include "draft3/VertexSelectOP.h"
 
 #include <tessellation/Painter.h>
 #include <polymesh3/Polytope.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

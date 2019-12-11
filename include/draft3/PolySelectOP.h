@@ -1,6 +1,6 @@
 #pragma once
 
-#include "drawing3/MeshPointQuery.h"
+#include "draft3/MeshPointQuery.h"
 
 #include <ee0/EditOP.h>
 #include <ee0/typedef.h>
@@ -10,7 +10,7 @@
 namespace ee0 { class WxStagePage; }
 namespace pt3 { class Viewport; }
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

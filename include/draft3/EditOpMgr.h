@@ -7,11 +7,11 @@
 
 namespace ee0 { class WxStagePage; }
 namespace ee3 { class CameraMgr; }
-namespace dw3 { class CameraMgr; }
+namespace draft3 { class CameraMgr; }
 namespace pt0 { class Camera; }
 namespace pt3 { class Viewport; }
 
-namespace dw3
+namespace draft3
 {
 
 class WxStagePage;

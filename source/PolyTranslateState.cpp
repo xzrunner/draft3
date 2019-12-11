@@ -1,5 +1,5 @@
-#include "drawing3/PolyTranslateState.h"
-#include "drawing3/MeshRayIntersect.h"
+#include "draft3/PolyTranslateState.h"
+#include "draft3/MeshRayIntersect.h"
 
 #include <ee0/MessageID.h>
 #include <ee0/SubjectMgr.h>
@@ -17,7 +17,7 @@
 
 #include <wx/utils.h>
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

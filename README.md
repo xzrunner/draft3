@@ -1,3 +1,3 @@
-# drawing3
+# draft3
 
-Drawing 3d shapes.
+Draw simple 3D objects.

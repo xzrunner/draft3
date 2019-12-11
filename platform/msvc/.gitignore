@@ -1,5 +1,5 @@
-drawing3/
+draft3/
 projects/*
 
-!projects/drawing3.vcxproj
-!projects/drawing3.vcxproj.filters
+!projects/draft3.vcxproj
+!projects/draft3.vcxproj.filters

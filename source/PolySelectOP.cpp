@@ -1,5 +1,5 @@
-#include "drawing3/PolySelectOP.h"
-#include "drawing3/MeshPointQuery.h"
+#include "draft3/PolySelectOP.h"
+#include "draft3/MeshPointQuery.h"
 
 #include <ee0/WxStagePage.h>
 #include <ee0/EditOpState.h>
@@ -28,7 +28,7 @@ const bool PRESS_SELECT = false;
 
 }
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

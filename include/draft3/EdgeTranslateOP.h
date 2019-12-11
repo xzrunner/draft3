@@ -1,10 +1,10 @@
 #pragma once
 
-#include "drawing3/MeshTranslateBaseOP.h"
+#include "draft3/MeshTranslateBaseOP.h"
 
 #include <polymesh3/Polytope.h>
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

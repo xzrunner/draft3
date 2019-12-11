@@ -11,33 +11,33 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\drawing3\DrawEdgeShader.h" />
-    <ClInclude Include="..\..\..\include\drawing3\DrawFaceShader.h" />
-    <ClInclude Include="..\..\..\include\drawing3\DrawPolyFaceState.h" />
-    <ClInclude Include="..\..\..\include\drawing3\EdgeSelectOP.h" />
-    <ClInclude Include="..\..\..\include\drawing3\EdgeTranslateOP.h" />
-    <ClInclude Include="..\..\..\include\drawing3\EditOpMgr.h" />
-    <ClInclude Include="..\..\..\include\drawing3\FacePushPullState.h" />
-    <ClInclude Include="..\..\..\include\drawing3\FaceSelectOP.h" />
-    <ClInclude Include="..\..\..\include\drawing3\FaceTranslateOP.h" />
-    <ClInclude Include="..\..\..\include\drawing3\MeshEditStyle.h" />
-    <ClInclude Include="..\..\..\include\drawing3\MeshPointQuery.h" />
-    <ClInclude Include="..\..\..\include\drawing3\MeshRayIntersect.h" />
-    <ClInclude Include="..\..\..\include\drawing3\MeshSelectBaseOP.h" />
-    <ClInclude Include="..\..\..\include\drawing3\MeshTranslateBaseOP.h" />
-    <ClInclude Include="..\..\..\include\drawing3\PolyArrangeOP.h" />
-    <ClInclude Include="..\..\..\include\drawing3\PolyBuildOP.h" />
-    <ClInclude Include="..\..\..\include\drawing3\DrawRectFaceState.h" />
-    <ClInclude Include="..\..\..\include\drawing3\PolySelectOP.h" />
-    <ClInclude Include="..\..\..\include\drawing3\PolyTranslateState.h" />
-    <ClInclude Include="..\..\..\include\drawing3\VertexSelectOP.h" />
-    <ClInclude Include="..\..\..\include\drawing3\VertexTranslateOP.h" />
+    <ClInclude Include="..\..\..\include\draft3\DrawEdgeShader.h" />
+    <ClInclude Include="..\..\..\include\draft3\DrawFaceShader.h" />
+    <ClInclude Include="..\..\..\include\draft3\DrawPolyFaceState.h" />
+    <ClInclude Include="..\..\..\include\draft3\EdgeSelectOP.h" />
+    <ClInclude Include="..\..\..\include\draft3\EdgeTranslateOP.h" />
+    <ClInclude Include="..\..\..\include\draft3\EditOpMgr.h" />
+    <ClInclude Include="..\..\..\include\draft3\FacePushPullState.h" />
+    <ClInclude Include="..\..\..\include\draft3\FaceSelectOP.h" />
+    <ClInclude Include="..\..\..\include\draft3\FaceTranslateOP.h" />
+    <ClInclude Include="..\..\..\include\draft3\MeshEditStyle.h" />
+    <ClInclude Include="..\..\..\include\draft3\MeshPointQuery.h" />
+    <ClInclude Include="..\..\..\include\draft3\MeshRayIntersect.h" />
+    <ClInclude Include="..\..\..\include\draft3\MeshSelectBaseOP.h" />
+    <ClInclude Include="..\..\..\include\draft3\MeshTranslateBaseOP.h" />
+    <ClInclude Include="..\..\..\include\draft3\PolyArrangeOP.h" />
+    <ClInclude Include="..\..\..\include\draft3\PolyBuildOP.h" />
+    <ClInclude Include="..\..\..\include\draft3\DrawRectFaceState.h" />
+    <ClInclude Include="..\..\..\include\draft3\PolySelectOP.h" />
+    <ClInclude Include="..\..\..\include\draft3\PolyTranslateState.h" />
+    <ClInclude Include="..\..\..\include\draft3\VertexSelectOP.h" />
+    <ClInclude Include="..\..\..\include\draft3\VertexTranslateOP.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\include\drawing3\edge.glsl" />
-    <None Include="..\..\..\include\drawing3\face.glsl" />
-    <None Include="..\..\..\include\drawing3\MeshSelectBaseOP.inl" />
-    <None Include="..\..\..\include\drawing3\MeshTranslateBaseOP.inl" />
+    <None Include="..\..\..\include\draft3\edge.glsl" />
+    <None Include="..\..\..\include\draft3\face.glsl" />
+    <None Include="..\..\..\include\draft3\MeshSelectBaseOP.inl" />
+    <None Include="..\..\..\include\draft3\MeshTranslateBaseOP.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\DrawEdgeShader.cpp" />
@@ -60,9 +60,9 @@
     <ClCompile Include="..\..\..\source\VertexTranslateOP.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>3.drawing3</ProjectName>
+    <ProjectName>3.draft3</ProjectName>
     <ProjectGuid>{3032565A-882F-438D-B5A3-DA583B9E0682}</ProjectGuid>
-    <RootNamespace>drawing3</RootNamespace>
+    <RootNamespace>draft3</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -92,12 +92,12 @@
     <_ProjectFileVersion>15.0.26730.12</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\drawing3\x86\Debug\</OutDir>
-    <IntDir>..\drawing3\x86\Debug\obj\</IntDir>
+    <OutDir>..\draft3\x86\Debug\</OutDir>
+    <IntDir>..\draft3\x86\Debug\obj\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\drawing3\x86\Release\</OutDir>
-    <IntDir>..\drawing3\x86\Release\obj\</IntDir>
+    <OutDir>..\draft3\x86\Release\</OutDir>
+    <IntDir>..\draft3\x86\Release\obj\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

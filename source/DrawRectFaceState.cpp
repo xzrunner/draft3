@@ -1,4 +1,4 @@
-#include "drawing3/DrawRectFaceState.h"
+#include "draft3/DrawRectFaceState.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/MessageID.h>
@@ -19,7 +19,7 @@
 #include <node3/CompTransform.h>
 #include <node3/CompAABB.h>
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

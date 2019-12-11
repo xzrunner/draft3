@@ -1,13 +1,13 @@
-#include "drawing3/PolyBuildOP.h"
-#include "drawing3/DrawRectFaceState.h"
-#include "drawing3/DrawPolyFaceState.h"
-#include "drawing3/FacePushPullState.h"
+#include "draft3/PolyBuildOP.h"
+#include "draft3/DrawRectFaceState.h"
+#include "draft3/DrawPolyFaceState.h"
+#include "draft3/FacePushPullState.h"
 
 #include <painting3/PerspCam.h>
 
 #include <wx/defs.h>
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

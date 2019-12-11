@@ -1,12 +1,12 @@
 #pragma once
 
-#include "drawing3/MeshSelectBaseOP.h"
+#include "draft3/MeshSelectBaseOP.h"
 
 #include <polymesh3/Polytope.h>
 
 namespace tess { class Painter; }
 
-namespace dw3
+namespace draft3
 {
 namespace mesh
 {

@@ -42,81 +42,81 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\drawing3\DrawEdgeShader.h">
+    <ClInclude Include="..\..\..\include\draft3\DrawEdgeShader.h">
       <Filter>shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\DrawFaceShader.h">
+    <ClInclude Include="..\..\..\include\draft3\DrawFaceShader.h">
       <Filter>shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\EditOpMgr.h">
+    <ClInclude Include="..\..\..\include\draft3\EditOpMgr.h">
       <Filter>editop</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\MeshSelectBaseOP.h">
+    <ClInclude Include="..\..\..\include\draft3\MeshSelectBaseOP.h">
       <Filter>editop\mesh\0.base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\MeshTranslateBaseOP.h">
+    <ClInclude Include="..\..\..\include\draft3\MeshTranslateBaseOP.h">
       <Filter>editop\mesh\0.base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\VertexTranslateOP.h">
+    <ClInclude Include="..\..\..\include\draft3\VertexTranslateOP.h">
       <Filter>editop\mesh\1.vertex</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\VertexSelectOP.h">
+    <ClInclude Include="..\..\..\include\draft3\VertexSelectOP.h">
       <Filter>editop\mesh\1.vertex</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\EdgeTranslateOP.h">
+    <ClInclude Include="..\..\..\include\draft3\EdgeTranslateOP.h">
       <Filter>editop\mesh\2.edge</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\EdgeSelectOP.h">
+    <ClInclude Include="..\..\..\include\draft3\EdgeSelectOP.h">
       <Filter>editop\mesh\2.edge</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\FaceSelectOP.h">
+    <ClInclude Include="..\..\..\include\draft3\FaceSelectOP.h">
       <Filter>editop\mesh\3.face</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\FaceTranslateOP.h">
+    <ClInclude Include="..\..\..\include\draft3\FaceTranslateOP.h">
       <Filter>editop\mesh\3.face</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\PolySelectOP.h">
+    <ClInclude Include="..\..\..\include\draft3\PolySelectOP.h">
       <Filter>editop\mesh\4.polyhedron\arrange</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\PolyArrangeOP.h">
+    <ClInclude Include="..\..\..\include\draft3\PolyArrangeOP.h">
       <Filter>editop\mesh\4.polyhedron\arrange</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\PolyTranslateState.h">
+    <ClInclude Include="..\..\..\include\draft3\PolyTranslateState.h">
       <Filter>editop\mesh\4.polyhedron\arrange\state</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\PolyBuildOP.h">
+    <ClInclude Include="..\..\..\include\draft3\PolyBuildOP.h">
       <Filter>editop\mesh\4.polyhedron\draw</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\FacePushPullState.h">
+    <ClInclude Include="..\..\..\include\draft3\FacePushPullState.h">
       <Filter>editop\mesh\4.polyhedron\draw\state</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\MeshRayIntersect.h">
+    <ClInclude Include="..\..\..\include\draft3\MeshRayIntersect.h">
       <Filter>editop\mesh\utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\MeshPointQuery.h">
+    <ClInclude Include="..\..\..\include\draft3\MeshPointQuery.h">
       <Filter>editop\mesh\utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\MeshEditStyle.h">
+    <ClInclude Include="..\..\..\include\draft3\MeshEditStyle.h">
       <Filter>editop\mesh\utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\DrawRectFaceState.h">
+    <ClInclude Include="..\..\..\include\draft3\DrawRectFaceState.h">
       <Filter>editop\mesh\4.polyhedron\draw\state</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing3\DrawPolyFaceState.h">
+    <ClInclude Include="..\..\..\include\draft3\DrawPolyFaceState.h">
       <Filter>editop\mesh\4.polyhedron\draw\state</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\include\drawing3\edge.glsl">
+    <None Include="..\..\..\include\draft3\edge.glsl">
       <Filter>shader</Filter>
     </None>
-    <None Include="..\..\..\include\drawing3\face.glsl">
+    <None Include="..\..\..\include\draft3\face.glsl">
       <Filter>shader</Filter>
     </None>
-    <None Include="..\..\..\include\drawing3\MeshSelectBaseOP.inl">
+    <None Include="..\..\..\include\draft3\MeshSelectBaseOP.inl">
       <Filter>editop\mesh\0.base</Filter>
     </None>
-    <None Include="..\..\..\include\drawing3\MeshTranslateBaseOP.inl">
+    <None Include="..\..\..\include\draft3\MeshTranslateBaseOP.inl">
       <Filter>editop\mesh\0.base</Filter>
     </None>
   </ItemGroup>
