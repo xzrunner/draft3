@@ -47,7 +47,7 @@ bool MeshPointQuery::Query(const ee0::GameObj& obj, const sm::Ray& ray,
 	for (int i = 0, n = brushes.size(); i < n; ++i)
 	{
 		auto& brush = brushes[i];
-		if (!Query(brush.impl->GetHePoly(), ctrans, ray, cam_pos, ret)) {
+		if (!Query(brush.impl->GetTopoPoly(), ctrans, ray, cam_pos, ret)) {
 			continue;
 		}
 

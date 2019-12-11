@@ -88,7 +88,7 @@ void EdgeTranslateOP::TranslateSelected(const sm::vec3& offset)
 
 	// update model aabb
 	sm::cube model_aabb;
-	model_aabb.Combine(brush->impl->GetHePoly()->GetAABB());
+	model_aabb.Combine(brush->impl->GetTopoPoly()->GetAABB());
 	m_selected.model->aabb = model_aabb;
 
 	// update vbo

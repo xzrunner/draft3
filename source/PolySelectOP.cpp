@@ -240,7 +240,7 @@ void PolySelectOP::SetSelected(const n0::SceneNodePtr& node)
 		return;
 	}
 
-	m_selected.poly      = brushes[0].impl->GetHePoly();
+	m_selected.poly      = brushes[0].impl->GetTopoPoly();
 	m_selected.model     = model->GetModel();
 	m_selected.brush_idx = 0;
 	m_selected.node      = node;
