@@ -84,7 +84,7 @@ bool MeshPointQuery::Query(const he::PolyhedronPtr& poly, const n3::CompTransfor
     int idx = 0;
     do {
 		std::vector<sm::vec3> border;
-        he::Utility::face_to_vertices(*face, border);
+        he::Utility::FaceToVertices(*face, border);
 		assert(border.size() > 2);
 		sm::vec3 cross_face;
 

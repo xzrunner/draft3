@@ -55,7 +55,7 @@ bool FacePushPullState::OnMousePress(int x, int y)
 		sm::Ray ray(p_cam->GetPos(), ray_dir);
 		sm::vec3 intersect;
 		sm::Plane plane;
-        he::Utility::face_to_plane(*m_selected.face, plane);
+        he::Utility::FaceToPlane(*m_selected.face, plane);
 		bool crossed = false;
 		if (crossed = sm::ray_plane_intersect(ray, plane, &intersect)) {
 			m_last_pos3d = intersect;
