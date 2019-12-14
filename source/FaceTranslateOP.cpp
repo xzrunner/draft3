@@ -26,12 +26,12 @@ bool FaceTranslateOP::QueryByPos(const sm::vec2& pos, const pm3::Polytope::FaceP
         return nullptr;
     }
 
-	assert(!face->points.empty());
+	assert(!face->border.empty());
 	sm::vec3 c3;
-	for (auto& v : face->points) {
+	for (auto& v : face->border) {
         c3 += brush->impl->Points()[v]->pos;
 	}
-	c3 /= static_cast<float>(face->points.size());
+	c3 /= static_cast<float>(face->border.size());
 	auto c2 = m_vp.TransPosProj3ToProj2(c3, cam_mat);
 	if (sm::dis_pos_to_pos(c2, pos) < NODE_QUERY_RADIUS) {
 		m_last_pos3 = c3;
@@ -53,10 +53,10 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
 	{
 		// update helfedge geo
 		sm::vec3 c0;
-		for (auto& v : face->points) {
+		for (auto& v : face->border) {
 			c0 += brush->impl->Points()[v]->pos;
 		}
-		c0 /= static_cast<float>(face->points.size());
+		c0 /= static_cast<float>(face->border.size());
         auto f = faces.Head();
         do {
 			sm::vec3 c1;
@@ -85,7 +85,7 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
         } while (f != faces.Head());
 
 		// update polymesh3 brush
-		for (auto& v : face->points) {
+		for (auto& v : face->border) {
             brush->impl->Points()[v]->pos += offset;
 		}
 

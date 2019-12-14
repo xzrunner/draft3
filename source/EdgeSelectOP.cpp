@@ -24,7 +24,7 @@ void EdgeSelectOP::DrawImpl(const pm3::Polytope& poly, const sm::mat4& cam_mat) 
 	// all edges
 	for (auto& face : poly.Faces())
 	{
-		auto& vs = face->points;
+		auto& vs = face->border;
 		for (int i = 0, n = vs.size(); i < n; ++i) {
             ProjectBrushEdge(poly, pm3::Polytope::EdgeIndex(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,
 				[&](const sm::vec2& b, const sm::vec2& e, const sm::vec2& mid) {
@@ -68,7 +68,7 @@ pm3::Polytope::EdgePtr EdgeSelectOP::QueryByPos(int x, int y) const
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
 	for (auto& face : brush->impl->Faces())
 	{
-		auto& vs = face->points;
+		auto& vs = face->border;
 		for (int i = 0, n = vs.size(); i < n; ++i)
 		{
             pm3::Polytope::EdgePtr edge;
@@ -103,7 +103,7 @@ void EdgeSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::Polytope:
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
 	for (auto& face : brush->impl->Faces())
 	{
-		auto& vs = face->points;
+		auto& vs = face->border;
 		for (int i = 0, n = vs.size(); i < n; ++i)
 		{
             ProjectBrushEdge(*brush->impl, pm3::Polytope::EdgeIndex(vs[i], vs[(i + 1) % n]), m_vp, cam_mat,

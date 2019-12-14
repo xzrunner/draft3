@@ -145,7 +145,7 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	auto& faces = brush.impl->Faces();
 	assert(m_selected.face_idx < static_cast<int>(faces.size()));
 	auto& face = faces[m_selected.face_idx];
-	for (auto& vert : face->points) {
+	for (auto& vert : face->border) {
         brush.impl->Points()[vert]->pos += offset;
 	}
 

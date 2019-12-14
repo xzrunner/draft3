@@ -95,15 +95,15 @@ sm::vec2 FaceSelectOP::CalcFaceCenter(const pm3::Polytope::Face& face, const sm:
         return sm::vec2(0, 0);
     }
 
-	if (face.points.empty()) {
+	if (face.border.empty()) {
 		return sm::vec2(0, 0);
 	}
 
 	sm::vec3 center;
-	for (auto& v : face.points) {
+	for (auto& v : face.border) {
 		center += brush->impl->Points()[v]->pos;
 	}
-	center /= face.points.size();
+	center /= face.border.size();
 
 	return m_vp.TransPosProj3ToProj2(center, cam_mat);
 }
@@ -116,8 +116,8 @@ void FaceSelectOP::DrawFace(tess::Painter& pt, const pm3::Polytope::Face& face, 
     }
 
 	std::vector<sm::vec2> polygon;
-	polygon.reserve(face.points.size());
-	for (auto& v : face.points) {
+	polygon.reserve(face.border.size());
+	for (auto& v : face.border) {
 		auto p3 = brush->impl->Points()[v]->pos;
 		polygon.push_back(m_vp.TransPosProj3ToProj2(p3, cam_mat));
 	}
