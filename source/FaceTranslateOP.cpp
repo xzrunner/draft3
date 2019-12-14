@@ -48,7 +48,7 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
         return;
     }
 
-	auto& faces = m_selected.poly->GetFaces();
+	auto& faces = m_selected.poly->GetLoops();
 	m_selection.Traverse([&](const pm3::Polytope::FacePtr& face)->bool
 	{
 		// update helfedge geo

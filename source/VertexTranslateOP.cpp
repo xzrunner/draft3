@@ -43,7 +43,7 @@ void VertexTranslateOP::TranslateSelected(const sm::vec3& offset)
         return;
     }
 
-	auto& vertices = m_selected.poly->GetVertices();
+	auto& vertices = m_selected.poly->GetVerts();
 	m_selection.Traverse([&](const pm3::Polytope::PointPtr& vert)->bool
 	{
 		// update helfedge geo

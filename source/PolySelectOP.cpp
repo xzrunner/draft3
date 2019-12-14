@@ -155,7 +155,7 @@ bool PolySelectOP::OnMouseMove(int x, int y)
 
 		if (m_selected.face) {
 			m_selected_face.clear();
-            he::Utility::FaceToVertices(*m_selected.face, m_selected_face);
+            he::Utility::LoopToVertices(*m_selected.face, m_selected_face);
 		}
 
 		m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
@@ -253,12 +253,12 @@ void PolySelectOP::UpdateCachedPolyBorder()
 	}
 
 	m_selected_poly.clear();
-	auto& faces = m_selected.poly->GetFaces();
+	auto& faces = m_selected.poly->GetLoops();
 	m_selected_poly.reserve(faces.Size());
     auto face = faces.Head();
     do {
         std::vector<sm::vec3> border;
-        he::Utility::FaceToVertices(*face, border);
+        he::Utility::LoopToVertices(*face, border);
         m_selected_poly.push_back(border);
 
         face = face->linked_next;

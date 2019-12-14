@@ -79,12 +79,12 @@ bool MeshPointQuery::Query(const he::PolyhedronPtr& poly, const n3::CompTransfor
 	ret.mat = poly_trans.GetTransformMat();
 
 	bool find = false;
-	auto& faces = poly->GetFaces();
+	auto& faces = poly->GetLoops();
     auto face = faces.Head();
     int idx = 0;
     do {
 		std::vector<sm::vec3> border;
-        he::Utility::FaceToVertices(*face, border);
+        he::Utility::LoopToVertices(*face, border);
 		assert(border.size() > 2);
 		sm::vec3 cross_face;
 

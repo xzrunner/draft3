@@ -45,7 +45,7 @@ public:
 		sm::vec3          normal;
 
 		he::PolyhedronPtr poly = nullptr;
-		he::face3*         face = nullptr;
+		he::loop3*         face = nullptr;
 		sm::vec3          pos;
 
 		float             min_dist = std::numeric_limits<float>::max();

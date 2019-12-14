@@ -569,7 +569,7 @@ void PolyTranslateState::TranslateSelected(const sm::vec3& offset)
 	}
 
 	// update helfedge geo
-	auto& vertices = m_selected.poly->GetVertices();
+	auto& vertices = m_selected.poly->GetVerts();
     auto vert = vertices.Head();
     do {
         vert->position += offset;
