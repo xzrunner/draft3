@@ -28,8 +28,6 @@ public:
 	virtual bool OnDraw() const override;
 
 private:
-	bool RayPlaneIntersect(int x, int y, float plane_y, sm::vec3& cross) const;
-
 	n0::SceneNodePtr CreateModelObj();
 
 private:

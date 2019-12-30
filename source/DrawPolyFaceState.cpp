@@ -1,4 +1,5 @@
 #include "draft3/DrawPolyFaceState.h"
+#include "draft3/MeshRayIntersect.h"
 
 #include <ee0/SubjectMgr.h>
 #include <ee0/MessageID.h>
@@ -56,14 +57,20 @@ bool DrawPolyFaceState::OnKeyPress(int key_code)
 
 bool DrawPolyFaceState::OnMousePress(int x, int y)
 {
-	sm::vec3 cross;
-	if (RayPlaneIntersect(x, y, m_y, cross))
-	{
-		if (m_polygon.empty()) {
-			m_polygon.push_back(cross);
-		}
-		m_polygon.push_back(cross);
-	}
+    if (m_camera->TypeID() != pt0::GetCamTypeID<pt3::PerspCam>()) {
+        return false;
+    }
+
+    auto p_cam = std::dynamic_pointer_cast<pt3::PerspCam>(m_camera);
+
+    sm::vec3 cross;
+    if (ray_yplane_intersect(*p_cam, m_vp, x, y, m_y, cross))
+    {
+        if (m_polygon.empty()) {
+            m_polygon.push_back(cross);
+        }
+        m_polygon.push_back(cross);
+    }
 
 	return false;
 }
@@ -74,11 +81,16 @@ bool DrawPolyFaceState::OnMouseMove(int x, int y)
 		return false;
 	}
 
-	sm::vec3 cross;
-	if (RayPlaneIntersect(x, y, m_y, cross)) {
-		m_polygon.back() = cross;
-		m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
-	}
+    if (m_camera->TypeID() != pt0::GetCamTypeID<pt3::PerspCam>()) {
+        return false;
+    }
+    auto p_cam = std::dynamic_pointer_cast<pt3::PerspCam>(m_camera);
+
+    sm::vec3 cross;
+    if (ray_yplane_intersect(*p_cam, m_vp, x, y, m_y, cross)) {
+        m_polygon.back() = cross;
+        m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
+    }
 
 	return false;
 }
@@ -97,28 +109,6 @@ bool DrawPolyFaceState::OnDraw() const
 	pt2::RenderSystem::DrawPainter(pt);
 
 	return false;
-}
-
-bool DrawPolyFaceState::RayPlaneIntersect(int x, int y, float plane_y, sm::vec3& cross) const
-{
-	if (m_camera->TypeID() != pt0::GetCamTypeID<pt3::PerspCam>()) {
-		return false;
-	}
-
-	auto p_cam = std::dynamic_pointer_cast<pt3::PerspCam>(m_camera);
-
-	sm::vec3 ray_dir = m_vp.TransPos3ScreenToDir(
-		sm::vec2(static_cast<float>(x), static_cast<float>(y)), *p_cam);
-	sm::Ray ray(p_cam->GetPos(), ray_dir);
-
-	sm::Plane plane;
-	if (ray_dir.y < 0) {
-		plane.Build(sm::vec3(0, 1, 0), -plane_y);
-	} else {
-		plane.Build(sm::vec3(0, -1, 0), plane_y);
-	}
-
-	return sm::ray_plane_intersect(ray, plane, &cross);
 }
 
 n0::SceneNodePtr DrawPolyFaceState::CreateModelObj()

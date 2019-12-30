@@ -36,5 +36,23 @@ bool ray_yline_intersect(const pt3::PerspCam& cam, const pt3::Viewport& vp,
 	return true;
 }
 
+bool ray_yplane_intersect(const pt3::PerspCam& cam, const pt3::Viewport& vp,
+                          int x, int y, float plane_y, sm::vec3& cross)
+{
+	sm::vec3 ray_dir = vp.TransPos3ScreenToDir(
+		sm::vec2(static_cast<float>(x), static_cast<float>(y)), cam
+    );
+	sm::Ray ray(cam.GetPos(), ray_dir);
+
+	sm::Plane plane;
+	if (ray_dir.y < 0) {
+		plane.Build(sm::vec3(0, 1, 0), -plane_y);
+	} else {
+		plane.Build(sm::vec3(0, -1, 0), plane_y);
+	}
+
+	return sm::ray_plane_intersect(ray, plane, &cross);
+}
+
 }
 }
