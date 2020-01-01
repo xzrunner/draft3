@@ -1,11 +1,13 @@
-#include "draft3/EditPolylineOP.h"
+#include "draft3/PolygonBuildOP.h"
 #include "draft3/MeshRayIntersect.h"
 
 #include <ee0/MessageID.h>
 #include <ee0/SubjectMgr.h>
 #include <ee0/MsgHelper.h>
+#include <draft2/RenderStyle.h>
 
-#include <geoshape/Polyline3D.h>
+#include <SM_Calc.h>
+#include <geoshape/Polygon3D.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/PerspCam.h>
 #include <painting3/Viewport.h>
@@ -17,7 +19,7 @@
 namespace draft3
 {
 
-EditPolylineOP::EditPolylineOP(const std::shared_ptr<pt0::Camera>& camera,
+PolygonBuildOP::PolygonBuildOP(const std::shared_ptr<pt0::Camera>& camera,
                                const pt3::Viewport& vp, const ee0::SubjectMgrPtr& sub_mgr)
     : ee0::EditOP(camera)
     , m_vp(vp)
@@ -25,7 +27,7 @@ EditPolylineOP::EditPolylineOP(const std::shared_ptr<pt0::Camera>& camera,
 {
 }
 
-bool EditPolylineOP::OnMouseLeftDown(int x, int y)
+bool PolygonBuildOP::OnMouseLeftDown(int x, int y)
 {
     if (ee0::EditOP::OnMouseLeftDown(x, y)) {
         return true;
@@ -49,7 +51,7 @@ bool EditPolylineOP::OnMouseLeftDown(int x, int y)
 	return false;
 }
 
-bool EditPolylineOP::OnMouseRightDown(int x, int y)
+bool PolygonBuildOP::OnMouseRightDown(int x, int y)
 {
     if (ee0::EditOP::OnMouseRightDown(x, y)) {
         return true;
@@ -63,7 +65,7 @@ bool EditPolylineOP::OnMouseRightDown(int x, int y)
     return false;
 }
 
-bool EditPolylineOP::OnMouseMove(int x, int y)
+bool PolygonBuildOP::OnMouseMove(int x, int y)
 {
     if (ee0::EditOP::OnMouseMove(x, y)) {
         return true;
@@ -87,7 +89,7 @@ bool EditPolylineOP::OnMouseMove(int x, int y)
 	return false;
 }
 
-bool EditPolylineOP::OnMouseDrag(int x, int y)
+bool PolygonBuildOP::OnMouseDrag(int x, int y)
 {
     if (ee0::EditOP::OnMouseDrag(x, y)) {
         return true;
@@ -96,7 +98,7 @@ bool EditPolylineOP::OnMouseDrag(int x, int y)
     return false;
 }
 
-bool EditPolylineOP::OnMouseLeftDClick(int x, int y)
+bool PolygonBuildOP::OnMouseLeftDClick(int x, int y)
 {
     if (ee0::EditOP::OnMouseLeftDClick(x, y)) {
         return true;
@@ -108,10 +110,21 @@ bool EditPolylineOP::OnMouseLeftDClick(int x, int y)
 
     m_polyline.pop_back();
 
+    std::vector<sm::vec2> loop2d;
+    loop2d.reserve(m_polyline.size());
+    for (auto& v : m_polyline) {
+        loop2d.push_back(sm::vec2(v.x, v.z));
+    }
+    if (!sm::is_polygon_clockwise(loop2d)) {
+        std::reverse(m_polyline.begin(), m_polyline.end());
+    }
+
     auto node = ns::NodeFactory::Create3D();
     assert(node);
+
     auto& cshape = node->AddSharedComp<n3::CompShape>();
-    cshape.SetShapes({ std::make_shared<gs::Polyline3D>(m_polyline, true) });
+    cshape.SetShapes({ std::make_shared<gs::Polygon3D>(m_polyline) });
+
     ee0::MsgHelper::InsertNode(*m_sub_mgr, node, true);
 
     m_polyline.clear();
@@ -119,7 +132,7 @@ bool EditPolylineOP::OnMouseLeftDClick(int x, int y)
     return false;
 }
 
-bool EditPolylineOP::OnDraw() const
+bool PolygonBuildOP::OnDraw() const
 {
     if (ee0::EditOP::OnDraw()) {
         return true;
@@ -130,16 +143,26 @@ bool EditPolylineOP::OnDraw() const
 	}
 
 	tess::Painter pt;
+
+    // lines
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	pt.AddPolygon3D(m_polyline.data(), m_polyline.size(), [&](const sm::vec3& pos3)->sm::vec2 {
+	pt.AddPolyline3D(m_polyline.data(), m_polyline.size(), [&](const sm::vec3& pos3)->sm::vec2 {
 		return m_vp.TransPosProj3ToProj2(pos3, cam_mat);
-	}, 0xffffffff);
+	}, draft2::COL_ACTIVE_SHAPE);
+
+    // points
+    const float radius = draft2::NODE_RADIUS ;
+    for (auto& p3 : m_polyline) {
+        auto p2 = m_vp.TransPosProj3ToProj2(p3, cam_mat);
+        pt.AddCircleFilled(p2, radius, draft2::COL_ACTIVE_SHAPE);
+    }
+
 	pt2::RenderSystem::DrawPainter(pt);
 
 	return false;
 }
 
-bool EditPolylineOP::Clear()
+bool PolygonBuildOP::Clear()
 {
     if (ee0::EditOP::Clear()) {
         return true;

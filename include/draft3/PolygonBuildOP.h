@@ -12,10 +12,10 @@ namespace pt3 { class Viewport; }
 namespace draft3
 {
 
-class EditPolylineOP : public ee0::EditOP
+class PolygonBuildOP : public ee0::EditOP
 {
 public:
-    EditPolylineOP(const std::shared_ptr<pt0::Camera>& camera,
+    PolygonBuildOP(const std::shared_ptr<pt0::Camera>& camera,
         const pt3::Viewport& vp, const ee0::SubjectMgrPtr& sub_mgr);
 
     virtual bool OnMouseLeftDown(int x, int y) override;
@@ -36,6 +36,6 @@ private:
 
     const float m_y = 0.0f;
 
-}; // EditPolylineOP
+}; // PolygonBuildOP
 
 }

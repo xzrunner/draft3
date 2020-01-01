@@ -17,7 +17,7 @@
     <ClInclude Include="..\..\..\include\draft3\EdgeSelectOP.h" />
     <ClInclude Include="..\..\..\include\draft3\EdgeTranslateOP.h" />
     <ClInclude Include="..\..\..\include\draft3\EditOpMgr.h" />
-    <ClInclude Include="..\..\..\include\draft3\EditPolylineOP.h" />
+    <ClInclude Include="..\..\..\include\draft3\PolygonBuildOP.h" />
     <ClInclude Include="..\..\..\include\draft3\FacePushPullState.h" />
     <ClInclude Include="..\..\..\include\draft3\FaceSelectOP.h" />
     <ClInclude Include="..\..\..\include\draft3\FaceTranslateOP.h" />
@@ -47,7 +47,7 @@
     <ClCompile Include="..\..\..\source\EdgeSelectOP.cpp" />
     <ClCompile Include="..\..\..\source\EdgeTranslateOP.cpp" />
     <ClCompile Include="..\..\..\source\EditOpMgr.cpp" />
-    <ClCompile Include="..\..\..\source\EditPolylineOP.cpp" />
+    <ClCompile Include="..\..\..\source\PolygonBuildOP.cpp" />
     <ClCompile Include="..\..\..\source\FacePushPullState.cpp" />
     <ClCompile Include="..\..\..\source\FaceSelectOP.cpp" />
     <ClCompile Include="..\..\..\source\FaceTranslateOP.cpp" />
