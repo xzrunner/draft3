@@ -75,17 +75,8 @@
     <ClInclude Include="..\..\..\include\draft3\FaceTranslateOP.h">
       <Filter>editop\3.face</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\draft3\PolySelectOP.h">
-      <Filter>editop\4.polyhedron\arrange</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\draft3\PolyArrangeOP.h">
-      <Filter>editop\4.polyhedron\arrange</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\draft3\PolyTranslateState.h">
       <Filter>editop\4.polyhedron\arrange\state</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\draft3\PolyBuildOP.h">
-      <Filter>editop\4.polyhedron\draw</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\draft3\FacePushPullState.h">
       <Filter>editop\4.polyhedron\draw\state</Filter>
@@ -110,6 +101,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\draft3\PolygonSelectOP.h">
       <Filter>editop\5.polygon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\draft3\PolyhedronBuildOP.h">
+      <Filter>editop\4.polyhedron\draw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\draft3\PolyhedronSelectOP.h">
+      <Filter>editop\4.polyhedron\arrange</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\draft3\PolyhedronArrangeOP.h">
+      <Filter>editop\4.polyhedron\arrange</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -154,17 +154,8 @@
     <ClCompile Include="..\..\..\source\FaceSelectOP.cpp">
       <Filter>editop\3.face</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\PolySelectOP.cpp">
-      <Filter>editop\4.polyhedron\arrange</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\PolyArrangeOP.cpp">
-      <Filter>editop\4.polyhedron\arrange</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\PolyTranslateState.cpp">
       <Filter>editop\4.polyhedron\arrange\state</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\PolyBuildOP.cpp">
-      <Filter>editop\4.polyhedron\draw</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\FacePushPullState.cpp">
       <Filter>editop\4.polyhedron\draw\state</Filter>
@@ -186,6 +177,15 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\PolygonSelectOP.cpp">
       <Filter>editop\5.polygon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\PolyhedronBuildOP.cpp">
+      <Filter>editop\4.polyhedron\draw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\PolyhedronSelectOP.cpp">
+      <Filter>editop\4.polyhedron\arrange</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\PolyhedronArrangeOP.cpp">
+      <Filter>editop\4.polyhedron\arrange</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-#include "draft3/PolyBuildOP.h"
+#include "draft3/PolyhedronBuildOP.h"
 #include "draft3/DrawRectFaceState.h"
 #include "draft3/DrawPolyFaceState.h"
 #include "draft3/FacePushPullState.h"
@@ -12,7 +12,7 @@ namespace draft3
 namespace mesh
 {
 
-PolyBuildOP::PolyBuildOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
+PolyhedronBuildOP::PolyhedronBuildOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
 	                     const ee0::SubjectMgrPtr& sub_mgr, const MeshPointQuery::Selected& selected,
 	                     std::function<void()> update_cb)
 	: ee0::EditOP(camera)
@@ -28,7 +28,7 @@ PolyBuildOP::PolyBuildOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::
 	ChangeEditOpState(m_default_state);
 }
 
-bool PolyBuildOP::OnKeyDown(int key_code)
+bool PolyhedronBuildOP::OnKeyDown(int key_code)
 {
 	if (ee0::EditOP::OnKeyDown(key_code)) {
 		return true;
@@ -52,7 +52,7 @@ bool PolyBuildOP::OnKeyDown(int key_code)
 	return false;
 }
 
-bool PolyBuildOP::OnKeyUp(int key_code)
+bool PolyhedronBuildOP::OnKeyUp(int key_code)
 {
 	if (ee0::EditOP::OnKeyUp(key_code)) {
 		return true;
@@ -75,7 +75,7 @@ bool PolyBuildOP::OnKeyUp(int key_code)
 	return false;
 }
 
-bool PolyBuildOP::OnMouseLeftDown(int x, int y)
+bool PolyhedronBuildOP::OnMouseLeftDown(int x, int y)
 {
 	if (ee0::EditOP::OnMouseLeftDown(x, y)) {
 		return true;
@@ -91,7 +91,7 @@ bool PolyBuildOP::OnMouseLeftDown(int x, int y)
 	return false;
 }
 
-bool PolyBuildOP::OnMouseLeftUp(int x, int y)
+bool PolyhedronBuildOP::OnMouseLeftUp(int x, int y)
 {
 	if (ee0::EditOP::OnMouseLeftUp(x, y)) {
 		return true;
@@ -105,7 +105,7 @@ bool PolyBuildOP::OnMouseLeftUp(int x, int y)
 	return false;
 }
 
-bool PolyBuildOP::OnMouseMove(int x, int y)
+bool PolyhedronBuildOP::OnMouseMove(int x, int y)
 {
 	if (ee0::EditOP::OnMouseMove(x, y)) {
 		return true;
@@ -118,7 +118,7 @@ bool PolyBuildOP::OnMouseMove(int x, int y)
 	return false;
 }
 
-bool PolyBuildOP::OnMouseDrag(int x, int y)
+bool PolyhedronBuildOP::OnMouseDrag(int x, int y)
 {
 	if (ee0::EditOP::OnMouseDrag(x, y)) {
 		return true;
@@ -138,7 +138,7 @@ bool PolyBuildOP::OnMouseDrag(int x, int y)
 	return false;
 }
 
-bool PolyBuildOP::OnDraw() const
+bool PolyhedronBuildOP::OnDraw() const
 {
 	if (ee0::EditOP::OnDraw()) {
 		return true;

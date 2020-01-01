@@ -12,10 +12,10 @@ namespace draft3
 namespace mesh
 {
 
-class PolyBuildOP : public ee0::EditOP
+class PolyhedronBuildOP : public ee0::EditOP
 {
 public:
-	PolyBuildOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
+	PolyhedronBuildOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
 		const ee0::SubjectMgrPtr& sub_mgr, const MeshPointQuery::Selected& selected,
 		std::function<void()> update_cb);
 
@@ -47,7 +47,7 @@ private:
 
 	bool m_mouse_pressing = false;
 
-}; // PolyBuildOP
+}; // PolyhedronBuildOP
 
 }
 }

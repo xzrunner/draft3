@@ -12,10 +12,10 @@ namespace draft3
 namespace mesh
 {
 
-class PolyArrangeOP : public ee0::EditOP
+class PolyhedronArrangeOP : public ee0::EditOP
 {
 public:
-	PolyArrangeOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
+	PolyhedronArrangeOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
 		const ee0::SubjectMgrPtr& sub_mgr, const MeshPointQuery::Selected& selected,
 		std::function<void()> update_cb);
 
@@ -31,7 +31,7 @@ private:
 
 	ee0::EditOpStatePtr m_poly_trans_state = nullptr;
 
-}; // PolyArrangeOP
+}; // PolyhedronArrangeOP
 
 }
 }

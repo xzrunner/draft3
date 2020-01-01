@@ -1,4 +1,4 @@
-#include "draft3/PolySelectOP.h"
+#include "draft3/PolyhedronSelectOP.h"
 #include "draft3/MeshPointQuery.h"
 
 #include <ee0/WxStagePage.h>
@@ -33,7 +33,7 @@ namespace draft3
 namespace mesh
 {
 
-PolySelectOP::PolySelectOP(const std::shared_ptr<pt0::Camera>& camera,
+PolyhedronSelectOP::PolyhedronSelectOP(const std::shared_ptr<pt0::Camera>& camera,
                            ee0::WxStagePage& stage,
 	                       const pt3::Viewport& vp)
 	: ee0::EditOP(camera)
@@ -45,7 +45,7 @@ PolySelectOP::PolySelectOP(const std::shared_ptr<pt0::Camera>& camera,
 	m_first_pos.MakeInvalid();
 }
 
-bool PolySelectOP::OnKeyDown(int key_code)
+bool PolyhedronSelectOP::OnKeyDown(int key_code)
 {
 	if (ee0::EditOP::OnKeyDown(key_code)) {
 		return true;
@@ -58,7 +58,7 @@ bool PolySelectOP::OnKeyDown(int key_code)
 	return false;
 }
 
-bool PolySelectOP::OnKeyUp(int key_code)
+bool PolyhedronSelectOP::OnKeyUp(int key_code)
 {
 	if (ee0::EditOP::OnKeyUp(key_code)) {
 		return true;
@@ -75,7 +75,7 @@ bool PolySelectOP::OnKeyUp(int key_code)
 	return false;
 }
 
-bool PolySelectOP::OnMouseLeftDown(int x, int y)
+bool PolyhedronSelectOP::OnMouseLeftDown(int x, int y)
 {
 	if (ee0::EditOP::OnMouseLeftDown(x, y))
 	{
@@ -108,7 +108,7 @@ bool PolySelectOP::OnMouseLeftDown(int x, int y)
 	return false;
 }
 
-bool PolySelectOP::OnMouseLeftUp(int x, int y)
+bool PolyhedronSelectOP::OnMouseLeftUp(int x, int y)
 {
 	if (ee0::EditOP::OnMouseLeftUp(x, y)) {
 		return true;
@@ -129,7 +129,7 @@ bool PolySelectOP::OnMouseLeftUp(int x, int y)
 	return false;
 }
 
-bool PolySelectOP::OnMouseMove(int x, int y)
+bool PolyhedronSelectOP::OnMouseMove(int x, int y)
 {
 	if (ee0::EditOP::OnMouseMove(x, y)) {
 		return true;
@@ -164,7 +164,7 @@ bool PolySelectOP::OnMouseMove(int x, int y)
 	return false;
 }
 
-bool PolySelectOP::OnMouseDrag(int x, int y)
+bool PolyhedronSelectOP::OnMouseDrag(int x, int y)
 {
 	if (ee0::EditOP::OnMouseDrag(x, y)) {
 		return true;
@@ -177,7 +177,7 @@ bool PolySelectOP::OnMouseDrag(int x, int y)
 	return false;
 }
 
-bool PolySelectOP::OnDraw() const
+bool PolyhedronSelectOP::OnDraw() const
 {
 	if (ee0::EditOP::OnDraw()) {
 		return true;
@@ -217,7 +217,7 @@ bool PolySelectOP::OnDraw() const
 	return false;
 }
 
-void PolySelectOP::SetSelected(const n0::SceneNodePtr& node)
+void PolyhedronSelectOP::SetSelected(const n0::SceneNodePtr& node)
 {
 	m_selected.Reset();
 
@@ -246,7 +246,7 @@ void PolySelectOP::SetSelected(const n0::SceneNodePtr& node)
 	m_selected.node      = node;
 }
 
-void PolySelectOP::UpdateCachedPolyBorder()
+void PolyhedronSelectOP::UpdateCachedPolyBorder()
 {
 	if (!m_selected.poly) {
 		return;
@@ -265,7 +265,7 @@ void PolySelectOP::UpdateCachedPolyBorder()
     } while (face != faces.Head());
 }
 
-void PolySelectOP::SelectByPos(const sm::ivec2& pos, MeshPointQuery::Selected& selected)
+void PolyhedronSelectOP::SelectByPos(const sm::ivec2& pos, MeshPointQuery::Selected& selected)
 {
 	selected.Reset();
 
@@ -333,7 +333,7 @@ void PolySelectOP::SelectByPos(const sm::ivec2& pos, MeshPointQuery::Selected& s
 	}
 }
 
-void PolySelectOP::ClearSelected()
+void PolyhedronSelectOP::ClearSelected()
 {
 	m_selected.Reset();
 	m_selected_poly.clear();

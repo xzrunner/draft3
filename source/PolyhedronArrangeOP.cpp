@@ -1,4 +1,4 @@
-#include "draft3/PolyArrangeOP.h"
+#include "draft3/PolyhedronArrangeOP.h"
 #include "draft3/PolyTranslateState.h"
 
 namespace draft3
@@ -6,7 +6,7 @@ namespace draft3
 namespace mesh
 {
 
-PolyArrangeOP::PolyArrangeOP(const std::shared_ptr<pt0::Camera>& camera,
+PolyhedronArrangeOP::PolyhedronArrangeOP(const std::shared_ptr<pt0::Camera>& camera,
 	                         const pt3::Viewport& vp,
 	                         const ee0::SubjectMgrPtr& sub_mgr,
 	                         const MeshPointQuery::Selected& selected,
@@ -21,7 +21,7 @@ PolyArrangeOP::PolyArrangeOP(const std::shared_ptr<pt0::Camera>& camera,
 	ChangeEditOpState(m_poly_trans_state);
 }
 
-bool PolyArrangeOP::OnMouseLeftDown(int x, int y)
+bool PolyhedronArrangeOP::OnMouseLeftDown(int x, int y)
 {
 	if (ee0::EditOP::OnMouseLeftDown(x, y)) {
 		return true;
@@ -33,7 +33,7 @@ bool PolyArrangeOP::OnMouseLeftDown(int x, int y)
 	return false;
 }
 
-bool PolyArrangeOP::OnMouseLeftUp(int x, int y)
+bool PolyhedronArrangeOP::OnMouseLeftUp(int x, int y)
 {
 	if (ee0::EditOP::OnMouseLeftUp(x, y)) {
 		return true;
@@ -45,7 +45,7 @@ bool PolyArrangeOP::OnMouseLeftUp(int x, int y)
 	return false;
 }
 
-bool PolyArrangeOP::OnMouseDrag(int x, int y)
+bool PolyhedronArrangeOP::OnMouseDrag(int x, int y)
 {
 	if (ee0::EditOP::OnMouseDrag(x, y)) {
 		return true;
@@ -57,7 +57,7 @@ bool PolyArrangeOP::OnMouseDrag(int x, int y)
 	return false;
 }
 
-bool PolyArrangeOP::OnDraw() const
+bool PolyhedronArrangeOP::OnDraw() const
 {
 	if (ee0::EditOP::OnDraw()) {
 		return true;

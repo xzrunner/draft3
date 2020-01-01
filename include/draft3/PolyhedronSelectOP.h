@@ -15,10 +15,10 @@ namespace draft3
 namespace mesh
 {
 
-class PolySelectOP : public ee0::EditOP
+class PolyhedronSelectOP : public ee0::EditOP
 {
 public:
-	PolySelectOP(const std::shared_ptr<pt0::Camera>& camera,
+	PolyhedronSelectOP(const std::shared_ptr<pt0::Camera>& camera,
 		ee0::WxStagePage& stage, const pt3::Viewport& vp);
 
 	virtual bool OnKeyDown(int key_code) override;
@@ -66,7 +66,7 @@ private:
 
 	bool m_select_null = true;
 
-}; // PolySelectOP
+}; // PolyhedronSelectOP
 
 }
 }

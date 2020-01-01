@@ -5,9 +5,9 @@
 #include "draft3/EdgeTranslateOP.h"
 #include "draft3/FaceSelectOP.h"
 #include "draft3/FaceTranslateOP.h"
-#include "draft3/PolySelectOP.h"
-#include "draft3/PolyArrangeOP.h"
-#include "draft3/PolyBuildOP.h"
+#include "draft3/PolyhedronSelectOP.h"
+#include "draft3/PolyhedronArrangeOP.h"
+#include "draft3/PolyhedronBuildOP.h"
 
 #include <ee0/WxStagePage.h>
 
@@ -47,7 +47,7 @@ void EditOpMgr::Init(const ee3::CameraMgr& cam_mgr,
 	m_cam_fly_op   = std::make_shared<ee3::CameraFlyOP>(&m_stage, cam3d, sub_mgr);
 	m_camera_op = m_cam_drive_op;
 
-	auto select_op = std::make_shared<mesh::PolySelectOP>(cam, m_stage, vp);
+	auto select_op = std::make_shared<mesh::PolyhedronSelectOP>(cam, m_stage, vp);
 	m_select_op = select_op;
 	auto& selected = select_op->GetSelected();
 	std::function<void()> update_cb = [select_op]() {
@@ -55,9 +55,9 @@ void EditOpMgr::Init(const ee3::CameraMgr& cam_mgr,
 	};
 
 	// arrange op with select, default
-	m_arrange_op = std::make_shared<mesh::PolyArrangeOP>(cam, vp, sub_mgr, selected, update_cb);
+	m_arrange_op = std::make_shared<mesh::PolyhedronArrangeOP>(cam, vp, sub_mgr, selected, update_cb);
 	m_arrange_op->SetPrevEditOP(m_select_op);
-	m_draw_op = std::make_shared<mesh::PolyBuildOP>(cam, vp, sub_mgr, selected, update_cb);
+	m_draw_op = std::make_shared<mesh::PolyhedronBuildOP>(cam, vp, sub_mgr, selected, update_cb);
 	m_draw_op->SetPrevEditOP(m_select_op);
 
 	// rotate
@@ -89,7 +89,7 @@ void EditOpMgr::Init(const ee3::CameraMgr& cam_mgr,
 	SetCurrOp(Operator::ARRANGE);
 	impl.SetOnKeyDownFunc([&, sub_mgr](int key_code)
 	{
-		auto select_op = std::dynamic_pointer_cast<mesh::PolySelectOP>(m_select_op);
+		auto select_op = std::dynamic_pointer_cast<mesh::PolyhedronSelectOP>(m_select_op);
 		switch (key_code)
 		{
 		case 'R':
@@ -201,7 +201,7 @@ void EditOpMgr::SetCurrOp(Operator op)
 
 void EditOpMgr::SetSelectedNode(const n0::SceneNodePtr& node)
 {
-	std::static_pointer_cast<mesh::PolySelectOP>(m_select_op)->SetSelected(node);
+	std::static_pointer_cast<mesh::PolyhedronSelectOP>(m_select_op)->SetSelected(node);
 }
 
 void EditOpMgr::ChangedCamOP(const ee0::EditOPPtr& cam_op)
