@@ -20,8 +20,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 template <typename T>
 MeshTranslateBaseOP<T>::MeshTranslateBaseOP(const std::shared_ptr<pt0::Camera>& camera,
@@ -196,5 +194,4 @@ bool MeshTranslateBaseOP<T>::OnMouseDrag(int x, int y)
 	return false;
 }
 
-}
 }

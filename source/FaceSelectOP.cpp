@@ -7,8 +7,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 FaceSelectOP::FaceSelectOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
 	                       const ee0::SubjectMgrPtr& sub_mgr,
@@ -124,5 +122,4 @@ void FaceSelectOP::DrawFace(tess::Painter& pt, const pm3::Polytope::Face& face, 
 	pt.AddPolygonFilled(polygon.data(), polygon.size(), color);
 }
 
-}
 }

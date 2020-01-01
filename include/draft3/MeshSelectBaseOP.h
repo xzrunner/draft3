@@ -15,8 +15,6 @@ namespace pm3 { class Polytope; }
 
 namespace draft3
 {
-namespace mesh
-{
 
 template <typename T>
 class MeshSelectBaseOP : public ee0::EditOP
@@ -66,7 +64,6 @@ protected:
 
 }; // MeshSelectBaseOP
 
-}
 }
 
 #include "draft3/MeshSelectBaseOP.inl"

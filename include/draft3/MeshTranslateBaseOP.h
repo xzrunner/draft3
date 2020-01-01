@@ -11,8 +11,6 @@ namespace pt3 { class Viewport; }
 
 namespace draft3
 {
-namespace mesh
-{
 
 template <typename T>
 class MeshTranslateBaseOP : public ee0::EditOP
@@ -49,7 +47,6 @@ protected:
 
 }; // MeshTranslateBaseOP
 
-}
 }
 
 #include "draft3/MeshTranslateBaseOP.inl"

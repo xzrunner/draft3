@@ -5,8 +5,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 FaceTranslateOP::FaceTranslateOP(const std::shared_ptr<pt0::Camera>& camera,
 	                             const pt3::Viewport& vp,
@@ -104,5 +102,4 @@ void FaceTranslateOP::TranslateSelected(const sm::vec3& offset)
 	model::BrushBuilder::UpdateVBO(*m_selected.model, *brush);
 }
 
-}
 }

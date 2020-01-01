@@ -17,8 +17,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 template <typename T>
 MeshSelectBaseOP<T>::MeshSelectBaseOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
@@ -214,5 +212,4 @@ void MeshSelectBaseOP<T>::SelectByRect(const sm::irect& rect)
 	}
 }
 
-}
 }

@@ -12,8 +12,6 @@ namespace pt3 { class Viewport; }
 
 namespace draft3
 {
-namespace mesh
-{
 
 class PolyhedronSelectOP : public ee0::EditOP
 {
@@ -68,5 +66,4 @@ private:
 
 }; // PolyhedronSelectOP
 
-}
 }

@@ -6,8 +6,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 class VertexTranslateOP : public MeshTranslateBaseOP<pm3::Polytope::PointPtr>
 {
@@ -23,5 +21,4 @@ protected:
 
 }; // VertexTranslateOP
 
-}
 }

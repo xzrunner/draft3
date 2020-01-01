@@ -6,8 +6,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 class FaceTranslateOP : public MeshTranslateBaseOP<pm3::Polytope::FacePtr>
 {
@@ -23,5 +21,4 @@ protected:
 
 }; // FaceTranslateOP
 
-}
 }

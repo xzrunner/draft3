@@ -6,8 +6,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 class VertexSelectOP : public MeshSelectBaseOP<pm3::Polytope::PointPtr>
 {
@@ -23,5 +21,4 @@ protected:
 
 }; // VertexSelectOP
 
-}
 }

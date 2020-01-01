@@ -15,8 +15,6 @@ namespace pm3 { class Polytope; }
 
 namespace draft3
 {
-namespace mesh
-{
 
 class MeshPointQuery
 {
@@ -65,5 +63,4 @@ public:
 
 }; // MeshPointQuery
 
-}
 }

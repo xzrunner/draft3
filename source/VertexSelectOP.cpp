@@ -7,8 +7,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 VertexSelectOP::VertexSelectOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
 	                           const ee0::SubjectMgrPtr& sub_mgr,
@@ -92,5 +90,4 @@ void VertexSelectOP::QueryByRect(const sm::irect& rect, std::vector<pm3::Polytop
 	}
 }
 
-}
 }

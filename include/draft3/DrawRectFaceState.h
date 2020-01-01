@@ -10,8 +10,6 @@ namespace pt3 { class Viewport; }
 
 namespace draft3
 {
-namespace mesh
-{
 
 class DrawRectFaceState : public ee0::EditOpState
 {
@@ -42,5 +40,4 @@ private:
 
 }; // DrawRectFaceState
 
-}
 }

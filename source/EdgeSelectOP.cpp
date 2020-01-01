@@ -6,8 +6,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 EdgeSelectOP::EdgeSelectOP(const std::shared_ptr<pt0::Camera>& camera,
 	                       const pt3::Viewport& vp,
@@ -127,5 +125,4 @@ void EdgeSelectOP::ProjectBrushEdge(const pm3::Polytope& poly, const pm3::Polyto
 	func(b2, e2, mid2);
 }
 
-}
 }

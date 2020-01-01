@@ -18,8 +18,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 FacePushPullState::FacePushPullState(const std::shared_ptr<pt0::Camera>& camera,
 	                                 const pt3::Viewport& vp,
@@ -168,5 +166,4 @@ void FacePushPullState::TranslateFace(const sm::vec3& offset)
 	model::BrushBuilder::UpdateVBO(*m_selected.model, brush);
 }
 
-}
 }

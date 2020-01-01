@@ -3,8 +3,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 PolyhedronArrangeOP::PolyhedronArrangeOP(const std::shared_ptr<pt0::Camera>& camera,
 	                         const pt3::Viewport& vp,
@@ -69,5 +67,4 @@ bool PolyhedronArrangeOP::OnDraw() const
 	return false;
 }
 
-}
 }

@@ -47,7 +47,7 @@ void EditOpMgr::Init(const ee3::CameraMgr& cam_mgr,
 	m_cam_fly_op   = std::make_shared<ee3::CameraFlyOP>(&m_stage, cam3d, sub_mgr);
 	m_camera_op = m_cam_drive_op;
 
-	auto select_op = std::make_shared<mesh::PolyhedronSelectOP>(cam, m_stage, vp);
+	auto select_op = std::make_shared<PolyhedronSelectOP>(cam, m_stage, vp);
 	m_select_op = select_op;
 	auto& selected = select_op->GetSelected();
 	std::function<void()> update_cb = [select_op]() {
@@ -55,9 +55,9 @@ void EditOpMgr::Init(const ee3::CameraMgr& cam_mgr,
 	};
 
 	// arrange op with select, default
-	m_arrange_op = std::make_shared<mesh::PolyhedronArrangeOP>(cam, vp, sub_mgr, selected, update_cb);
+	m_arrange_op = std::make_shared<PolyhedronArrangeOP>(cam, vp, sub_mgr, selected, update_cb);
 	m_arrange_op->SetPrevEditOP(m_select_op);
-	m_draw_op = std::make_shared<mesh::PolyhedronBuildOP>(cam, vp, sub_mgr, selected, update_cb);
+	m_draw_op = std::make_shared<PolyhedronBuildOP>(cam, vp, sub_mgr, selected, update_cb);
 	m_draw_op->SetPrevEditOP(m_select_op);
 
 	// rotate
@@ -65,21 +65,21 @@ void EditOpMgr::Init(const ee3::CameraMgr& cam_mgr,
 	// translate
 	m_translate_op = std::make_shared<ee3::NodeTranslateOP>(cam, m_stage, vp);
 	// vertex
-	auto select_vert_op = std::make_shared<mesh::VertexSelectOP>(cam, vp, sub_mgr, selected);
+	auto select_vert_op = std::make_shared<VertexSelectOP>(cam, vp, sub_mgr, selected);
 	select_vert_op->SetPrevEditOP(m_select_op);
-	m_vertex_op = std::make_shared<mesh::VertexTranslateOP>(
+	m_vertex_op = std::make_shared<VertexTranslateOP>(
 		cam, vp, sub_mgr, selected, select_vert_op->GetSelected(), update_cb);
 	m_vertex_op->SetPrevEditOP(select_vert_op);
 	// edge
-	auto select_edge_op = std::make_shared<mesh::EdgeSelectOP>(cam, vp, sub_mgr, selected);
+	auto select_edge_op = std::make_shared<EdgeSelectOP>(cam, vp, sub_mgr, selected);
 	select_edge_op->SetPrevEditOP(m_select_op);
-	m_edge_op = std::make_shared<mesh::EdgeTranslateOP>(
+	m_edge_op = std::make_shared<EdgeTranslateOP>(
 		cam, vp, sub_mgr, selected, select_edge_op->GetSelected(), update_cb);
 	m_edge_op->SetPrevEditOP(select_edge_op);
 	// face
-	auto select_face_op = std::make_shared<mesh::FaceSelectOP>(cam, vp, sub_mgr, selected);
+	auto select_face_op = std::make_shared<FaceSelectOP>(cam, vp, sub_mgr, selected);
 	select_face_op->SetPrevEditOP(m_select_op);
-	m_face_op = std::make_shared<mesh::FaceTranslateOP>(
+	m_face_op = std::make_shared<FaceTranslateOP>(
 		cam, vp, sub_mgr, selected, select_face_op->GetSelected(), update_cb);
 	m_face_op->SetPrevEditOP(select_face_op);
 
@@ -89,7 +89,7 @@ void EditOpMgr::Init(const ee3::CameraMgr& cam_mgr,
 	SetCurrOp(Operator::ARRANGE);
 	impl.SetOnKeyDownFunc([&, sub_mgr](int key_code)
 	{
-		auto select_op = std::dynamic_pointer_cast<mesh::PolyhedronSelectOP>(m_select_op);
+		auto select_op = std::dynamic_pointer_cast<PolyhedronSelectOP>(m_select_op);
 		switch (key_code)
 		{
 		case 'R':
@@ -201,7 +201,7 @@ void EditOpMgr::SetCurrOp(Operator op)
 
 void EditOpMgr::SetSelectedNode(const n0::SceneNodePtr& node)
 {
-	std::static_pointer_cast<mesh::PolyhedronSelectOP>(m_select_op)->SetSelected(node);
+	std::static_pointer_cast<PolyhedronSelectOP>(m_select_op)->SetSelected(node);
 }
 
 void EditOpMgr::ChangedCamOP(const ee0::EditOPPtr& cam_op)

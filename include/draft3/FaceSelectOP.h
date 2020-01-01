@@ -8,8 +8,6 @@ namespace tess { class Painter; }
 
 namespace draft3
 {
-namespace mesh
-{
 
 class FaceSelectOP : public MeshSelectBaseOP<pm3::Polytope::FacePtr>
 {
@@ -30,5 +28,4 @@ private:
 
 }; // FaceSelectOP
 
-}
 }

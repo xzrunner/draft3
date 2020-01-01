@@ -16,8 +16,6 @@ namespace pt3 { class Viewport; }
 
 namespace draft3
 {
-namespace mesh
-{
 
 class FacePushPullState : public ee0::EditOpState
 {
@@ -57,5 +55,4 @@ private:
 
 }; // FacePushPullState
 
-}
 }

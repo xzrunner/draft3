@@ -30,8 +30,6 @@ const bool PRESS_SELECT = false;
 
 namespace draft3
 {
-namespace mesh
-{
 
 PolyhedronSelectOP::PolyhedronSelectOP(const std::shared_ptr<pt0::Camera>& camera,
                            ee0::WxStagePage& stage,
@@ -340,5 +338,4 @@ void PolyhedronSelectOP::ClearSelected()
 	m_selected_face.clear();
 }
 
-}
 }

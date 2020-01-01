@@ -103,7 +103,7 @@ bool PolygonSelectOP::OnDraw() const
             auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
             pt.AddPolygonFilled3D(verts.data(), verts.size(), [&](const sm::vec3& pos3)->sm::vec2 {
                 return m_vp.TransPosProj3ToProj2(pos3, cam_mat);
-            }, mesh::LIGHT_SELECT_COLOR);
+            }, LIGHT_SELECT_COLOR);
         }
 
 		return true;

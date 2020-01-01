@@ -40,7 +40,7 @@ bool PolygonBuildOP::OnMouseLeftDown(int x, int y)
     auto p_cam = std::dynamic_pointer_cast<pt3::PerspCam>(m_camera);
 
     sm::vec3 cross;
-    if (mesh::ray_yplane_intersect(*p_cam, m_vp, x, y, m_y, cross))
+    if (ray_yplane_intersect(*p_cam, m_vp, x, y, m_y, cross))
     {
         if (m_polyline.empty()) {
             m_polyline.push_back(cross);
@@ -81,7 +81,7 @@ bool PolygonBuildOP::OnMouseMove(int x, int y)
     auto p_cam = std::dynamic_pointer_cast<pt3::PerspCam>(m_camera);
 
     sm::vec3 cross;
-    if (mesh::ray_yplane_intersect(*p_cam, m_vp, x, y, m_y, cross)) {
+    if (ray_yplane_intersect(*p_cam, m_vp, x, y, m_y, cross)) {
         m_polyline.back() = cross;
         m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
     }

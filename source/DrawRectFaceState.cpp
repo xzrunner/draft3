@@ -21,8 +21,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 DrawRectFaceState::DrawRectFaceState(const std::shared_ptr<pt0::Camera>& camera,
 	                           const pt3::Viewport& vp,
@@ -135,5 +133,4 @@ n0::SceneNodePtr DrawRectFaceState::CreateModelObj()
 	return node;
 }
 
-}
 }

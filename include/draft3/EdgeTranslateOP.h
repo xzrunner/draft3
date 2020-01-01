@@ -6,8 +6,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 class EdgeTranslateOP : public MeshTranslateBaseOP<pm3::Polytope::EdgePtr>
 {
@@ -23,5 +21,4 @@ protected:
 
 }; // EdgeTranslateOP
 
-}
 }

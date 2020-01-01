@@ -6,8 +6,6 @@
 
 namespace draft3
 {
-namespace mesh
-{
 
 class EdgeSelectOP : public MeshSelectBaseOP<pm3::Polytope::EdgePtr>
 {
@@ -30,5 +28,4 @@ private:
 
 }; // EdgeSelectOP
 
-}
 }
