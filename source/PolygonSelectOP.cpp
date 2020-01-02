@@ -45,11 +45,11 @@ bool PolygonSelectOP::OnMouseLeftDown(int x, int y)
         sm::Ray ray(p_cam->GetPos(), ray_dir);
         m_stage.Traverse([&](const ee0::GameObj& obj)->bool
         {
-            if (!obj->HasSharedComp<n3::CompShape>()) {
+            if (!obj->HasUniqueComp<n3::CompShape>()) {
                 return true;
             }
 
-            auto& cshape = obj->GetSharedComp<n3::CompShape>();
+            auto& cshape = obj->GetUniqueComp<n3::CompShape>();
             for (auto& shape : cshape.GetShapes())
             {
                 if (shape->get_type() != rttr::type::get<gs::Polygon3D>()) {
@@ -87,11 +87,11 @@ bool PolygonSelectOP::OnDraw() const
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
 	m_stage.GetSelection().Traverse([&](const ee0::GameObjWithPos& nwp)->bool
 	{
-        if (!nwp.GetNode()->HasSharedComp<n3::CompShape>()) {
+        if (!nwp.GetNode()->HasUniqueComp<n3::CompShape>()) {
             return true;
         }
 
-        auto& cshape = nwp.GetNode()->GetSharedComp<n3::CompShape>();
+        auto& cshape = nwp.GetNode()->GetUniqueComp<n3::CompShape>();
         for (auto& shape : cshape.GetShapes())
         {
             if (shape->get_type() != rttr::type::get<gs::Polygon3D>()) {

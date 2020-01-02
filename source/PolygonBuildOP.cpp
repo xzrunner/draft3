@@ -122,7 +122,7 @@ bool PolygonBuildOP::OnMouseLeftDClick(int x, int y)
     auto node = ns::NodeFactory::Create3D();
     assert(node);
 
-    auto& cshape = node->AddSharedComp<n3::CompShape>();
+    auto& cshape = node->AddUniqueComp<n3::CompShape>();
     cshape.SetShapes({ std::make_shared<gs::Polygon3D>(m_polyline) });
 
     ee0::MsgHelper::InsertNode(*m_sub_mgr, node, true);
