@@ -7,6 +7,7 @@
 #include <SM_Ray.h>
 #include <SM_RayIntersect.h>
 #include <tessellation/Painter.h>
+#include <unirender2/RenderState.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/PerspCam.h>
 #include <painting3/Viewport.h>
@@ -22,10 +23,12 @@
 namespace draft3
 {
 
-DrawRectFaceState::DrawRectFaceState(const std::shared_ptr<pt0::Camera>& camera,
-	                           const pt3::Viewport& vp,
-	                           const ee0::SubjectMgrPtr& sub_mgr)
+DrawRectFaceState::DrawRectFaceState(const ur2::Device& dev,
+                                     const std::shared_ptr<pt0::Camera>& camera,
+	                                 const pt3::Viewport& vp,
+	                                 const ee0::SubjectMgrPtr& sub_mgr)
 	: ee0::EditOpState(camera)
+    , m_dev(dev)
 	, m_vp(vp)
 	, m_sub_mgr(sub_mgr)
 	, m_y(0)
@@ -66,7 +69,7 @@ bool DrawRectFaceState::OnMouseDrag(int x, int y)
 	return false;
 }
 
-bool DrawRectFaceState::OnDraw() const
+bool DrawRectFaceState::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
 	if (m_first_pos.IsValid() && m_last_pos.IsValid())
 	{
@@ -75,7 +78,9 @@ bool DrawRectFaceState::OnDraw() const
 		pt.AddCube(sm::cube(m_first_pos, m_last_pos), [&](const sm::vec3& pos3)->sm::vec2 {
 			return m_vp.TransPosProj3ToProj2(pos3, cam_mat);
 		}, 0xffffffff);
-		pt2::RenderSystem::DrawPainter(pt);
+
+        ur2::RenderState rs;
+		pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 	}
 	return false;
 }
@@ -112,7 +117,7 @@ n0::SceneNodePtr DrawRectFaceState::CreateModelObj()
 	face.push_back({ m_first_pos.x, m_y, m_last_pos.z });
 
     std::shared_ptr<model::Model> model =
-        model::BrushBuilder::PolymeshFromPolygon(face);
+        model::BrushBuilder::PolymeshFromPolygon(m_dev, face);
 
 	auto node = std::make_shared<n0::SceneNode>();
 

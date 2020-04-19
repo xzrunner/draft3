@@ -10,17 +10,17 @@
 namespace draft3
 {
 
-PolyhedronBuildOP::PolyhedronBuildOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
-	                     const ee0::SubjectMgrPtr& sub_mgr, const MeshPointQuery::Selected& selected,
-	                     std::function<void()> update_cb)
+PolyhedronBuildOP::PolyhedronBuildOP(const ur2::Device& dev, const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
+	                                 const ee0::SubjectMgrPtr& sub_mgr, const MeshPointQuery::Selected& selected,
+	                                 std::function<void()> update_cb)
 	: ee0::EditOP(camera)
 	, m_vp(vp)
 	, m_sub_mgr(sub_mgr)
 	, m_selected(selected)
 	, m_update_cb(update_cb)
 {
-	m_draw_rect_state = std::make_shared<DrawRectFaceState>(camera, vp, sub_mgr);
-	m_draw_poly_state = std::make_shared<DrawPolyFaceState>(camera, vp, sub_mgr);
+	m_draw_rect_state = std::make_shared<DrawRectFaceState>(dev, camera, vp, sub_mgr);
+	m_draw_poly_state = std::make_shared<DrawPolyFaceState>(dev, camera, vp, sub_mgr);
 	m_default_state = m_draw_poly_state;
 //	m_default_state = m_draw_rect_state;
 	ChangeEditOpState(m_default_state);
@@ -136,12 +136,12 @@ bool PolyhedronBuildOP::OnMouseDrag(int x, int y)
 	return false;
 }
 
-bool PolyhedronBuildOP::OnDraw() const
+bool PolyhedronBuildOP::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
-	if (ee0::EditOP::OnDraw()) {
+	if (ee0::EditOP::OnDraw(dev, ctx)) {
 		return true;
 	}
-	if (m_op_state->OnDraw()) {
+	if (m_op_state->OnDraw(dev, ctx)) {
 		return true;
 	}
 

@@ -14,8 +14,8 @@
 #include <node0/SceneNode.h>
 #include <node3/CompTransform.h>
 #include <node3/CompModelInst.h>
-#include <unirender/Blackboard.h>
 #include <tessellation/Painter.h>
+#include <unirender2/RenderState.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/PerspCam.h>
 #include <painting3/OrthoCam.h>
@@ -175,9 +175,9 @@ bool PolyhedronSelectOP::OnMouseDrag(int x, int y)
 	return false;
 }
 
-bool PolyhedronSelectOP::OnDraw() const
+bool PolyhedronSelectOP::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
-	if (ee0::EditOP::OnDraw()) {
+	if (ee0::EditOP::OnDraw(dev, ctx)) {
 		return true;
 	}
 
@@ -210,7 +210,8 @@ bool PolyhedronSelectOP::OnDraw() const
 		pt.AddPolygonFilled(vs2.data(), vs2.size(), ee0::LIGHT_RED.ToABGR());
 	}
 
-	pt2::RenderSystem::DrawPainter(pt);
+    ur2::RenderState rs;
+	pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 
 	return false;
 }

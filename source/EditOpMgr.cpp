@@ -10,6 +10,7 @@
 #include "draft3/PolyhedronBuildOP.h"
 
 #include <ee0/WxStagePage.h>
+#include <ee0/WxStageCanvas.h>
 
 #include <ee3/CameraMgr.h>
 #include <ee3/MessageID.h>
@@ -54,10 +55,12 @@ void EditOpMgr::Init(const ee3::CameraMgr& cam_mgr,
 		select_op->UpdateCachedPolyBorder();
 	};
 
+    auto& dev = m_stage.GetImpl().GetCanvas()->GetRenderDevice();
+
 	// arrange op with select, default
 	m_arrange_op = std::make_shared<PolyhedronArrangeOP>(cam, vp, sub_mgr, selected, update_cb);
 	m_arrange_op->SetPrevEditOP(m_select_op);
-	m_draw_op = std::make_shared<PolyhedronBuildOP>(cam, vp, sub_mgr, selected, update_cb);
+	m_draw_op = std::make_shared<PolyhedronBuildOP>(dev, cam, vp, sub_mgr, selected, update_cb);
 	m_draw_op->SetPrevEditOP(m_select_op);
 
 	// rotate

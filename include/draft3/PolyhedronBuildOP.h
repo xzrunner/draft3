@@ -13,9 +13,9 @@ namespace draft3
 class PolyhedronBuildOP : public ee0::EditOP
 {
 public:
-	PolyhedronBuildOP(const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
-		const ee0::SubjectMgrPtr& sub_mgr, const MeshPointQuery::Selected& selected,
-		std::function<void()> update_cb);
+	PolyhedronBuildOP(const ur2::Device& dev, const std::shared_ptr<pt0::Camera>& camera,
+        const pt3::Viewport& vp, const ee0::SubjectMgrPtr& sub_mgr,
+        const MeshPointQuery::Selected& selected, std::function<void()> update_cb);
 
 	virtual bool OnKeyDown(int key_code) override;
 	virtual bool OnKeyUp(int key_code) override;
@@ -25,7 +25,7 @@ public:
 	virtual bool OnMouseMove(int x, int y) override;
 	virtual bool OnMouseDrag(int x, int y) override;
 
-	virtual bool OnDraw() const override;
+	virtual bool OnDraw(const ur2::Device& dev, ur2::Context& ctx) const override;
 
 private:
 	const pt3::Viewport& m_vp;

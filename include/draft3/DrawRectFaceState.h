@@ -14,14 +14,14 @@ namespace draft3
 class DrawRectFaceState : public ee0::EditOpState
 {
 public:
-	DrawRectFaceState(const std::shared_ptr<pt0::Camera>& camera,
+	DrawRectFaceState(const ur2::Device& dev, const std::shared_ptr<pt0::Camera>& camera,
 		const pt3::Viewport& vp, const ee0::SubjectMgrPtr& sub_mgr);
 
 	virtual bool OnMousePress(int x, int y) override;
 	virtual bool OnMouseRelease(int x, int y) override;
 	virtual bool OnMouseDrag(int x, int y) override;
 
-	virtual bool OnDraw() const override;
+	virtual bool OnDraw(const ur2::Device& dev, ur2::Context& ctx) const override;
 
 private:
 	bool RayPlaneIntersect(int x, int y, float plane_y, sm::vec3& cross) const;
@@ -29,6 +29,8 @@ private:
 	n0::SceneNodePtr CreateModelObj();
 
 private:
+    const ur2::Device& m_dev;
+
 	const pt3::Viewport& m_vp;
 
 	ee0::SubjectMgrPtr m_sub_mgr;

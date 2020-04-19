@@ -123,9 +123,9 @@ bool MeshSelectBaseOP<T>::OnMouseDrag(int x, int y)
 }
 
 template <typename T>
-bool MeshSelectBaseOP<T>::OnDraw() const
+bool MeshSelectBaseOP<T>::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
-	if (ee0::EditOP::OnDraw()) {
+	if (ee0::EditOP::OnDraw(dev, ctx)) {
 		return true;
 	}
 
@@ -133,16 +133,16 @@ bool MeshSelectBaseOP<T>::OnDraw() const
 	if (!brush || m_base_selected.brush_idx < 0)
 	{
 		if (m_draw_state_enable) {
-			m_draw_state->OnDraw();
+			m_draw_state->OnDraw(dev, ctx);
 		}
 		return false;
 	}
 
 	auto cam_mat = m_camera->GetProjectionMat() * m_camera->GetViewMat();
-	DrawImpl(*brush->impl, cam_mat);
+	DrawImpl(dev, ctx, *brush->impl, cam_mat);
 
 	if (m_draw_state_enable) {
-		m_draw_state->OnDraw();
+		m_draw_state->OnDraw(dev, ctx);
 	}
 
 	return false;

@@ -55,12 +55,12 @@ bool PolyhedronArrangeOP::OnMouseDrag(int x, int y)
 	return false;
 }
 
-bool PolyhedronArrangeOP::OnDraw() const
+bool PolyhedronArrangeOP::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
-	if (ee0::EditOP::OnDraw()) {
+	if (ee0::EditOP::OnDraw(dev, ctx)) {
 		return true;
 	}
-	if (m_op_state->OnDraw()) {
+	if (m_op_state->OnDraw(dev, ctx)) {
 		return true;
 	}
 

@@ -14,7 +14,8 @@ public:
 		const ee0::SubjectMgrPtr& sub_mgr, const MeshPointQuery::Selected& selected);
 
 protected:
-	virtual void DrawImpl(const pm3::Polytope& poly, const sm::mat4& cam_mat) const override;
+	virtual void DrawImpl(const ur2::Device& dev, ur2::Context& ctx,
+        const pm3::Polytope& poly, const sm::mat4& cam_mat) const override;
 
 	virtual pm3::Polytope::EdgePtr QueryByPos(int x, int y) const override;
 	virtual void QueryByRect(const sm::irect& rect, std::vector<pm3::Polytope::EdgePtr>& selection) const override;

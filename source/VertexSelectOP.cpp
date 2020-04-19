@@ -2,6 +2,7 @@
 
 #include <tessellation/Painter.h>
 #include <polymesh3/Polytope.h>
+#include <unirender2/RenderState.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
 
@@ -16,7 +17,8 @@ VertexSelectOP::VertexSelectOP(const std::shared_ptr<pt0::Camera>& camera, const
 	m_selecting = nullptr;
 }
 
-void VertexSelectOP::DrawImpl(const pm3::Polytope& poly, const sm::mat4& cam_mat) const
+void VertexSelectOP::DrawImpl(const ur2::Device& dev, ur2::Context& ctx,
+                              const pm3::Polytope& poly, const sm::mat4& cam_mat) const
 {
 	tess::Painter pt;
 
@@ -38,8 +40,8 @@ void VertexSelectOP::DrawImpl(const pm3::Polytope& poly, const sm::mat4& cam_mat
 		return true;
 	});
 
-
-	pt2::RenderSystem::DrawPainter(pt);
+    ur2::RenderState rs;
+	pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 }
 
 pm3::Polytope::PointPtr VertexSelectOP::QueryByPos(int x, int y) const

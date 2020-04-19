@@ -8,6 +8,7 @@
 #include <SM_Ray.h>
 #include <SM_RayIntersect.h>
 #include <tessellation/Painter.h>
+#include <unirender2/RenderState.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/PerspCam.h>
 #include <painting3/Viewport.h>
@@ -25,10 +26,12 @@
 namespace draft3
 {
 
-DrawPolyFaceState::DrawPolyFaceState(const std::shared_ptr<pt0::Camera>& camera,
-	                           const pt3::Viewport& vp,
-	                           const ee0::SubjectMgrPtr& sub_mgr)
+DrawPolyFaceState::DrawPolyFaceState(const ur2::Device& dev,
+                                     const std::shared_ptr<pt0::Camera>& camera,
+	                                 const pt3::Viewport& vp,
+	                                 const ee0::SubjectMgrPtr& sub_mgr)
 	: ee0::EditOpState(camera)
+    , m_dev(dev)
 	, m_vp(vp)
 	, m_sub_mgr(sub_mgr)
 	, m_y(0)
@@ -93,7 +96,7 @@ bool DrawPolyFaceState::OnMouseMove(int x, int y)
 	return false;
 }
 
-bool DrawPolyFaceState::OnDraw() const
+bool DrawPolyFaceState::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
 	if (m_polygon.empty()) {
 		return false;
@@ -104,7 +107,9 @@ bool DrawPolyFaceState::OnDraw() const
 	pt.AddPolygon3D(m_polygon.data(), m_polygon.size(), [&](const sm::vec3& pos3)->sm::vec2 {
 		return m_vp.TransPosProj3ToProj2(pos3, cam_mat);
 	}, 0xffffffff);
-	pt2::RenderSystem::DrawPainter(pt);
+
+    ur2::RenderState rs;
+	pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 
 	return false;
 }
@@ -119,7 +124,7 @@ n0::SceneNodePtr DrawPolyFaceState::CreateModelObj()
 	polygon.pop_back();
 
     std::shared_ptr<model::Model> model =
-        model::BrushBuilder::PolymeshFromPolygon(polygon);
+        model::BrushBuilder::PolymeshFromPolygon(m_dev, polygon);
 
 	auto node = std::make_shared<n0::SceneNode>();
 

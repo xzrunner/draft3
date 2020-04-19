@@ -8,6 +8,7 @@
 #include <halfedge/Utility.h>
 #include <polymesh3/Polytope.h>
 #include <tessellation/Painter.h>
+#include <unirender2/RenderState.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/Viewport.h>
@@ -112,7 +113,7 @@ bool FacePushPullState::OnMouseDrag(int x, int y)
 	}
 }
 
-bool FacePushPullState::OnDraw() const
+bool FacePushPullState::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
 	// debug draw
 	if (m_last_pos3d.IsValid())
@@ -122,7 +123,9 @@ bool FacePushPullState::OnDraw() const
 		pt.AddLine3D(m_move_path3d.origin, m_last_pos3d, [&](const sm::vec3& pos3)->sm::vec2 {
 			return m_vp.TransPosProj3ToProj2(pos3, cam_mat);
 		}, 0xffffffff);
-		pt2::RenderSystem::DrawPainter(pt);
+
+        ur2::RenderState rs;
+		pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 	}
 
 	return false;

@@ -8,6 +8,7 @@
 #include <SM_Ray.h>
 #include <SM_RayIntersect.h>
 #include <tessellation/Painter.h>
+#include <unirender2/RenderState.h>
 #include <painting0/Camera.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/Viewport.h>
@@ -76,9 +77,9 @@ bool PolygonSelectOP::OnMouseLeftDown(int x, int y)
     return false;
 }
 
-bool PolygonSelectOP::OnDraw() const
+bool PolygonSelectOP::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
-    if (ee0::EditOP::OnDraw()) {
+    if (ee0::EditOP::OnDraw(dev, ctx)) {
         return true;
     }
 
@@ -109,7 +110,8 @@ bool PolygonSelectOP::OnDraw() const
 		return true;
 	});
 
-	pt2::RenderSystem::DrawPainter(pt);
+    ur2::RenderState rs;
+	pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 
     return false;
 }

@@ -2,6 +2,7 @@
 
 #include <polymesh3/Polytope.h>
 #include <tessellation/Painter.h>
+#include <unirender2/RenderState.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
 
@@ -16,7 +17,8 @@ FaceSelectOP::FaceSelectOP(const std::shared_ptr<pt0::Camera>& camera, const pt3
 	m_selecting = nullptr;
 }
 
-void FaceSelectOP::DrawImpl(const pm3::Polytope& poly, const sm::mat4& cam_mat) const
+void FaceSelectOP::DrawImpl(const ur2::Device& dev, ur2::Context& ctx,
+                            const pm3::Polytope& poly, const sm::mat4& cam_mat) const
 {
 	tess::Painter pt;
 	// all nodes
@@ -40,7 +42,9 @@ void FaceSelectOP::DrawImpl(const pm3::Polytope& poly, const sm::mat4& cam_mat) 
 		pt.AddCircleFilled(center, NODE_DRAW_RADIUS, SELECT_COLOR);
 		return true;
 	});
-	pt2::RenderSystem::DrawPainter(pt);
+
+    ur2::RenderState rs;
+	pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 }
 
 pm3::Polytope::FacePtr FaceSelectOP::QueryByPos(int x, int y) const
