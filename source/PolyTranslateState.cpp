@@ -6,7 +6,7 @@
 
 #include <SM_RayIntersect.h>
 #include <tessellation/Painter.h>
-#include <unirender2/RenderState.h>
+#include <unirender/RenderState.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/PerspCam.h>
 #include <painting3/OrthoCam.h>
@@ -390,7 +390,7 @@ bool PolyTranslateState::OnMouseDrag(int x, int y)
 	return false;
 }
 
-bool PolyTranslateState::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
+bool PolyTranslateState::OnDraw(const ur::Device& dev, ur::Context& ctx) const
 {
 	tess::Painter pt;
 
@@ -491,7 +491,7 @@ bool PolyTranslateState::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 		}
 	}
 
-    ur2::RenderState rs;
+    ur::RenderState rs;
 	pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 
 	return false;

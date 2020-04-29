@@ -123,7 +123,7 @@ bool MeshSelectBaseOP<T>::OnMouseDrag(int x, int y)
 }
 
 template <typename T>
-bool MeshSelectBaseOP<T>::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
+bool MeshSelectBaseOP<T>::OnDraw(const ur::Device& dev, ur::Context& ctx) const
 {
 	if (ee0::EditOP::OnDraw(dev, ctx)) {
 		return true;

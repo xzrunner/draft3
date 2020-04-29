@@ -2,7 +2,7 @@
 
 #include <polymesh3/Polytope.h>
 #include <tessellation/Painter.h>
-#include <unirender2/RenderState.h>
+#include <unirender/RenderState.h>
 #include <painting2/RenderSystem.h>
 
 namespace draft3
@@ -16,7 +16,7 @@ EdgeSelectOP::EdgeSelectOP(const std::shared_ptr<pt0::Camera>& camera,
 {
 }
 
-void EdgeSelectOP::DrawImpl(const ur2::Device& dev, ur2::Context& ctx,
+void EdgeSelectOP::DrawImpl(const ur::Device& dev, ur::Context& ctx,
                             const pm3::Polytope& poly, const sm::mat4& cam_mat) const
 {
 	tess::Painter pt;
@@ -52,7 +52,7 @@ void EdgeSelectOP::DrawImpl(const ur2::Device& dev, ur2::Context& ctx,
 		return true;
 	});
 
-    ur2::RenderState rs;
+    ur::RenderState rs;
 	pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 }
 

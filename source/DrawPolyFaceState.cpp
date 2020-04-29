@@ -8,7 +8,7 @@
 #include <SM_Ray.h>
 #include <SM_RayIntersect.h>
 #include <tessellation/Painter.h>
-#include <unirender2/RenderState.h>
+#include <unirender/RenderState.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/PerspCam.h>
 #include <painting3/Viewport.h>
@@ -26,7 +26,7 @@
 namespace draft3
 {
 
-DrawPolyFaceState::DrawPolyFaceState(const ur2::Device& dev,
+DrawPolyFaceState::DrawPolyFaceState(const ur::Device& dev,
                                      const std::shared_ptr<pt0::Camera>& camera,
 	                                 const pt3::Viewport& vp,
 	                                 const ee0::SubjectMgrPtr& sub_mgr)
@@ -96,7 +96,7 @@ bool DrawPolyFaceState::OnMouseMove(int x, int y)
 	return false;
 }
 
-bool DrawPolyFaceState::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
+bool DrawPolyFaceState::OnDraw(const ur::Device& dev, ur::Context& ctx) const
 {
 	if (m_polygon.empty()) {
 		return false;
@@ -108,7 +108,7 @@ bool DrawPolyFaceState::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 		return m_vp.TransPosProj3ToProj2(pos3, cam_mat);
 	}, 0xffffffff);
 
-    ur2::RenderState rs;
+    ur::RenderState rs;
 	pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 
 	return false;

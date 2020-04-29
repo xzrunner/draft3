@@ -8,7 +8,7 @@
 
 #include <SM_Calc.h>
 #include <geoshape/Polygon3D.h>
-#include <unirender2/RenderState.h>
+#include <unirender/RenderState.h>
 #include <painting2/RenderSystem.h>
 #include <painting3/PerspCam.h>
 #include <painting3/Viewport.h>
@@ -133,7 +133,7 @@ bool PolygonBuildOP::OnMouseLeftDClick(int x, int y)
     return false;
 }
 
-bool PolygonBuildOP::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
+bool PolygonBuildOP::OnDraw(const ur::Device& dev, ur::Context& ctx) const
 {
     if (ee0::EditOP::OnDraw(dev, ctx)) {
         return true;
@@ -158,7 +158,7 @@ bool PolygonBuildOP::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
         pt.AddCircleFilled(p2, radius, draft2::COL_ACTIVE_SHAPE);
     }
 
-    ur2::RenderState rs;
+    ur::RenderState rs;
 	pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 
 	return false;

@@ -10,7 +10,7 @@
 namespace draft3
 {
 
-PolyhedronBuildOP::PolyhedronBuildOP(const ur2::Device& dev, const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
+PolyhedronBuildOP::PolyhedronBuildOP(const ur::Device& dev, const std::shared_ptr<pt0::Camera>& camera, const pt3::Viewport& vp,
 	                                 const ee0::SubjectMgrPtr& sub_mgr, const MeshPointQuery::Selected& selected,
 	                                 std::function<void()> update_cb)
 	: ee0::EditOP(camera)
@@ -136,7 +136,7 @@ bool PolyhedronBuildOP::OnMouseDrag(int x, int y)
 	return false;
 }
 
-bool PolyhedronBuildOP::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
+bool PolyhedronBuildOP::OnDraw(const ur::Device& dev, ur::Context& ctx) const
 {
 	if (ee0::EditOP::OnDraw(dev, ctx)) {
 		return true;
